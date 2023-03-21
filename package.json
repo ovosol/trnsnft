@@ -1,0 +1,36 @@
+{
+  "name": "transneft-nuxt",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "build_start": "yarn run build && yarn run start",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:prettier",
+    "lintfix": "prettier --write --list-different ."
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/proxy": "^2.1.0",
+    "core-js": "^3.19.3",
+    "nuxt": "^2.15.8",
+    "v-idle": "^0.2.1",
+    "vue": "^2.6.14",
+    "vue-keyboard": "^3.1.0",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "vue-video-player-mx": "^1.0.0",
+    "vuex-cache": "^3.5.0",
+    "vuex-shared-mutations": "^1.0.2",
+    "webpack": "^4.46.0",
+    "yarn": "^1.22.19"
+  },
+  "devDependencies": {
+    "@bazzite/nuxt-optimized-images": "^0.4.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.5.1"
+  }
+}
