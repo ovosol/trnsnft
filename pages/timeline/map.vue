@@ -4,24 +4,11 @@
     {{ newVideos }}
     <div v-for="(video, index) in ['1936', '1953', '1961', '1970', '1980s', '1990s', '2000s', '2010s']" :key="index">
       <!-- {{ newVideos[index] }} -->
-      <div class="" v-show="intro">это интро</div>
       <Transition>
         <ModuleVideo
-        v-show="intro"
-        v-if="video === chosenYear"
-        :videoSrc="localhostLink+'/media/static/timeline/video/mixkit-pet-owner-playing-with-a-cute-cat-1779-medium.mp4'"
-        :loop="false"
-        @ended="intro = false"
-        ></ModuleVideo>
-      </transition>
-      <Transition>
-        <ModuleVideo
-        v-show="!intro"
         v-if="video === chosenYear"
         :videoSrc="newVideos[index]"
         :loop="true"
-        :pause="!timeline.pause"
-        @ended="intro = true"
         ></ModuleVideo>
       </transition>
     </div>

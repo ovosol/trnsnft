@@ -17,29 +17,16 @@
       {{ video }}
       {{ newVideos[index] }}
       <ModuleVideo
-        v-show="intro"
-        v-if="video === chosenYear"
-        :videoSrc="
-          localhostLink +
-          '/media/static/timeline/video/mixkit-pet-owner-playing-with-a-cute-cat-1779-medium.mp4'
-        "
-        :loop="false"
-        :pause="timeline.pause"
-        @ended="intro = false"
-      ></ModuleVideo>
-      <ModuleVideo
-        v-show="!intro"
         v-if="video === chosenYear"
         :videoSrc="newVideos[index]"
-        :loop="false"
-        :pause="timeline.pause"
+        :loop="true"
       ></ModuleVideo>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   async asyncData({ $axios }) {
