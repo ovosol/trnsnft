@@ -1,7 +1,10 @@
 <template>
   <div>
-    {{chosenYear}}
-    <ModuleVideo @ended="changeTimeline()" :videoSrc="currentVideo" :loop="false"></ModuleVideo>
+    <ModuleVideo
+      @ended="changeTimeline()"
+      :videoSrc="currentVideo"
+      :loop="false"
+    ></ModuleVideo>
   </div>
 </template>
 
@@ -56,22 +59,20 @@ export default {
   },
   methods: {
     async changeTimeline() {
-      let counter =
-        this.allYears.findIndex((x) => x === this.chosenYear) + 1
-      counter = counter===8?0:counter; 
+      let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
       let newYear = this.allYears[counter]
       if (!this.timeline.pause) {
         this.timeline.pause = false
       }
       // if (counter >= 7) {
-        await this.$axios
-          .$post('/api/timeline/year/', { year: newYear })
-          .then(function (response) {
-            console.log(response)
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+      await this.$axios
+        .$post('/api/timeline/year/', { year: newYear })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
       // }
     },
     // refreshData: function () {
