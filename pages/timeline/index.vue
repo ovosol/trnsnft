@@ -1,8 +1,8 @@
 <template>
   <div class="timeline">
-      <nuxt-link to="/timeline/map">Первый экран c картой</nuxt-link>
-      <nuxt-link to="/timeline/information">Первый экран с информацией</nuxt-link>
-      <button @click="CHANGE_BY_PATH(['timeline.pause', !timeline.pause])">puse {{timeline.pause}}</button>timeline.pause   
+<!--      <nuxt-link to="/timeline/map">Первый экран c картой</nuxt-link>-->
+      <nuxt-link to="/timeline/information">Экран</nuxt-link>
+      <button @click="CHANGE_BY_PATH(['timeline.pause', !timeline.pause])">puse {{timeline.pause}}</button>timeline.pause
     </div>
 </template>
 
@@ -23,6 +23,6 @@ export default {
 </script>
 
 <style>
-  
+
 
 </style>

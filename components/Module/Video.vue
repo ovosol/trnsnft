@@ -41,8 +41,8 @@ export default {
     pause: Boolean
   },
   mounted() {
-    this.$refs.videoPlay
-    console.log(this.$refs.videoPlay.$el, 'this.$refs'); 
+    //this.$refs.videoPlay
+    console.log(this.$refs.videoPlay.$el, 'this.$refs');
   },
   watch: {
     'pause': function () {

@@ -1,4 +1,12 @@
-const BASE_URL = 'http://localhost:8000'; //TODO move to .env
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const BASE_URL = process.env.BASE_URL
+
+if (!BASE_URL) {
+  throw new Error("Please set the BASE_URL environment variable in .env file");
+}
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode

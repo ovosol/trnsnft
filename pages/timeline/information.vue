@@ -1,71 +1,48 @@
 <template>
   <div>
-    chosenYear = {{ chosenYear }}
-    <div
-      v-for="(video, index) in [
-        '1936',
-        '1953',
-        '1961',
-        '1970',
-        '1980s',
-        '1990s',
-        '2000s',
-        '2010s',
-      ]"
-      :key="index"
-    >
-      {{ video }}
-      {{ newVideos[index] }}
-      <ModuleVideo
-        v-if="video === chosenYear"
-        :videoSrc="newVideos[index]"
-        :loop="true"
-      ></ModuleVideo>
-    </div>
+    <ModuleVideo
+      :videoSrc="currentVideo"
+      :loop="true"
+    ></ModuleVideo>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
+
+const years = ['1936',
+  '1953',
+  '1961',
+  '1970',
+  '1980s',
+  '1990s',
+  '2000s',
+  '2010s',];
 
 export default {
-  async asyncData({ $axios }) {
+  async asyncData({$axios}) {
     const chosenYear = await $axios
       .$get('/api/timeline/year/')
-      // const chosenYear = await $axios.$get(api + '/api/timeline/year/')
       .then((response) => {
         console.log(response, 'response.data')
         return response.year
       })
-    var a = []
-    for (const year of [
-      '1936',
-      '1953',
-      '1961',
-      '1970',
-      '1980s',
-      '1990s',
-      '2000s',
-      '2010s',
-    ]) {
-      const video = await $axios
-        .$get('/api/timeline/' + year + '/2/')
-        .then((response) => {
-          console.log(response, 'response.data')
-          return process.env.BASE_URL + response.current_video
-        })
-      a.push(video)
-    }
+
+    const currentVideo = await $axios
+      .$get('/api/timeline/' + chosenYear + '/1/')
+      .then((response) => {
+        console.log(response, 'response.data')
+        return process.env.BASE_URL + response.current_video
+      })
 
     return {
-      newVideos: a,
-      chosenYear: chosenYear,
-      localhostLink: process.env.BASE_URL,
+      currentVideo,
+      chosenYear
     }
   },
   data() {
     return {
-      intro: true,
+      intro: true
     }
   },
   watcher: {
@@ -74,17 +51,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ videoByPath: 'btns/byPath', byPath: 'byPath' }),
+    ...mapGetters({videoByPath: 'btns/byPath', byPath: 'byPath'}),
     timeline() {
       return this.byPath('timeline')
     },
-    // allYears() {
-    //   return this.videoByPath('tablet.changeYear')
-    // },
   },
-  // mounted() {
-  //   this.refreshData()
-  // },
   methods: {
     async changeTimeline() {
       let counter =
@@ -95,7 +66,7 @@ export default {
       }
       if (counter >= 7) {
         await this.$axios
-          .$post('/api/timeline/year/', { year: newYear })
+          .$post('/api/timeline/year/', {year: newYear})
           .then(function (response) {
             console.log(response)
           })
@@ -104,7 +75,7 @@ export default {
           })
       } else {
         await this.$axios
-          .$post('/api/timeline/year/', { year: newYear })
+          .$post('/api/timeline/year/', {year: newYear})
           .then(function (response) {
             console.log(response)
           })
