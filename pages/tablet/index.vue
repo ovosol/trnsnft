@@ -57,6 +57,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import {appName, setOneRelayOn} from "~/plugins/laurentController";
 
 export default {
   data() {
@@ -136,6 +137,7 @@ export default {
             break
           case 'changeYear':
             // let data = JSON.stringify({year: btn.name})
+            setOneRelayOn(appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
             await this.$axios
               .$post('/api/timeline/year/', {
@@ -189,6 +191,14 @@ export default {
       }
     },
   },
+  watch: {
+    pass() {
+      sessionStorage.setItem('tablet_pass', this.pass)
+    },
+  },
+  mounted() {
+    this.pass = sessionStorage.getItem('tablet_pass') || undefined
+  }
 }
 </script>
 

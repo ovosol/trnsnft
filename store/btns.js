@@ -152,34 +152,42 @@ export const state = () => ({
         {
           link: 'changeYear',
           name: '1936',
+          index: 0,
         },
         {
           link: 'changeYear',
           name: '1953',
+          index: 1,
         },
         {
           link: 'changeYear',
           name: '1961',
+          index: 2,
         },
         {
           link: 'changeYear',
           name: '1970',
+          index: 3,
         },
         {
           link: 'changeYear',
           name: '1980s',
+          index: 4,
         },
         {
           link: 'changeYear',
           name: '1990s',
+          index: 5,
         },
         {
           link: 'changeYear',
           name: '2000s',
+          index: 6,
         },
         {
           link: 'changeYear',
           name: '2010s',
+          index: 7,
         }
       ],
     // timeline: [
