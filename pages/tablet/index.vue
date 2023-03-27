@@ -57,7 +57,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import {appName, setOneRelayOnLegacy} from "~/plugins/laurentController";
+import {appName, setOneRelayOn, setOneRelayOnLegacy} from "~/plugins/laurentController";
 
 export default {
   data() {
@@ -137,7 +137,7 @@ export default {
             break
           case 'changeYear':
             // let data = JSON.stringify({year: btn.name})
-            setOneRelayOnLegacy(appName.Timeline, btn.index + 1).then()
+            setOneRelayOn(appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
             await this.$axios
               .$post('/api/timeline/year/', {

@@ -1,4 +1,9 @@
 import axios from "axios";
+import * as dotenv from "dotenv";
+
+dotenv.config()
+
+const laurentPwd = process.env.LAURENT_PWD || "Laurent"
 
 /**
  * @readonly
@@ -11,7 +16,7 @@ export const appName = {
 
 export const setOneRelayOnLegacy = async (app, relay) => {
   for (let i = 1; i <= 12; i++) {
-    sendRelay(app, i, i === relay ? 1 : 0).then()
+    await sendRelay(app, i, i === relay ? 1 : 0)
   }
 }
 
@@ -31,7 +36,7 @@ export const setOneRelayOn = async (app, relay) => {
     mask = '0'.repeat(relay - 1) + '1' + '0'.repeat(12 - relay);
   }
   const ip = getAddressForApp(app)
-  const url = `http://${ip}/cmd.cgi?psw=Laurent&cmd=REL,ALL,${mask}`
+  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,ALL,${mask}`
   await getUrl(url)
 }
 
@@ -40,17 +45,18 @@ export const setOneRelayOn = async (app, relay) => {
  * @param {appName} app
  * @param {number} relay number of relay from 1 to 8 or 12
  * @param {number} state 0 off, 1 on, 2 invert
+ * @param timeout
  * @returns {Promise<void>}
  */
 export const sendRelay = async (app, relay, state) => {
   const ip = getAddressForApp(app)
-  const url = `http://${ip}/cmd.cgi?psw=Laurent&cmd=REL,${relay},${state}`
+  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,${relay},${state}`
   await getUrl(url)
 }
 
-const getUrl = async (url) => {
+const getUrl = async (url, timeout = 300) => {
   try {
-    await axios.get(url, {timeout: 100})
+    await axios.get(url, {timeout})
   } catch (e) {
     console.warn("Cannot send to ", url, e)
   }
