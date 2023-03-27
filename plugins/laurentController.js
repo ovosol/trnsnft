@@ -1,7 +1,4 @@
 import axios from "axios";
-import * as dotenv from "dotenv";
-
-dotenv.config()
 
 const laurentPwd = process.env.LAURENT_PWD || "Laurent"
 
