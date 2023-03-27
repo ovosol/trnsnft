@@ -10,7 +10,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {appName, setOneRelayOn} from "~/plugins/laurentController";
+import {appName, setOneRelayOnLegacy} from "~/plugins/laurentController";
 
 export default {
   async asyncData({ $axios }) {
@@ -65,7 +65,7 @@ export default {
       if (!this.timeline.pause) {
         this.timeline.pause = false
       }
-      setOneRelayOn(appName.Timeline, counter + 1).then()
+      setOneRelayOnLegacy(appName.Timeline, counter + 1).then()
       // if (counter >= 7) {
       await this.$axios
         .$post('/api/timeline/year/', { year: newYear })

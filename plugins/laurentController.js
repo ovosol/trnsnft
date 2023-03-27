@@ -9,6 +9,12 @@ export const appName = {
   'Light': 'light',
 }
 
+export const setOneRelayOnLegacy = async (app, relay) => {
+  for (let i = 1; i <= 12; i++) {
+    sendRelay(app, i, i === relay ? 1 : 0).then()
+  }
+}
+
 /**
  *
  * @param {appName} app
@@ -26,11 +32,7 @@ export const setOneRelayOn = async (app, relay) => {
   }
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=Laurent&cmd=REL,ALL,${mask}`
-  try {
-    await axios.get(url, {timeout: 300})
-  } catch (e) {
-    console.log("Cannot send to ", url, e)
-  }
+  await getUrl(url)
 }
 
 /**
@@ -43,10 +45,14 @@ export const setOneRelayOn = async (app, relay) => {
 export const sendRelay = async (app, relay, state) => {
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=Laurent&cmd=REL,${relay},${state}`
+  await getUrl(url)
+}
+
+const getUrl = async (url) => {
   try {
     await axios.get(url, {timeout: 100})
   } catch (e) {
-    console.log("Cannot send to ", url, e)
+    console.warn("Cannot send to ", url, e)
   }
 }
 
