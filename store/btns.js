@@ -198,7 +198,11 @@ export const state = () => ({
           link: 'changeYear',
           name: '2010s',
           index: 9,
-        }
+        },
+        {
+          link: 'changeTimelineIdle',
+          name: 'Режим ожидания',
+        },
       ],
     // timeline: [
     //     {

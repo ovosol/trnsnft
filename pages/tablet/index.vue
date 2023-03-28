@@ -57,12 +57,16 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import {appName, setOneRelayOn, setOneRelayOnLegacy} from "~/plugins/laurentController";
+import {
+  appName,
+  setOneRelayOn,
+  setOneRelayOnLegacy,
+} from '~/plugins/laurentController'
 
 export default {
   data() {
     return {
-      img: 'rbbtn',//btnwitharrow
+      img: 'rbbtn', //btnwitharrow
       array: [],
       style: 'oddBtns',
       title: '',
@@ -126,7 +130,7 @@ export default {
               await this.$axios
                 .$post('/api/area_samara/stage/', {
                   stage: btn.stage,
-                }, )
+                })
                 .then(function (response) {
                   console.log(response)
                 })
@@ -135,13 +139,32 @@ export default {
                 })
             }
             break
+          case 'changeTimelineIdle':
+            let timelineIdle = await this.$axios
+              .$get('/api/idle/timeline/state')
+              .then((response) => {
+                console.log(response, 'response.data')
+                return response.state
+              })
+            timelineIdle = timelineIdle==='1'?'0':'1'
+            console.log(timelineIdle, 'timelineIdle');
+
+            await this.$axios
+              .$post('/api/idle/timeline/' + timelineIdle + '/')
+              .then(function (response) {
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error)
+              })
+            break
           case 'changeYear':
             // let data = JSON.stringify({year: btn.name})
             setOneRelayOn(appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
             await this.$axios
               .$post('/api/timeline/year/', {
-                year: btn.name
+                year: btn.name,
               })
               .then(function (response) {
                 console.log(response)
@@ -151,37 +174,38 @@ export default {
               })
             break
           case 'changeScreenPosition':
-          await this.$axios
-            .$post('/api/technologies/stage/', {
-              stage: btn.status,
-            })
-            .then(function (response) {
-              console.log(response)
-            })
-            .catch(function (error) {
-              console.log(error)
-            })
+            await this.$axios
+              .$post('/api/technologies/stage/', {
+                stage: btn.status,
+              })
+              .then(function (response) {
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error)
+              })
             break
           case 'colba':
-          let stream7 = await this.$axios.$get('/api/flows/')
-          .then((response) => {
-            console.log(response, 'response.data')
-            return response.mask.split('')
-          });
-          stream7[btn.colba] = (stream7[btn.colba]=='0'?'1':'0');
-          stream7 = stream7.join('')
-          console.log(btn.colba ,stream7);
-          console.log("не понял");
-          await this.$axios
-            .$post('/api/flows/', {
-              mask: stream7,
-            })
-            .then(function (response) {
-              console.log(response)
-            })
-            .catch(function (error) {
-              console.log(error)
-            })
+            let stream7 = await this.$axios
+              .$get('/api/flows/')
+              .then((response) => {
+                console.log(response, 'response.data')
+                return response.mask.split('')
+              })
+            stream7[btn.colba] = stream7[btn.colba] == '0' ? '1' : '0'
+            stream7 = stream7.join('')
+            console.log(btn.colba, stream7)
+            console.log('не понял')
+            await this.$axios
+              .$post('/api/flows/', {
+                mask: stream7,
+              })
+              .then(function (response) {
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error)
+              })
             break
 
           default:
@@ -198,7 +222,7 @@ export default {
   },
   mounted() {
     this.pass = sessionStorage.getItem('tablet_pass') || undefined
-  }
+  },
 }
 </script>
 

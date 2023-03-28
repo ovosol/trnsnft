@@ -1,9 +1,17 @@
 <template>
   <div>
+    {{ idleState }}
+    {{ idleVideo }}
+    {{ chosenYear }}
     <ModuleVideo
+      v-if="idleState==='1'"
+      :videoSrc="idleVideo"
+      :loop="true"
+    ></ModuleVideo>
+    <ModuleVideo
+      v-else
       @ended="changeTimeline()"
       :videoSrc="currentVideo"
-      :loop="false"
     ></ModuleVideo>
   </div>
 </template>
@@ -20,9 +28,21 @@ export default {
         // console.log(response, 'response.data')
         return response.year
       })
+    const idleState = await $axios
+      .$get('/api/idle/timeline/state')
+      .then((response) => {
+        // console.log(response, 'response.data')
+        return response.state
+      })
 
     const currentVideo = await $axios
       .$get('/api/timeline/' + chosenYear + '/1/')
+      .then((response) => {
+        // console.log(response, 'response.data')
+        return process.env.BASE_URL + response.current_video
+      })
+    const idleVideo = await $axios
+      .$get('/api/idle/timeline/video')
       .then((response) => {
         // console.log(response, 'response.data')
         return process.env.BASE_URL + response.current_video
@@ -31,6 +51,8 @@ export default {
     return {
       currentVideo,
       chosenYear,
+      idleState,
+      idleVideo
     }
   },
   data() {
@@ -63,6 +85,7 @@ export default {
   methods: {
     async changeTimeline() {
       let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
+      counter %=8;
       let newYear = this.allYears[counter]
       if (!this.timeline.pause) {
         this.timeline.pause = false
