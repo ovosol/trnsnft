@@ -1,8 +1,5 @@
 <template>
   <div>
-    {{ idleState }}
-    {{ idleVideo }}
-    {{ chosenYear }}
     <ModuleVideo
       v-if="idleState==='1'"
       :videoSrc="idleVideo"
