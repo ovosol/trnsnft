@@ -117,7 +117,7 @@ export const state = () => ({
     //       link: 'samaraButtons',
     //       name: 'Кнопки Самары',
     //     },
-      
+
     // ],
     technology: [
         {
@@ -142,7 +142,7 @@ export const state = () => ({
         },
       ],
     // technology: [
-      
+
     //     {
     //       link: 'changeScreenPosition',
     //       name: 'Перемещение Экрана',
@@ -171,23 +171,33 @@ export const state = () => ({
         },
         {
           link: 'changeYear',
-          name: '1980s',
+          name: '1974',
           index: 4,
         },
         {
           link: 'changeYear',
-          name: '1990s',
+          name: '1979',
           index: 5,
         },
         {
           link: 'changeYear',
-          name: '2000s',
+          name: '1980s',
           index: 6,
         },
         {
           link: 'changeYear',
-          name: '2010s',
+          name: '1990s',
           index: 7,
+        },
+        {
+          link: 'changeYear',
+          name: '2000s',
+          index: 8,
+        },
+        {
+          link: 'changeYear',
+          name: '2010s',
+          index: 9,
         }
       ],
     // timeline: [
@@ -196,7 +206,7 @@ export const state = () => ({
     //       name: 'Переключение годов',
     //     },
     //   ],
-      
+
   },
   smallTablet: {
     main: [

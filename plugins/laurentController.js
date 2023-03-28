@@ -51,7 +51,7 @@ export const sendRelay = async (app, relay, state) => {
   await getUrl(url)
 }
 
-const getUrl = async (url, timeout = 300) => {
+const getUrl = async (url, timeout = 1000) => {
   try {
     await axios.get(url, {timeout})
   } catch (e) {
@@ -71,5 +71,4 @@ const getAddressForApp = (app) => {
     default:
       throw new Error(`Unknown app name: ${app}`)
   }
-
 }
