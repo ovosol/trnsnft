@@ -203,13 +203,13 @@ export default {
                 console.log(response, 'response.data')
                 return response.mask.split('')
               })
-            stream7[btn.colba] = stream7[btn.colba] == '0' ? '1' : '0'
-            stream7 = stream7.join('')
-            console.log(btn.colba, stream7)
-            console.log('не понял')
+
+            const currentColbaState = Number.parseInt(stream7[6-btn.colba])
+
             await this.$axios
               .$post('/api/flows/', {
-                mask: stream7,
+                flow: btn.colba + 1,
+                condition: currentColbaState === 0
               })
               .then(function (response) {
                 console.log(response)

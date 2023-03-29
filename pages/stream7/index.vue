@@ -1,46 +1,43 @@
 <template>
-  <div class="streams-container all-screen">
-    <!-- <div style="z-index: 99">
-      <div v-for="item in 7" :key="item">
-        <img
-          @click="streams(item)"
-          :class="streamArr.indexOf(item) !== -1 ? 'choose-7stream' : ''"
-          style="width: 100px"
-          :src="require('~/assets/picture/stream.jpeg')"
-          alt=""
-        />
-      </div>
-    </div> -->
-      <br />
-      {{ streamArr }}
-      <br />
-      <div style="position: absolute;">
-        <div class="all-screen"  v-for="(item, index) in streamArr" :key="index">
-          <img
-          v-show="item === '1'"
-          class="all-size"
-          :src="
-            require('~/assets/picture/streams/lines/' + item + '.jpeg')
+  <div class="streams-container all-screen-overlay">
+    <div style="position: absolute;">
+      <video autoplay muted loop id="myVideo" class="all-screen-overlay">
+        <source src="~/assets/picture/streams/map_stream.mp4" type="video/mp4">
+      </video>
+      <img v-for="(item, index) in streamArr" :key="index"
+           v-show="item === '1'"
+           class="all-size all-screen-overlay"
+           :src="
+            require('~/assets/picture/streams/lines/stream' + `${(index+1)}` +  '.png')
           "
-          alt=""
-        />
-      </div>
+           alt=""
+      />
+      <img
+        class="all-size all-screen-overlay"
+        src="~/assets/picture/streams/points.png"
+        alt=""
+      />
+      <img
+        class="all-size all-screen-overlay"
+        src="~/assets/picture/streams/callouts.png"
+        alt=""
+      />
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 
 export default {
-  async asyncData({ $axios }) {
+  async asyncData({$axios}) {
     var flows = await $axios.$get('/api/flows/')
-        .then((response) => {
-          console.log(response, 'response.data')
-          return response.mask
-        });
+      .then((response) => {
+        console.log(response, 'response.data')
+        return response.mask
+      });
     flows = flows.split('')
 
-    return { streamArr: flows }
+    return {streamArr: flows}
   },
   data() {
     return {
@@ -73,12 +70,22 @@ export default {
 .choose-7stream {
   box-shadow: black 3px 3px;
 }
+
 .streams-container > div {
-  display: flex; flex-direction: row;
+  display: flex;
+  flex-direction: row;
   background-size: 100% 100%;
 }
+
 .streams-container {
-  display: flex; flex-direction: column;
-  background-image: url('~/assets/picture/samara/map.png');
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+}
+
+.all-screen-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
 }
 </style>
