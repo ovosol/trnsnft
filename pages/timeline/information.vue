@@ -1,7 +1,7 @@
 <template>
   <div>
     <ModuleVideo
-      v-if="idleState==='1'"
+      v-if="idleState"
       :videoSrc="idleVideo"
       :loop="true"
     ></ModuleVideo>
@@ -18,32 +18,40 @@ import {mapGetters} from 'vuex'
 import {appName, setOneRelayOn, setOneRelayOnLegacy} from "~/plugins/laurentController";
 
 export default {
-  async asyncData({ $axios }) {
-    const chosenYear = await $axios
-      .$get('/api/timeline/year/')
-      .then((response) => {
-        // console.log(response, 'response.data')
-        return response.year
-      })
+  async asyncData({$axios}) {
+    let chosenYear = ''
+    let currentVideo = ''
+    let idleVideo = ''
+    /** @type Boolean  */
     const idleState = await $axios
-      .$get('/api/idle/timeline/state')
+      .$get('/api/idle/timeline/state/')
       .then((response) => {
         // console.log(response, 'response.data')
         return response.state
       })
 
-    const currentVideo = await $axios
-      .$get('/api/timeline/' + chosenYear + '/1/')
-      .then((response) => {
-        // console.log(response, 'response.data')
-        return process.env.BASE_URL + response.current_video
-      })
-    const idleVideo = await $axios
-      .$get('/api/idle/timeline/video')
-      .then((response) => {
-        // console.log(response, 'response.data')
-        return process.env.BASE_URL + response.current_video
-      })
+    if (idleState) {
+      idleVideo = await $axios
+        .$get('/api/idle/timeline/video')
+        .then((response) => {
+          // console.log(response, 'response.data')
+          return process.env.BASE_URL + response.current_video
+        })
+    } else {
+      chosenYear = await $axios
+        .$get('/api/timeline/year/')
+        .then((response) => {
+          // console.log(response, 'response.data')
+          return response.year
+        })
+
+      currentVideo = await $axios
+        .$get('/api/timeline/' + chosenYear + '/1/')
+        .then((response) => {
+          // console.log(response, 'response.data')
+          return process.env.BASE_URL + response.current_video
+        })
+    }
 
     return {
       currentVideo,
@@ -74,7 +82,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ videoByPath: 'btns/byPath', byPath: 'byPath' }),
+    ...mapGetters({videoByPath: 'btns/byPath', byPath: 'byPath'}),
     timeline() {
       return this.byPath('timeline')
     },
@@ -82,28 +90,37 @@ export default {
   methods: {
     async changeTimeline() {
       let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
-      counter %=8;
+      counter %= this.allYears.length;
+
+      if (counter === 0) {
+        setOneRelayOn(appName.Timeline, 0).then()
+        await this.$axios
+          .$post('/api/idle/timeline/', {
+            state: true,
+          })
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+        return
+      }
+
       let newYear = this.allYears[counter]
       if (!this.timeline.pause) {
         this.timeline.pause = false
       }
       setOneRelayOn(appName.Timeline, counter + 1).then()
-      // if (counter >= 7) {
       await this.$axios
-        .$post('/api/timeline/year/', { year: newYear })
+        .$post('/api/timeline/year/', {year: newYear})
         .then(function (response) {
           console.log(response)
         })
         .catch(function (error) {
           console.log(error)
         })
-      // }
     },
-    // refreshData: function () {
-    //   setInterval(async function () {
-    //     await this.$nuxt.refresh()
-    //   }, 5000)
-    // },
   },
 }
 </script>

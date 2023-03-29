@@ -140,28 +140,39 @@ export default {
             }
             break
           case 'changeTimelineIdle':
-            let timelineIdle = await this.$axios
+            /*let timelineIdle = await this.$axios
               .$get('/api/idle/timeline/state')
               .then((response) => {
                 console.log(response, 'response.data')
                 return response.state
-              })
-            timelineIdle = timelineIdle==='1'?'0':'1'
-            console.log(timelineIdle, 'timelineIdle');
+              })*/
 
             await this.$axios
-              .$post('/api/idle/timeline/' + timelineIdle + '/')
+              .$post('/api/idle/timeline/', {
+                state: true,
+              })
               .then(function (response) {
                 console.log(response)
               })
               .catch(function (error) {
                 console.log(error)
               })
+            setOneRelayOn(appName.Timeline, 0).then()
             break
           case 'changeYear':
             // let data = JSON.stringify({year: btn.name})
             setOneRelayOn(appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
+            await this.$axios
+              .$post('/api/idle/timeline/', {
+                state: false,
+              })
+              .then(function (response) {
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error)
+              })
             await this.$axios
               .$post('/api/timeline/year/', {
                 year: btn.name,
