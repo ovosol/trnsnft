@@ -57,6 +57,9 @@ export const state = () => ({
         link: 'colba',
         colba: 6,
         name: 'Седьмая колба',
+      }, {
+        link: 'colba-all',
+        name: 'Режим ожидания',
       },
     ],
     humanCapital: [

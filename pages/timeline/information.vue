@@ -14,34 +14,23 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-import {appName, setOneRelayOn, setOneRelayOnLegacy} from "~/plugins/laurentController";
+import {mapGetters} from 'vuex'
 
 export default {
-  async asyncData({$axios, store }) {
+  async asyncData({$axios, store, $api}) {
     let chosenYear = ''
     let currentVideo = ''
     let idleVideo = ''
 
-    const idleState = await store.dispatch('api/idle/getState', 'timeline')
+    const idleState = await $api.idle.getState('timeline')
 
     if (idleState) {
-      const res = await store.dispatch('api/idle/getVideo', 'timeline')
+      const res = await $api.idle.getVideo('timeline')
       idleVideo = process.env.BASE_URL + res.current_video
     } else {
-      chosenYear = await $axios
-        .$get('/api/timeline/year/')
-        .then((response) => {
-          // console.log(response, 'response.data')
-          return response.year
-        })
-
-      currentVideo = await $axios
-        .$get('/api/timeline/' + chosenYear + '/1/')
-        .then((response) => {
-          // console.log(response, 'response.data')
-          return process.env.BASE_URL + response.current_video
-        })
+      chosenYear = await $api.timeline.getYear()
+      const res = await $api.timeline.getVideo(chosenYear, 1)
+      currentVideo = process.env.BASE_URL + res.current_video
     }
 
     return {
@@ -79,16 +68,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      postState: 'api/idle/postState',
-    }),
     async changeTimeline() {
       let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
       counter %= this.allYears.length;
 
       if (counter === 0) {
-        setOneRelayOn(appName.Timeline, 0).then()
-        await this.postState({app:'timeline', idleState: true})
+        this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, 0).then()
+        await this.$api.idle.postState('timeline', true)
         return
       }
 
@@ -96,15 +82,8 @@ export default {
       if (!this.timeline.pause) {
         this.timeline.pause = false
       }
-      setOneRelayOn(appName.Timeline, counter + 1).then()
-      await this.$axios
-        .$post('/api/timeline/year/', {year: newYear})
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, counter + 1).then()
+      await this.$api.timeline.postYear(newYear)
     },
   },
 }

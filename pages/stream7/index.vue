@@ -12,16 +12,6 @@
           "
            alt=""
       />
-      <img
-        class="all-size all-screen-overlay"
-        src="~/assets/picture/streams/points.png"
-        alt=""
-      />
-      <img
-        class="all-size all-screen-overlay"
-        src="~/assets/picture/streams/callouts.png"
-        alt=""
-      />
     </div>
   </div>
 </template>
@@ -29,13 +19,8 @@
 <script>
 
 export default {
-  async asyncData({$axios}) {
-    var flows = await $axios.$get('/api/flows/')
-      .then((response) => {
-        console.log(response, 'response.data')
-        return response.mask
-      });
-    flows = flows.split('')
+  async asyncData({$axios, $api}) {
+    const flows = (await $api.flows.getFlows()).split('')
 
     return {streamArr: flows}
   },
@@ -44,9 +29,6 @@ export default {
       streamArr: [],
     }
   },
-  // mounted() {
-  //   this.refreshData()
-  // },
   methods: {
     streams(item) {
       if (this.streamArr.indexOf(item) !== -1) {
@@ -57,11 +39,6 @@ export default {
         this.streamArr.push(item)
       }
     },
-    // refreshData: function () {
-    //   setInterval(async function () {
-    //     await this.$nuxt.refresh()
-    //   }, 5000)
-    // },
   },
 }
 </script>

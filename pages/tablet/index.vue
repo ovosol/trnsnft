@@ -56,12 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import {
-  appName,
-  setOneRelayOn,
-  setOneRelayOnLegacy,
-} from '~/plugins/laurentController'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -99,9 +94,6 @@ export default {
       'CHANGE_TIMELINE_VIDEO',
       'CHANGE_BY_PATH',
     ]),
-    ...mapActions(
-      {idlePostState: 'api/idle/postState'}
-    ),
     returnToMain() {
       this.array = this.tablet.main
       this.title = ''
@@ -143,29 +135,14 @@ export default {
             }
             break
           case 'changeTimelineIdle':
-            await this.idlePostState({
-              app: 'timeline',
-              idleState: true,
-            })
-            setOneRelayOn(appName.Timeline, 0).then()
+            await this.$api.idle.postState('timeline', true)
+            this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, 0).then()
             break
           case 'changeYear':
-            setOneRelayOn(appName.Timeline, btn.index + 1).then()
+            this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
-            await this.idlePostState({
-              app: 'timeline',
-              idleState: false,
-            })
-            await this.$axios
-              .$post('/api/timeline/year/', {
-                year: btn.name,
-              })
-              .then(function (response) {
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
+            await this.$api.idle.postState('timeline', false)
+            await this.$api.timeline.postYear(btn.name)
             break
           case 'changeScreenPosition':
             await this.$axios
@@ -180,26 +157,18 @@ export default {
               })
             break
           case 'colba':
-            let stream7 = await this.$axios
-              .$get('/api/flows/')
-              .then((response) => {
-                console.log(response, 'response.data')
-                return response.mask.split('')
-              })
+            let stream7 = (await this.$api.flows.getFlows()).split('')
 
             const currentColbaState = Number.parseInt(stream7[6-btn.colba])
 
-            await this.$axios
-              .$post('/api/flows/', {
-                flow: btn.colba + 1,
-                condition: currentColbaState === 0
-              })
-              .then(function (response) {
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
+            await this.$api.flows.postFlow(btn.colba + 1, currentColbaState === 0)
+            break
+          case 'colba-all':
+            const current = await this.$api.flows.getFlows()
+            const needToTurnOn = Number.parseInt(current) !== 0
+            for (let i = 1; i <= 7; i++) {
+              await this.$api.flows.postFlow(i, !needToTurnOn)
+            }
             break
 
           default:
