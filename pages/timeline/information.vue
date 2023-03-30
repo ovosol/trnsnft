@@ -14,29 +14,20 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import {appName, setOneRelayOn, setOneRelayOnLegacy} from "~/plugins/laurentController";
 
 export default {
-  async asyncData({$axios}) {
+  async asyncData({$axios, store }) {
     let chosenYear = ''
     let currentVideo = ''
     let idleVideo = ''
-    /** @type Boolean  */
-    const idleState = await $axios
-      .$get('/api/idle/timeline/state/')
-      .then((response) => {
-        // console.log(response, 'response.data')
-        return response.state
-      })
+
+    const idleState = await store.dispatch('api/idle/getState', 'timeline')
 
     if (idleState) {
-      idleVideo = await $axios
-        .$get('/api/idle/timeline/video')
-        .then((response) => {
-          // console.log(response, 'response.data')
-          return process.env.BASE_URL + response.current_video
-        })
+      const res = await store.dispatch('api/idle/getVideo', 'timeline')
+      idleVideo = process.env.BASE_URL + res.current_video
     } else {
       chosenYear = await $axios
         .$get('/api/timeline/year/')
@@ -88,22 +79,16 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      postState: 'api/idle/postState',
+    }),
     async changeTimeline() {
       let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
       counter %= this.allYears.length;
 
       if (counter === 0) {
         setOneRelayOn(appName.Timeline, 0).then()
-        await this.$axios
-          .$post('/api/idle/timeline/', {
-            state: true,
-          })
-          .then(function (response) {
-            console.log(response)
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+        await this.postState({app:'timeline', idleState: true})
         return
       }
 

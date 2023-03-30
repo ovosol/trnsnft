@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import {
   appName,
   setOneRelayOn,
@@ -99,6 +99,9 @@ export default {
       'CHANGE_TIMELINE_VIDEO',
       'CHANGE_BY_PATH',
     ]),
+    ...mapActions(
+      {idlePostState: 'api/idle/postState'}
+    ),
     returnToMain() {
       this.array = this.tablet.main
       this.title = ''
@@ -140,39 +143,19 @@ export default {
             }
             break
           case 'changeTimelineIdle':
-            /*let timelineIdle = await this.$axios
-              .$get('/api/idle/timeline/state')
-              .then((response) => {
-                console.log(response, 'response.data')
-                return response.state
-              })*/
-
-            await this.$axios
-              .$post('/api/idle/timeline/', {
-                state: true,
-              })
-              .then(function (response) {
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
+            await this.idlePostState({
+              app: 'timeline',
+              idleState: true,
+            })
             setOneRelayOn(appName.Timeline, 0).then()
             break
           case 'changeYear':
-            // let data = JSON.stringify({year: btn.name})
             setOneRelayOn(appName.Timeline, btn.index + 1).then()
             console.log({ year: btn.name })
-            await this.$axios
-              .$post('/api/idle/timeline/', {
-                state: false,
-              })
-              .then(function (response) {
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
+            await this.idlePostState({
+              app: 'timeline',
+              idleState: false,
+            })
             await this.$axios
               .$post('/api/timeline/year/', {
                 year: btn.name,
