@@ -63,16 +63,58 @@ export default ({app, store}, inject) => {
         return await app.$axios.$get(`/api/timeline/${year}/${videoIndex}/`)
       }
     },
-    flows:{
+    flows: {
       /**
        * Get flows
        * @return {Promise<string>} binary mask of flows
        */
-      getFlows : async () => {
+      getFlows: async () => {
         return (await app.$axios.$get(`/api/flows/`)).mask
       },
-      postFlow : async (flow, condition) => {
+      postFlow: async (flow, condition) => {
         return await app.$axios.$post(`/api/flows/`, {flow, condition})
+      }
+    },
+    samara: {
+      /**
+       * Get current stage
+       * @return {Promise<number>}
+       */
+      getStage: async () => {
+        return Number.parseInt((await app.$axios.$get(`/api/area_samara/stage/`)).stage)
+      },
+      /**
+       * Set current stage
+       * @param {number | string} stage
+       * @return {Promise<any>}
+       */
+      postStage: async (stage) => {
+        return await app.$axios.$post(`/api/area_samara/stage/`, {stage})
+      },
+      /**
+       * Get current video
+       * @param {number|string}stage
+       * @return {Promise<{current_video: string, video_duration: number}>}
+       */
+      getVideo: async (stage) => {
+        return await app.$axios.$get(`/api/area_samara/${stage}/video/`)
+      },
+      /**
+       * Get autoplay
+       * @return {Promise<boolean>}
+       */
+      getAutoPlay: async () => {
+        const newVar = await app.$axios.$get(`/api/area_samara/auto_play/`);
+        console.warn(newVar)
+        return newVar.auto_play
+      },
+      /**
+       * Set autoplay
+       * @param {boolean}autoPlay
+       * @return {Promise<any>}
+       */
+      postAutoPlay: async (autoPlay) => {
+        return await app.$axios.$post(`/api/area_samara/auto_play/`, {condition: autoPlay})
       }
     }
   })

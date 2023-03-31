@@ -114,6 +114,11 @@ export const state = () => ({
           stage: 'start',
           name: 'Пуск',
         },
+      {
+        link: 'samaraButtons',
+        stage: 'idle',
+        name: 'Режим ожидания',
+      }
       ],
     // samara: [
     //   {

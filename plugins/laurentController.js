@@ -34,7 +34,7 @@ export default ({app, store, $axios, $laurent}, inject) => {
   }
 
   /**
-   * @property {Object} $api
+   * @property {Object} $laurent
    */
   inject('laurent', {
     /**

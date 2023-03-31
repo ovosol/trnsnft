@@ -93,7 +93,7 @@ export default {
       console.log('11')
     },
     onTimeUpdate(info) {
-      console.log('12', info.currentTime)
+      console.log('12', `${info.currentTime}/${info.duration}: ${(100 * info.currentTime / info.duration).toFixed(2)}%`)
     },
   },
   // watch: {

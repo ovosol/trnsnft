@@ -108,30 +108,20 @@ export default {
       } else {
         switch (btn.link) {
           case 'samaraButtons':
+            // TODO handle laurent
             if (btn.stage === 'start') {
-              this.CHANGE_BY_PATH(['samara.start', true])
-              this.CHANGE_BY_PATH(['samara.counter', 1])
-              await this.$axios
-                .$post('/api/area_samara/stage/', {
-                  stage: 1,
-                })
-                .then(function (response) {
-                  console.log(response)
-                })
-                .catch(function (error) {
-                  console.log(error)
-                })
-            } else {
-              await this.$axios
-                .$post('/api/area_samara/stage/', {
-                  stage: btn.stage,
-                })
-                .then(function (response) {
-                  console.log(response)
-                })
-                .catch(function (error) {
-                  console.log(error)
-                })
+              await this.$api.idle.postState('samara', false)
+              await this.$api.samara.postStage(1)
+              await this.$api.samara.postAutoPlay(true)
+            }
+            else if (btn.stage === 'idle'){
+              const idle = await this.$api.idle.getState('samara')
+              await this.$api.idle.postState('samara', !idle)
+            }
+            else {
+              await this.$api.idle.postState('samara', false)
+              await this.$api.samara.postStage(btn.stage)
+              await this.$api.samara.postAutoPlay(false)
             }
             break
           case 'changeTimelineIdle':
