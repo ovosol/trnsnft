@@ -116,6 +116,23 @@ export default ({app, store}, inject) => {
       postAutoPlay: async (autoPlay) => {
         return await app.$axios.$post(`/api/area_samara/auto_play/`, {condition: autoPlay})
       }
+    },
+    humanCapital: {
+      /** @typedef {Object} Employee
+       * @property {number} id
+       * @property {string} fio
+       * @property {string} job
+       * @property {string} description
+       * @property {string} photo
+       */
+      /**
+       *
+       * @param {'fame' | 'veterans'} group
+       * @return {Promise<{employees: Array<Employee>}>}
+       */
+      getEmployeeList: async (group) => {
+        return await app.$axios.$get(`/api/video_stand/employee_list/${group}/`)
+      }
     }
   })
 }

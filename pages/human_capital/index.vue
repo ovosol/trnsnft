@@ -1,26 +1,31 @@
 <template>
   <div class="flex-center all-screen corner-decoration">
     <img
-    @click="returnToMain()"
+      @click="returnToMain()"
       v-show="title"
       class="human_capital-back"
       src="~/assets/creative/sidewitharrow.png"
       alt=""
     />
 
-      <ModuleBtnCollection
+    <ModuleBtnCollection
+      v-if="!isContent"
       :btnImg="img"
       :btnArray="btnArray"
       :btnStyle="style"
       :btnTitle="title"
       @changeBtns="changeBtns"
       class="all-size flex-center human_capital-btns"
-      ></ModuleBtnCollection>
+    ></ModuleBtnCollection>
+    <div
+      v-else
+    >{{ title }}
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   data() {
@@ -29,6 +34,9 @@ export default {
       array: [],
       style: 'oddBtns',
       title: '',
+      currentPage: null,
+      pagesStack: [],
+      isContent: false
     }
   },
   computed: {
@@ -43,7 +51,7 @@ export default {
       }
     },
     ...mapGetters({
-      byPath : 'btns/byPath'
+      byPath: 'btns/byPath'
     }),
     humanCapital() {
       return this.byPath('humanCapital')
@@ -51,16 +59,34 @@ export default {
   },
   methods: {
     returnToMain() {
-      this.array = this.humanCapital.main;
-      this.title = '';
+      this.currentPage = null
+      if (this.pagesStack.length === 0) {
+        this.current = null
+        this.parent = null
+        this.array = this.humanCapital.main;
+        this.title = '';
+      } else {
+        const btn = this.pagesStack.pop()
+        this.changeBtns(btn)
+      }
     },
     changeBtns(btn) {
+      if (this.currentPage) {
+        this.pagesStack.push(this.currentPage)
+      }
+      this.currentPage = btn
+      this.title = btn.name.replaceAll(' <br>', '')
       if (this.humanCapital[btn.link]) {
+        this.isContent = false
         this.array = this.humanCapital[btn.link]
-        this.title = btn.name.replaceAll(' <br>', '')
+
         this.style = this.humanCapital[btn.link].length % 2 ? 'oddBtns' : 'evenBtns'
+      } else if (btn.link.includes('_book')) {
+        this.$router.push({path: '/human_capital/' + btn.link})
       } else {
-        this.$router.push({ path: '/human_capital/' + btn.link })
+        this.isContent = true
+        this.array = []
+        this.title = btn.name.replaceAll(' <br>', '')
       }
     },
   },
@@ -72,6 +98,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 .human_capital-back {
   position: absolute;
   left: 0;
