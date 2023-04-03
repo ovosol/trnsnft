@@ -4,6 +4,7 @@ export const state = () => ({
       {
         link: 'humanCapital',
         name: 'Человеческий капитал',
+        hidden: true,
       },
       {
         link: 'samara',
@@ -113,6 +114,7 @@ export const state = () => ({
           link: 'samaraButtons',
           stage: 'start',
           name: 'Пуск',
+          hidden: true,
         },
       {
         link: 'samaraButtons',
@@ -249,6 +251,7 @@ export const state = () => ({
       {
         link: 'humankind',
         name: 'Человеческий <br> капитал',
+        hidden: true,
       },
       {
         link: 'social',

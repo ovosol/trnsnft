@@ -76,11 +76,8 @@ export default {
     //   return Object.keys(this.tablet)
     // },
     btnArray() {
-      if (this.array.length === 0) {
-        return this.tablet.main
-      } else {
-        return this.array
-      }
+      //return only visible buttons
+      return (this.array.length === 0 ? this.tablet.main : this.array).filter(btn => btn.hidden !== true)
     },
     ...mapGetters({
       getByPath: 'btns/byPath',
@@ -118,8 +115,10 @@ export default {
             else if (btn.stage === 'idle'){
               const idle = await this.$api.idle.getState('samara')
               await this.$api.idle.postState('samara', !idle)
+              await Laurent.sendRelay(Laurent.appName.Samara, 4, 2) //TODO change
             }
             else {
+              await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2) //TODO change
               await this.$api.idle.postState('samara', false)
               await this.$api.samara.postStage(btn.stage)
               await this.$api.samara.postAutoPlay(false)

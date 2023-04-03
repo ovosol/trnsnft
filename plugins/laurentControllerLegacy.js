@@ -9,7 +9,8 @@ const laurentPwd = process.env.LAURENT_PWD || "Laurent"
 const appName = {
   'Timeline': 'timeline',
   'Light': 'light',
-  'Flows': 'flows'
+  'Flows': 'flows',
+  'Samara': 'samara',
 }
 
 const getUrl = async (url, timeout = 100) => {
@@ -90,6 +91,8 @@ const getAddressForApp = (app) => {
       return "192.168.1.10"
     case appName.Flows:
       return "192.168.1.3"
+    case appName.Samara:
+      return "192.168.1.4"
     default:
       throw new Error(`Unknown app name: ${app}`)
   }
