@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const laurentPwd = process.env.LAURENT_PWD || "Laurent"
+
 /**
  * @readonly
  * @enum {string}
@@ -60,18 +62,18 @@ const sendRelay = async (app, relay, state) => {
  * @param {number} state 0 off, 1 on, 2 invert
  * @return {Promise<void>}
  */
-const sendOut= async (app, out, state) => {
+const sendOut = async (app, out, state) => {
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=WR,${out},${state}`
   await getUrl(url)
 }
-  /**
-   * Change all out state
-   * @param {laurentAppName} app
-   * @param {string} state - 12 character string with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right
-   * @return {Promise<void>}
-   */
-  export const sendOutAll= async (app, state) => {
+/**
+ * Change all out state
+ * @param {laurentAppName} app
+ * @param {string} state - 12 character string with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right
+ * @return {Promise<void>}
+ */
+export const sendOutAll = async (app, state) => {
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=WRA,${state}`
   await getUrl(url)
@@ -91,7 +93,7 @@ const getAddressForApp = (app) => {
   }
 }
 
-export const Laurent= {
+export const Laurent = {
   setOneRelayOn,
   sendRelay,
   sendOut,
