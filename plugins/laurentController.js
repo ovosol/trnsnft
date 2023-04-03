@@ -17,6 +17,7 @@ export default ({app, store, $axios, $laurent}, inject) => {
   const appName= {
     'Timeline': 'timeline',
     'Light': 'light',
+    'Flows': 'flows'
   }
 
   /**
@@ -28,6 +29,8 @@ export default ({app, store, $axios, $laurent}, inject) => {
         return "192.168.1.2"
       case appName.Light:
         return "192.168.1.10"
+      case appName.Flows:
+        return "192.168.1.3"
       default:
         throw new Error(`Unknown app name: ${app}`)
     }
@@ -43,12 +46,6 @@ export default ({app, store, $axios, $laurent}, inject) => {
      * @enum {string}
      */
     appName: appName,
-
-    setOneRelayOnLegacy: async (app, relay) => {
-      for (let i = 1; i <= 12; i++) {
-        await this.sendRelay(app, i, i === relay ? 1 : 0)
-      }
-    },
     /**
      *
      * @param {laurentAppName} app
@@ -69,7 +66,7 @@ export default ({app, store, $axios, $laurent}, inject) => {
       await getUrl(url)
     },
     /**
-     *
+     * Change one relay state
      * @param {laurentAppName} app
      * @param {number} relay number of relay from 1 to 8 or 12
      * @param {number} state 0 off, 1 on, 2 invert
@@ -80,5 +77,28 @@ export default ({app, store, $axios, $laurent}, inject) => {
       const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,${relay},${state}`
       await getUrl(url)
     },
+    /**
+     * Change one out state
+     * @param {laurentAppName} app
+     * @param {number} out number of relay from 1 to 8 or 12
+     * @param {number} state 0 off, 1 on, 2 invert
+     * @return {Promise<void>}
+     */
+    sendOut: async (app, out, state) => {
+      const ip = getAddressForApp(app)
+      const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=WR,${out},${state}`
+      await getUrl(url)
+    },
+    /**
+     * Change all out state
+     * @param {laurentAppName} app
+     * @param {string} state - 12 character string with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right
+     * @return {Promise<void>}
+     */
+    sendOutAll: async (app, state) => {
+      const ip = getAddressForApp(app)
+      const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=WRA,${state}`
+      await getUrl(url)
+    }
   })
 }
