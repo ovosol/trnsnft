@@ -1,9 +1,12 @@
 const laurentPwd = process.env.LAURENT_PWD || "Laurent"
 
 export default ({app, store, $axios, $laurent}, inject) => {
-  const getUrl = async (url, timeout = 1000) => {
+  const getUrl = async (url, timeout = 3000) => {
     try {
-      await $axios.get(url, {timeout})
+      await $axios.get(url, {
+        timeout,
+        withCredentials: false,
+      })
     } catch (e) {
       console.warn("Cannot send to ", url, e)
     }
@@ -14,7 +17,7 @@ export default ({app, store, $axios, $laurent}, inject) => {
    * @readonly
    * @enum {string}
    */
-  const appName= {
+  const appName = {
     'Timeline': 'timeline',
     'Light': 'light',
     'Flows': 'flows'
@@ -23,7 +26,7 @@ export default ({app, store, $axios, $laurent}, inject) => {
   /**
    * @param {laurentAppName} app
    */
-  const getAddressForApp= (app) => {
+  const getAddressForApp = (app) => {
     switch (app) {
       case appName.Timeline:
         return "192.168.1.2"
