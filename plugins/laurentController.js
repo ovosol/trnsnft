@@ -1,7 +1,7 @@
 const laurentPwd = process.env.LAURENT_PWD || "Laurent"
 
 export default ({app, store, $axios, $laurent}, inject) => {
-  const getUrl = async (url, timeout = 3000) => {
+  const getUrl = async (url, timeout = 100) => {
     try {
       await $axios.get(url, {
         timeout,

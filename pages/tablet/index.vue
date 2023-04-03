@@ -150,7 +150,7 @@ export default {
             let stream7 = (await this.$api.flows.getFlows()).split('')
 
             const currentColbaState = Number.parseInt(stream7[6-btn.colba])
-            this.$laurent.sendOut(this.$laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState).then()
+            await this.$laurent.sendOut(this.$laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState)
 
             await this.$api.flows.postFlow(btn.colba + 1, currentColbaState === 0)
             break
@@ -162,7 +162,7 @@ export default {
             }
             const mask = (needToTurnOn ? '0' : '1').repeat(7) + 'xxxxx'
             //this.$laurent.sendOutAll(this.$laurent.appName.Flows, mask).then()
-            this.$axios.$get(`http://192.168.1.3/cmd.cgi?psw=Laurent&cmd=WRA,${mask}`).then()
+            await this.$axios.$get(`http://192.168.1.3/cmd.cgi?psw=Laurent&cmd=WRA,${mask}`)
             break
 
           default:
