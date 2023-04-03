@@ -161,7 +161,8 @@ export default {
               await this.$api.flows.postFlow(i, !needToTurnOn)
             }
             const mask = (needToTurnOn ? '0' : '1').repeat(7) + 'xxxxx'
-            this.$laurent.sendOutAll(this.$laurent.appName.Flows, mask).then()
+            //this.$laurent.sendOutAll(this.$laurent.appName.Flows, mask).then()
+            this.$axios.$get(`http://192.168.1.3/cmd.cgi?psw=Laurent&cmd=WRA,${mask}`).then()
             break
 
           default:
