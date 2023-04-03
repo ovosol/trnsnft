@@ -57,6 +57,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import {appName, setOneRelayOn} from "@/plugins/laurentControllerLegacy";
 
 export default {
   data() {
@@ -129,7 +130,8 @@ export default {
             this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, 0).then()
             break
           case 'changeYear':
-            this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1).then()
+            await setOneRelayOn(appName.Timeline, btn.index + 1)
+            //await this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1)
             console.log({ year: btn.name })
             await this.$api.idle.postState('timeline', false)
             await this.$api.timeline.postYear(btn.name)
