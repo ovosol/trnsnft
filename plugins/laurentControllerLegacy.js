@@ -88,6 +88,8 @@ const getAddressForApp = (app) => {
       return "192.168.1.2"
     case appName.Light:
       return "192.168.1.10"
+    case appName.Flows:
+      return "192.168.1.3"
     default:
       throw new Error(`Unknown app name: ${app}`)
   }
