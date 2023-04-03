@@ -45,7 +45,6 @@ export default {
     { src: '~/plugins/vuex-cache.js', ssr: false },
     { src: '~/plugins/vidle.js', ssr: false },
     { src: '~/plugins/api.js', ssr: false },
-    { src: '~/plugins/laurentController.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

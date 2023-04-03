@@ -15,6 +15,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {Laurent} from "@/plugins/laurentControllerLegacy";
 
 export default {
   async asyncData({$axios, store, $api}) {
@@ -73,7 +74,7 @@ export default {
       counter %= this.allYears.length;
 
       if (counter === 0) {
-        this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, 0).then()
+        await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
         await this.$api.idle.postState('timeline', true)
         return
       }
@@ -82,7 +83,7 @@ export default {
       if (!this.timeline.pause) {
         this.timeline.pause = false
       }
-      this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, counter + 1).then()
+      await Laurent.setOneRelayOn(Laurent.appName.Timeline, counter + 1).then()
       await this.$api.timeline.postYear(newYear)
     },
   },

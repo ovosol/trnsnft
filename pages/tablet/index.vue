@@ -57,7 +57,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import {appName, setOneRelayOn} from "@/plugins/laurentControllerLegacy";
+import {Laurent} from "@/plugins/laurentControllerLegacy";
 
 export default {
   data() {
@@ -127,10 +127,10 @@ export default {
             break
           case 'changeTimelineIdle':
             await this.$api.idle.postState('timeline', true)
-            this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, 0).then()
+            await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
             break
           case 'changeYear':
-            await setOneRelayOn(appName.Timeline, btn.index + 1)
+            await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1)
             //await this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1)
             console.log({ year: btn.name })
             await this.$api.idle.postState('timeline', false)
@@ -152,7 +152,7 @@ export default {
             let stream7 = (await this.$api.flows.getFlows()).split('')
 
             const currentColbaState = Number.parseInt(stream7[6-btn.colba])
-            await this.$laurent.sendOut(this.$laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState)
+            await Laurent.sendOut(Laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState)
 
             await this.$api.flows.postFlow(btn.colba + 1, currentColbaState === 0)
             break
@@ -163,8 +163,7 @@ export default {
               await this.$api.flows.postFlow(i, !needToTurnOn)
             }
             const mask = (needToTurnOn ? '0' : '1').repeat(7) + 'xxxxx'
-            //this.$laurent.sendOutAll(this.$laurent.appName.Flows, mask).then()
-            await this.$axios.$get(`http://192.168.1.3/cmd.cgi?psw=Laurent&cmd=WRA,${mask}`)
+            Laurent.sendOutAll(Laurent.appName.Flows, mask).then()
             break
 
           default:
