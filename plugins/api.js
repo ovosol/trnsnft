@@ -38,6 +38,7 @@ const requestCached = async (method, url, data = null) => {
     requestCache[cacheKey] = result
     return result
   } catch (e) {
+    console.log('Error in requestCached', e)
     if (requestCache[cacheKey]) {
       return requestCache[cacheKey]
     } else {

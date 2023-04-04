@@ -21,6 +21,7 @@ import {Laurent} from "@/plugins/laurentControllerLegacy";
 export default {
   async asyncData({$axios, $api}) {
     const idleState = await $api.idle.getState('samara')
+    console.log('ASYNC idleState', idleState)
     let stage = 0
     let currentVideo = ''
     let idleVideo = ''
@@ -97,11 +98,12 @@ export default {
       console.log("ON SAMARA VIDEO END")
       //we have only one video
       //await this.$api.samara.postAutoPlay(false)
+      console.log("CHANGING IDLE SAMARA")
       await this.$api.idle.postState('samara', true)
       await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
     },
     async changeSamara() {
-      const autoplay = await this.$api.samara.getAutoPlay()
+      /*const autoplay = await this.$api.samara.getAutoPlay()
       console.log('autoplay', autoplay)
       if (!autoplay) {
         // go to idle after any video
@@ -117,7 +119,7 @@ export default {
         } else {
           await this.$api.samara.postStage(nextVideo)
         }
-      }
+      }*/
     }
   }
 }
