@@ -24,7 +24,7 @@ export default {
     let stage = 0
     let currentVideo = ''
     let idleVideo = ''
-    let autoplay = false
+    const autoplay = await $api.samara.getAutoPlay()
     if (idleState) {
       const res = await $api.idle.getVideo('samara')
       idleVideo = process.env.BASE_URL + res.current_video
@@ -32,7 +32,6 @@ export default {
       stage = await $api.samara.getStage()
       const res = await $api.samara.getVideo(stage)
       currentVideo = process.env.BASE_URL + res.current_video
-      autoplay = await $api.samara.getAutoPlay()
     }
 
     return {currentVideo, stage, idleState, idleVideo, autoplay}
@@ -81,11 +80,11 @@ export default {
         this.timers.push(setTimeout(() => {
           const elapsedTime = Date.now() - startTime
           console.log('Waypoint', i, elapsedTime)
-          //actions[i]()
+          actions[i]()
         }, times[i] * 1000))
       }
 
-      //Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
+      Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
     },
     stopSequence() {
       this.timers.forEach(timer => {
