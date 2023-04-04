@@ -2,8 +2,53 @@
  * @typedef { 'human_capital' | 'timeline' | 'samara' | 'flows' | 'technology'} IdleApp
  */
 
+const requestCache = {}
+
+let a;
+
+/**
+ *
+ * @param url
+ * @return {Promise<*>}
+ */
+const getCached = async (url) => {
+  return requestCached('get', url)
+}
+
+const postCached = async (url, data) => {
+  return requestCached('post', url, data)
+}
+
+/**
+ *
+ * @param method
+ * @param url
+ * @param data
+ * @return {Promise<*>}
+ */
+const requestCached = async (method, url, data = null) => {
+  const cacheKey = method + url + JSON.stringify(data)
+
+  try {
+    const result = await a.$request({
+      method,
+      url,
+      data,
+    })
+    requestCache[cacheKey] = result
+    return result
+  } catch (e) {
+    if (requestCache[cacheKey]) {
+      return requestCache[cacheKey]
+    } else {
+      throw e
+    }
+  }
+}
+
 
 export default ({app, store}, inject) => {
+  a = app.$axios
   /**
    * @property {Object} $api
    */
@@ -15,7 +60,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<boolean>}
        */
       getState: async (idleApp) => {
-        const result = await app.$axios.$get(`/api/idle/${idleApp}/state/`)
+        const result = await getCached(`/api/idle/${idleApp}/state/`)
         return result.state
       },
       /**
@@ -24,7 +69,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number}>}
        */
       getVideo: async (idleApp) => {
-        return await app.$axios.$get(`/api/idle/${idleApp}/video/`)
+        return await getCached(`/api/idle/${idleApp}/video/`)
       },
       /**
        * Set state of idle app
@@ -33,7 +78,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<*>}
        */
       postState: async (idleApp, idleState) => {
-        const result = await app.$axios.$post(`/api/idle/${idleApp}/`, {state: idleState})
+        const result = await postCached(`/api/idle/${idleApp}/`, {state: idleState})
         return result.state
       }
     },
@@ -43,7 +88,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<number>}
        */
       getYear: async () => {
-        return (await app.$axios.$get(`/api/timeline/year/`)).year
+        return (await getCached(`/api/timeline/year/`)).year
       },
       /**
        * Set current year
@@ -51,7 +96,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<any>}
        */
       postYear: async (year) => {
-        return await app.$axios.$post(`/api/timeline/year/`, {year})
+        return await postCached(`/api/timeline/year/`, {year})
       },
       /**
        * Get current video
@@ -60,7 +105,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number, intro_video: string, intro_video_duration: number}>}
        */
       getVideo: async (year, videoIndex) => {
-        return await app.$axios.$get(`/api/timeline/${year}/${videoIndex}/`)
+        return await getCached(`/api/timeline/${year}/${videoIndex}/`)
       }
     },
     flows: {
@@ -69,10 +114,10 @@ export default ({app, store}, inject) => {
        * @return {Promise<string>} binary mask of flows
        */
       getFlows: async () => {
-        return (await app.$axios.$get(`/api/flows/`)).mask
+        return (await getCached(`/api/flows/`)).mask
       },
       postFlow: async (flow, condition) => {
-        return await app.$axios.$post(`/api/flows/`, {flow, condition})
+        return await postCached(`/api/flows/`, {flow, condition})
       }
     },
     samara: {
@@ -81,7 +126,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<number>}
        */
       getStage: async () => {
-        return Number.parseInt((await app.$axios.$get(`/api/area_samara/stage/`)).stage)
+        return Number.parseInt((await getCached(`/api/area_samara/stage/`)).stage)
       },
       /**
        * Set current stage
@@ -89,7 +134,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<any>}
        */
       postStage: async (stage) => {
-        return await app.$axios.$post(`/api/area_samara/stage/`, {stage})
+        return await postCached(`/api/area_samara/stage/`, {stage})
       },
       /**
        * Get current video
@@ -97,14 +142,14 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number}>}
        */
       getVideo: async (stage) => {
-        return await app.$axios.$get(`/api/area_samara/${stage}/video/`)
+        return await getCached(`/api/area_samara/${stage}/video/`)
       },
       /**
        * Get autoplay
        * @return {Promise<boolean>}
        */
       getAutoPlay: async () => {
-        const newVar = await app.$axios.$get(`/api/area_samara/auto_play/`);
+        const newVar = await getCached(`/api/area_samara/auto_play/`);
         console.warn(newVar)
         return newVar.auto_play
       },
@@ -114,7 +159,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<any>}
        */
       postAutoPlay: async (autoPlay) => {
-        return await app.$axios.$post(`/api/area_samara/auto_play/`, {condition: autoPlay})
+        return await postCached(`/api/area_samara/auto_play/`, {condition: autoPlay})
       }
     },
     humanCapital: {
@@ -131,7 +176,7 @@ export default ({app, store}, inject) => {
        * @return {Promise<{employees: Array<Employee>}>}
        */
       getEmployeeList: async (group) => {
-        return await app.$axios.$get(`/api/video_stand/employee_list/${group}/`)
+        return await getCached(`/api/video_stand/employee_list/${group}/`)
       }
     }
   })
