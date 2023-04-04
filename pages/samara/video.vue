@@ -85,7 +85,8 @@ export default {
         }, times[i] * 1000))
       }
 
-      Laurent.setAllRelays(Laurent.appName.Samara, '0000').then()
+      await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
+      await Laurent.sendOut(Laurent.appName.Samara, 1,0)
       //TODO disable lights
     },
     stopSequence() {
