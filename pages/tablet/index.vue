@@ -116,16 +116,15 @@ export default {
             else if (btn.stage === 'idle'){
               const idle = await this.$api.idle.getState('samara')
               await this.$api.idle.postState('samara', !idle)
-              //await Laurent.sendRelay(Laurent.appName.Samara, 4, 1) //TODO change
               await Laurent.setOneRelayOn(Laurent.appName.Samara, 5)
             }
             else if (btn.stage === 'light'){
               if (!autoPlay)
-                await Laurent.sendRelay(Laurent.appName.Samara, 5, 2) //TODO change
+                await Laurent.sendRelay(Laurent.appName.Samara, 5, 2) //TODO change for out
             }
             else {
               if (!autoPlay) {
-                await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2) //TODO change
+                await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2)
                 //await this.$api.idle.postState('samara', false)
                 //await this.$api.samara.postStage(btn.stage)
                 //await this.$api.samara.postAutoPlay(false)

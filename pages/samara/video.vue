@@ -68,11 +68,11 @@ export default {
       //const times = [30,60,82,98,120] TODO change to real times
       const times = [3, 6, 8, 9, 12]
       const actions = [
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '10000xxxxxxx').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11000xxxxxxx').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11100xxxxxxx').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11110xxxxxxx').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '1000').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '1100').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '1110').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '1111').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '0000').then(),
       ]
       const startTime = Date.now()
       console.log('startSequence')
@@ -85,7 +85,8 @@ export default {
         }, times[i] * 1000))
       }
 
-      Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
+      Laurent.setAllRelays(Laurent.appName.Samara, '0000').then()
+      //TODO disable lights
     },
     stopSequence() {
       console.log('stopSequence')
