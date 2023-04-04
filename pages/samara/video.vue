@@ -7,7 +7,7 @@
     ></ModuleVideo>
     <ModuleVideo
       v-else
-      @ended="changeSamaraSimple()"
+      @ended="changeSamaraSimple"
       :videoSrc="currentVideo"
     >
     </ModuleVideo>
@@ -68,11 +68,11 @@ export default {
       //const times = [30,60,82,98,120] TODO change to real times
       const times = [3, 6, 8, 9, 12]
       const actions = [
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '10000xxxxxxx'),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11000xxxxxxx'),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11100xxxxxxx'),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '11110xxxxxxx'),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx'),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '10000xxxxxxx').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11000xxxxxxx').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11100xxxxxxx').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11110xxxxxxx').then(),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then(),
       ]
       const startTime = Date.now()
       console.log('startSequence')
@@ -85,7 +85,7 @@ export default {
         }, times[i] * 1000))
       }
 
-      await Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx')
+      Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
     },
     stopSequence() {
       this.timers.forEach(timer => {
@@ -93,6 +93,7 @@ export default {
       })
     },
     async changeSamaraSimple() {
+      console.log("ON SAMARA VIDEO END")
       //we have only one video
       await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
       await this.$api.samara.postAutoPlay(false)
