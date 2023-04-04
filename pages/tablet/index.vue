@@ -109,9 +109,9 @@ export default {
             const autoPlay = await this.$api.samara.getAutoPlay()
             // TODO handle laurent
             if (btn.stage === 'start') {
-              await this.$api.samara.postAutoPlay(true)
-              await this.$api.idle.postState('samara', false)
+              //await this.$api.samara.postAutoPlay(true)
               await this.$api.samara.postStage(1)
+              await this.$api.idle.postState('samara', false)
             }
             else if (btn.stage === 'idle'){
               const idle = await this.$api.idle.getState('samara')

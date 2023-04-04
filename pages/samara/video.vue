@@ -37,8 +37,8 @@ export default {
     return {currentVideo, stage, idleState, idleVideo, autoplay}
   },
   mounted() {
-    console.log('MOUNTED autoplay', this.autoplay)
-    if (this.autoplay) {
+    console.log('MOUNTED idleState', this.idleState)
+    if (!this.idleState) {
       this.startSequence()
     }
   },
@@ -53,9 +53,9 @@ export default {
     }
   },
   watch: {
-    autoplay(newVal) {
-      console.log('autoplay', newVal)
-      if (newVal) {
+    idleState(newVal) {
+      console.log('idleState', newVal)
+      if (!newVal) {
         this.startSequence()
       } else {
         this.stopSequence()
@@ -87,16 +87,18 @@ export default {
       Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
     },
     stopSequence() {
+      console.log('stopSequence')
       this.timers.forEach(timer => {
         clearTimeout(timer)
       })
+      this.timers = []
     },
     async changeSamaraSimple() {
       console.log("ON SAMARA VIDEO END")
       //we have only one video
-      await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
-      await this.$api.samara.postAutoPlay(false)
+      //await this.$api.samara.postAutoPlay(false)
       await this.$api.idle.postState('samara', true)
+      await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
     },
     async changeSamara() {
       const autoplay = await this.$api.samara.getAutoPlay()
