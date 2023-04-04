@@ -81,11 +81,11 @@ export default {
         this.timers.push(setTimeout(() => {
           const elapsedTime = Date.now() - startTime
           console.log('Waypoint', i, elapsedTime)
-          actions[i]()
+          //actions[i]()
         }, times[i] * 1000))
       }
 
-      Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
+      //Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx').then()
     },
     stopSequence() {
       this.timers.forEach(timer => {
