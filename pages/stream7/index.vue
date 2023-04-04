@@ -20,9 +20,9 @@
 
 export default {
   async asyncData({$axios, $api}) {
-    const flows = (await $api.flows.getFlows()).split('')
+    const streamArr = (await $api.flows.getFlows()).split('')
 
-    return {streamArr: flows}
+    return {streamArr}
   },
   data() {
     return {

@@ -90,31 +90,35 @@ export const state = () => ({
       },
     ],
     samara: [
+      {
+        link: 'samaraButtons',
+        stage: 'start',
+        name: 'Демонстрация',
+      },
         {
           link: 'samaraButtons',
           stage: 1,
-          name: 'Этап 1',
+          name: 'Участок 1',
         },
         {
           link: 'samaraButtons',
           stage: 2,
-          name: 'Этап 2',
+          name: 'Участок 2',
         },
         {
           link: 'samaraButtons',
           stage: 3,
-          name: 'Этап 3',
+          name: 'Участок 3',
         },
         {
           link: 'samaraButtons',
           stage: 4,
-          name: 'Этап 4',
+          name: 'Участок 4',
         },
         {
           link: 'samaraButtons',
-          stage: 'start',
-          name: 'Пуск',
-          hidden: true,
+          stage: 'light',
+          name: 'Подсветка',
         },
       {
         link: 'samaraButtons',

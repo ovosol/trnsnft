@@ -23,6 +23,25 @@ const getUrl = async (url, timeout = 100) => {
   }
 }
 
+const throwIfWrongCharacters = (state) => {
+  if (state.match(/[^012x]/)) {
+    throw new Error(`Wrong state: ${state}, only 0, 1, 2, x allowed`)
+  }
+}
+
+/**
+ *
+ * @param {appName} app
+ * @param {string} state 12 character string with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right
+ * @return {Promise<void>}
+ */
+const setAllRelays = async (app, state) => {
+  throwIfWrongCharacters(state)
+  const ip = getAddressForApp(app)
+  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,ALL,${state}`
+  await getUrl(url)
+}
+
 /**
  *
  * @param {appName} app
@@ -58,7 +77,7 @@ const sendRelay = async (app, relay, state) => {
 
 /**
  * Change one out state
- * @param {laurentAppName} app
+ * @param {appName} app
  * @param {number} out number of relay from 1 to 8 or 12
  * @param {number} state 0 off, 1 on, 2 invert
  * @return {Promise<void>}
@@ -70,11 +89,12 @@ const sendOut = async (app, out, state) => {
 }
 /**
  * Change all out state
- * @param {laurentAppName} app
+ * @param {appName} app
  * @param {string} state - 12 character string with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right
  * @return {Promise<void>}
  */
 export const sendOutAll = async (app, state) => {
+  throwIfWrongCharacters(state)
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=WRA,${state}`
   await getUrl(url)
@@ -103,5 +123,6 @@ export const Laurent = {
   sendRelay,
   sendOut,
   sendOutAll,
-  appName
+  appName,
+  setAllRelays
 }

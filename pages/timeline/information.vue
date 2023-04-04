@@ -43,6 +43,10 @@ export default {
   },
   data() {
     return {
+      currentVideo: '',
+      chosenYear: '',
+      idleState: '',
+      idleVideo: '',
       allYears: [
         '1936',
         '1953',

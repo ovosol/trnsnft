@@ -9,15 +9,20 @@
 import { mapGetters } from 'vuex'
 // /video_stand/page/
 export default {
+  data() {
+    return {
+      entryGroup: '',
+    }
+  },
   async asyncData({ $axios }) {
-    const video = await $axios
+    const entryGroup = await $axios
         .$get('/api/entry_group/video/')
         .then((response) => {
           console.log(response, 'response.data')
           return process.env.BASE_URL + response.current_video
         })
 
-    return { entryGroup: video }
+    return { entryGroup }
   },
   computed: {
     ...mapGetters({videoByPath: 'video/byPath'}),

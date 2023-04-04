@@ -7,7 +7,7 @@
     ></ModuleVideo>
     <ModuleVideo
       v-else
-      @ended="changeSamara()"
+      @ended="changeSamaraSimple()"
       :videoSrc="currentVideo"
     >
     </ModuleVideo>
@@ -16,12 +16,15 @@
 
 <script>
 
+import {Laurent} from "@/plugins/laurentControllerLegacy";
+
 export default {
   async asyncData({$axios, $api}) {
     const idleState = await $api.idle.getState('samara')
     let stage = 0
     let currentVideo = ''
     let idleVideo = ''
+    let autoplay = false
     if (idleState) {
       const res = await $api.idle.getVideo('samara')
       idleVideo = process.env.BASE_URL + res.current_video
@@ -29,9 +32,16 @@ export default {
       stage = await $api.samara.getStage()
       const res = await $api.samara.getVideo(stage)
       currentVideo = process.env.BASE_URL + res.current_video
+      autoplay = await $api.samara.getAutoPlay()
     }
 
-    return {currentVideo, stage, idleState, idleVideo}
+    return {currentVideo, stage, idleState, idleVideo, autoplay}
+  },
+  mounted() {
+    console.log('MOUNTED autoplay', this.autoplay)
+    if (this.autoplay) {
+      this.startSequence()
+    }
   },
   data() {
     return {
@@ -39,14 +49,61 @@ export default {
       stage: 0,
       currentVideo: '',
       idleVideo: '',
+      autoplay: '',
+      timers: []
+    }
+  },
+  watch: {
+    autoplay(newVal) {
+      console.log('autoplay', newVal)
+      if (newVal) {
+        this.startSequence()
+      } else {
+        this.stopSequence()
+      }
     }
   },
   methods: {
+    async startSequence() {
+      //const times = [30,60,82,98,120] TODO change to real times
+      const times = [3, 6, 8, 9, 12]
+      const actions = [
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '10000xxxxxxx'),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11000xxxxxxx'),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11100xxxxxxx'),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '11110xxxxxxx'),
+        () => Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx'),
+      ]
+      const startTime = Date.now()
+      console.log('startSequence')
+
+      for (let i = 0; i < times.length; i++) {
+        this.timers.push(setTimeout(() => {
+          const elapsedTime = Date.now() - startTime
+          console.log('Waypoint', i, elapsedTime)
+          actions[i]()
+        }, times[i] * 1000))
+      }
+
+      await Laurent.setAllRelays(Laurent.appName.Samara, '00000xxxxxxx')
+    },
+    stopSequence() {
+      this.timers.forEach(timer => {
+        clearTimeout(timer)
+      })
+    },
+    async changeSamaraSimple() {
+      //we have only one video
+      await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
+      await this.$api.samara.postAutoPlay(false)
+      await this.$api.idle.postState('samara', true)
+    },
     async changeSamara() {
       const autoplay = await this.$api.samara.getAutoPlay()
       console.log('autoplay', autoplay)
       if (!autoplay) {
         // go to idle after any video
+        await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
         await this.$api.samara.postAutoPlay(false)
         await this.$api.idle.postState('samara', true)
       } else {

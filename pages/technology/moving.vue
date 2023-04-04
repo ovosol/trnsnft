@@ -97,7 +97,7 @@ export default {
         console.log(response, 'response.data')
         return response.stage
       })
-    var a = []
+    const movingVideos = [];
     for (const period of ['past', 'present_1', 'present_2']) {
       const video = await $axios
         .$get('api/technologies/moving/' + period + '/')
@@ -106,13 +106,13 @@ export default {
           return process.env.BASE_URL + response.current_video
         })
 
-      a.push(video)
+      movingVideos.push(video)
     }
-    a.forEach((e) => {
+    movingVideos.forEach((e) => {
       e = '/media/' + e
     })
 
-    return { movingVideos: a, stage: stage }
+    return { movingVideos, stage }
   },
   data() {
     return {
@@ -121,6 +121,8 @@ export default {
       value: 60,
       carouselIndex: 1,
       slider: 0,
+      movingVideos: [],
+      stage: '',
     }
   },
   // watch: {

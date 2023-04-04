@@ -150,7 +150,6 @@ export default ({app, store}, inject) => {
        */
       getAutoPlay: async () => {
         const newVar = await getCached(`/api/area_samara/auto_play/`);
-        console.warn(newVar)
         return newVar.auto_play
       },
       /**

@@ -22,6 +22,12 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      fixedVideos: [],
+      stage: '',
+    }
+  },
   async asyncData({ $axios }) {
     const stage = await $axios
         .$get('/api/technologies/stage/')
@@ -29,7 +35,7 @@ export default {
           console.log(response, 'response.data')
           return response.stage
         })
-    var a = []
+    const fixedVideos = [];
     for (const period of ['past', 'present_1', 'present_2', 'future']) {
       const video = await $axios
         .$get('api/technologies/backstage/'+ period +'/' )
@@ -38,11 +44,11 @@ export default {
           return process.env.BASE_URL + response.current_video
         })
 
-      a.push(video)
+      fixedVideos.push(video)
     }
-    a.forEach((e) => {e = '/media/' + e})
+    fixedVideos.forEach((e) => {e = '/media/' + e})
 
-    return { fixedVideos: a, stage: stage }
+    return { fixedVideos, stage }
   },
   computed: {
     // Мне кажется, это стоит исправить

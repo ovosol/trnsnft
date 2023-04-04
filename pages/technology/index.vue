@@ -27,6 +27,11 @@
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
+  data() {
+    return {
+      stage: '',
+    }
+  },
   async asyncData({ $axios }) {
     const stage = await $axios
         .$get('/api/technologies/stage/')
@@ -34,7 +39,7 @@ export default {
           console.log(response, 'response.data')
           return response.stage
         })
-    return { stage: stage }
+    return { stage }
   },
   computed: {
     ...mapGetters(['byPath']),

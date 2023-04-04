@@ -106,6 +106,7 @@ export default {
       } else {
         switch (btn.link) {
           case 'samaraButtons':
+            const autoPlay = await this.$api.samara.getAutoPlay()
             // TODO handle laurent
             if (btn.stage === 'start') {
               await this.$api.idle.postState('samara', false)
@@ -115,13 +116,20 @@ export default {
             else if (btn.stage === 'idle'){
               const idle = await this.$api.idle.getState('samara')
               await this.$api.idle.postState('samara', !idle)
-              await Laurent.sendRelay(Laurent.appName.Samara, 4, 2) //TODO change
+              //await Laurent.sendRelay(Laurent.appName.Samara, 4, 1) //TODO change
+              await Laurent.setOneRelayOn(Laurent.appName.Samara, 5)
+            }
+            else if (btn.stage === 'light'){
+              if (!autoPlay)
+                await Laurent.sendRelay(Laurent.appName.Samara, 5, 2) //TODO change
             }
             else {
-              await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2) //TODO change
-              await this.$api.idle.postState('samara', false)
-              await this.$api.samara.postStage(btn.stage)
-              await this.$api.samara.postAutoPlay(false)
+              if (!autoPlay) {
+                await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2) //TODO change
+                //await this.$api.idle.postState('samara', false)
+                //await this.$api.samara.postStage(btn.stage)
+                //await this.$api.samara.postAutoPlay(false)
+              }
             }
             break
           case 'changeTimelineIdle':
