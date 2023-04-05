@@ -65,14 +65,13 @@ export default {
   },
   methods: {
     async startSequence() {
-      //const times = [30,60,82,98,120] TODO change to real times
-      const times = [3, 6, 8, 9, 12]
+      const times = [30, 60, 82, 98]
+      //const times = [3, 6, 8, 9, 12]
       const actions = [
         () => Laurent.setAllRelays(Laurent.appName.Samara, '1000').then(),
         () => Laurent.setAllRelays(Laurent.appName.Samara, '1100').then(),
         () => Laurent.setAllRelays(Laurent.appName.Samara, '1110').then(),
         () => Laurent.setAllRelays(Laurent.appName.Samara, '1111').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '0000').then(),
       ]
       const startTime = Date.now()
       console.log('startSequence')
@@ -86,15 +85,17 @@ export default {
       }
 
       await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
-      await Laurent.sendOut(Laurent.appName.Samara, 1,0)
+      await Laurent.sendOut(Laurent.appName.Samara, 1, 0)
       //TODO disable lights
     },
-    stopSequence() {
+    async stopSequence() {
       console.log('stopSequence')
       this.timers.forEach(timer => {
         clearTimeout(timer)
       })
       this.timers = []
+      await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
+      await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
     },
     async changeSamaraSimple() {
       console.log("ON SAMARA VIDEO END")

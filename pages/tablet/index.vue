@@ -114,9 +114,9 @@ export default {
               await this.$api.idle.postState('samara', false)
             }
             else if (btn.stage === 'idle'){
-              const idle = await this.$api.idle.getState('samara')
-              await this.$api.idle.postState('samara', !idle)
-              await Laurent.sendOut(Laurent.appName.Samara, 1, idle ? 1 : 0)
+              //const idle = await this.$api.idle.getState('samara')
+              await this.$api.idle.postState('samara', true)
+              await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
             }
             else if (btn.stage === 'light'){
               if (!autoPlay)
