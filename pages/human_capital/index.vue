@@ -9,25 +9,24 @@
     />
 
     <ModuleBtnCollection
-      v-if="!isContent"
       :btnImg="img"
       :btnArray="btnArray"
       :btnStyle="style"
       :btnTitle="title"
+      :content="content"
       @changeBtns="changeBtns"
       class="all-size flex-center human_capital-btns"
     ></ModuleBtnCollection>
-    <div
-      v-else
-    >{{ title }}
-    </div>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import {getHumanCapitalContent} from "@/components/humanCapitalContent";
+import HumanCapitalContent from "@/components/Module/HumanCapitalContent.vue";
 
 export default {
+  components: {HumanCapitalContent},
   data() {
     return {
       img: 'rbbtn',//btnwitharrow
@@ -36,7 +35,7 @@ export default {
       title: '',
       currentPage: null,
       pagesStack: [],
-      isContent: false
+      content: null
     }
   },
   computed: {
@@ -75,18 +74,22 @@ export default {
         this.pagesStack.push(this.currentPage)
       }
       this.currentPage = btn
-      this.title = btn.name.replaceAll(' <br>', '')
-      if (this.humanCapital[btn.link]) {
-        this.isContent = false
-        this.array = this.humanCapital[btn.link]
 
+      if (this.humanCapital[btn.link]) {
+        // first level pages
+        this.content = null
+        this.title = btn.name.replaceAll(' <br>', '')
+        this.array = this.humanCapital[btn.link]
         this.style = this.humanCapital[btn.link].length % 2 ? 'oddBtns' : 'evenBtns'
       } else if (btn.link.includes('_book')) {
+        // honor or veteran book
         this.$router.push({path: '/human_capital/' + btn.link})
       } else {
-        this.isContent = true
+        // any content page
+        console.log('content page', btn.link)
+        this.content = getHumanCapitalContent(btn.link)
         this.array = []
-        this.title = btn.name.replaceAll(' <br>', '')
+        //this.title = btn.name.replaceAll(' <br>', '')
       }
     },
   },
