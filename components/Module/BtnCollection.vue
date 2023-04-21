@@ -61,6 +61,7 @@ export default {
 
 .small-logo {
   width: 30vw;
+  margin-top: -350px;
   /* height: 15vh; */
 }
 
