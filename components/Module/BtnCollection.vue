@@ -31,7 +31,8 @@ export default {
     /** @type {import('vue').PropOptions<HumanCapitalContent || null>}*/
     content: {
       type: Object || null,
-      required: false
+      required: false,
+      default: null
     }
   },
   methods: {
