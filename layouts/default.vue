@@ -57,17 +57,17 @@ div.mx-video-player__mask-progress.mx-video-player__mask-progress_show {
 
 .corner-decoration {
   background-image: url('~/assets/creative/rbcornert.png'), url('~/assets/creative/rbcornerb.png'), url('~/assets/creative/fon.png');
-  background-size:25vw, 25vw, 100vw 100vh ;
+  background-size: 45vw, 45vw, 100vw 100vh ;
   background-position: left top, right bottom, center;
   background-repeat: no-repeat, no-repeat;
 }
 
 @font-face {
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     src: local("Open Sans"),     url(~/assets/fonts/open-sans.ttf) format("truetype");}
 
 html {
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
 }
 
 .half-enter-active,

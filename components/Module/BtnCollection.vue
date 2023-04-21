@@ -5,7 +5,7 @@
     </div>
     <h1 v-show="btnTitle" class="title">{{ btnTitle }}</h1>
     <div :class="btnStyle + ' btn-container'">
-      <transition-group name="btns" class=" flex-center" style="flex-wrap: wrap;" v-if="content == null">
+      <transition-group name="btns" class="flex-center" style="flex-wrap: wrap;" v-if="content == null">
         <div class="coolbtn" v-for="btn in btnArray" :key="btn.name">
           <div :class="btnImg + ' btnsStyle'" @click="changeBtns(btn)">
             <b class="btn-text" v-html="btn.name"></b>
@@ -48,10 +48,12 @@ export default {
   gap: 1%;
   flex-wrap: wrap;
   z-index: 3;
+  margin-bottom: 2vh;
 }
 
 .big-logo {
-  margin-bottom: 8vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
   width: 60vw;
   /* height: 25vh; */
 }
@@ -71,7 +73,8 @@ export default {
 
 .btnsStyle > .btn-text {
   width: 70%;
-  font-size: 15px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .btnsStyle {
@@ -82,7 +85,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 6vh 1vw;
+  margin: 3vh 1vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -96,8 +99,8 @@ export default {
 }
 
 .rbbtn {
-  background-image: url('~/assets/creative/rbbtn.png');
-  color: white;
+  background-image: url('~/assets/creative/btnwitharrow.png');
+  color: #025692;
   background-position: center center;
 }
 

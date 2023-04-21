@@ -3,7 +3,7 @@ export const state = () => ({
     main: [
       {
         link: 'humanCapital',
-        name: 'Человеческий капитал',
+        name: 'Почётные сотрудники',
         hidden: true,
       },
       {
@@ -254,7 +254,7 @@ export const state = () => ({
     main: [
       {
         link: 'humankind',
-        name: 'Человеческий <br> капитал',
+        name: 'Почётные <br> сотрудники',
         hidden: true,
       },
       {
@@ -267,17 +267,25 @@ export const state = () => ({
       },
       {
         link: 'ecology',
-        name: 'Энергоэффективность <br> экология <br> Охрана труда',
+        name: 'Энергоэффективность <br> Экология <br> Охрана труда',
       },
       {
         link: 'charity',
         name: 'Благотворительность',
       },
+      {
+        link: 'certificates',
+        name: 'Сертификаты <br> и свидетельства',
+      },
+      {
+        link: 'building_quality',
+        name: 'Политика в области <br> качества строительства',
+      },
     ],
     humankind: [
       {
         link: 'honor_book',
-        name: 'Книга почета',
+        name: 'Книга почёта',
       },
       {
         link: 'veteran_book',
