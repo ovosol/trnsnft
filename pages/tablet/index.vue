@@ -8,13 +8,13 @@
       <div class="field-container">
         <input
           class="field-input"
-          id="inputid"
+          id="pwdInput"
           name="inputName"
           v-model.lazy="pass"
           type="text"
           placeholder=" "
         />
-        <label class="field-placeholder" for="inputName">Пароль</label>
+        <label id="pwdInputLabel" class="field-placeholder" for="inputName">Пароль</label>
         <!-- тоже на скорую руку, потом может допилю получше, но я правильно поянл тему с плашкой? -->
         <ModuleBtnCollection
           :btnImg="img"
@@ -191,6 +191,13 @@ export default {
 </script>
 
 <style>
+#pwdInput{
+  z-index: 100;
+  position: relative;
+}
+#pwdInputLabel{
+  z-index: 101;
+}
 .human_capital-btns {
   flex-direction: column;
   align-items: center;

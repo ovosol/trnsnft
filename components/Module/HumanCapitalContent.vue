@@ -5,7 +5,7 @@
     <slide-show :images="cContent.images" v-if="cContent.images"/>
     <div class="text-wrapper" ref="textWrapper">
       <p ref="text" class="text">{{ text }}</p>
-      <div class="arrows" v-if="isTextOverflowing">
+      <div class="arrows">
         <button @click="scrollText('up')" class="arrow">&#8593;</button>
         <button @click="scrollText('down')" class="arrow">&#8595;</button>
       </div>
