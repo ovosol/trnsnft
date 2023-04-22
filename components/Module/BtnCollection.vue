@@ -1,27 +1,33 @@
 <template>
   <div>
-    <div v-show="!noLogo" :class="'flex-center ' + (btnTitle ? 'small-logo' : 'big-logo')">
-      <img class="all-size" src="~/assets/picture/logo.png" alt=""/>
+    <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
+      <img class='all-size' src='~/assets/picture/logo.png' alt='' />
     </div>
-    <h1 v-show="btnTitle" class="title"><hr class='hr-shadow'>{{ btnTitle }}</h1>
+    <div v-if='!noLogo && btnTitle'>
+      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt='' /></div>
+      <h1 v-show='btnTitle' class='title'>
+        <hr class='hr-shadow'>
+        {{ btnTitle }}
+      </h1>
+    </div>
     <div :class="btnStyle + ' btn-container'">
-      <transition-group name="btns" class="flex-center" style="flex-wrap: wrap;" v-if="content == null">
-        <div class="coolbtn" v-for="btn in btnArray" :key="btn.name">
-          <div :class="btnImg + ' btnsStyle'" @click="changeBtns(btn)">
-            <b class="btn-text" v-html="btn.name"></b>
+      <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='content == null'>
+        <div class='coolbtn' v-for='btn in btnArray' :key='btn.name'>
+          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize" @click='changeBtns(btn)'>
+            <b class='btn-text' v-html='btn.name'></b>
           </div>
         </div>
       </transition-group>
-      <HumanCapitalContent v-if="content !== null" :content="content" />
+      <HumanCapitalContent v-if='content !== null' :content='content' />
     </div>
   </div>
 </template>
 
 <script>
-import HumanCapitalContent from "@/components/Module/HumanCapitalContent.vue";
+import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
 
 export default {
-  components: {HumanCapitalContent},
+  components: { HumanCapitalContent },
   props: {
     btnImg: String,
     btnArray: Array,
@@ -38,8 +44,14 @@ export default {
   methods: {
     changeBtns(btn) {
       this.$emit('changeBtns', btn)
-    },
+    }
   },
+  computed: {
+    btnSize() {
+      if (this.btnArray.length < 10) return 'lg'
+      if (this.btnArray.length >= 10) return 'md'
+    }
+  }
 }
 </script>
 
@@ -61,12 +73,11 @@ export default {
 
 .small-logo {
   width: 550px;
-  margin-top: -250px;
   height: 90px;
+  margin: auto;
 }
 
-.hr-shadow{
-  margin-top: -1px;
+.hr-shadow {
   margin-bottom: 40px;
   border-bottom: 4px solid #025692;
   box-shadow: 0 4px 9px #333;
@@ -76,8 +87,8 @@ export default {
   color: #025692;
   width: 97vw;
   text-align: center;
-  vertical-align: top;
-  display:table-cell;
+  vertical-align: bottom;
+  display: table-cell;
   font-size: 40pt;
   font-weight: bolder;
   font-family: Century Gothic, serif;
@@ -98,6 +109,32 @@ export default {
   align-items: center;
   text-align: center;
   margin: 3vh 2vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.btnsStyle-lg {
+  width: 27vw;
+  color: #025692;
+  height: 13vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 2vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.btnsStyle-md {
+  width: 20vw;
+  color: #025692;
+  height: 13vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 1vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

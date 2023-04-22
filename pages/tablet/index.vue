@@ -198,10 +198,6 @@ export default {
 #pwdInputLabel{
   z-index: 101;
 }
-.human_capital-btns {
-  flex-direction: column;
-  align-items: center;
-}
 .human_capital-back {
   position: absolute;
   left: 0;
