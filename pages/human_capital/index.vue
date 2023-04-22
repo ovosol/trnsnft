@@ -105,8 +105,9 @@ export default {
 .human_capital-back {
   position: absolute;
   left: 0;
-  top: 40vh;
-  width: 25px;
+  top: 335px;
+  width: 30px;
+  height: 235px;
   z-index: 10;
 }
 </style>

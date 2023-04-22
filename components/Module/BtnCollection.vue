@@ -65,7 +65,7 @@ export default {
 }
 
 .big-logo {
-  margin-top: 90px;
+  margin-top: 70px;
   margin-bottom: 5vh;
   width: 1000px;
   height: 170px;
@@ -75,6 +75,7 @@ export default {
   width: 550px;
   height: 90px;
   margin: auto;
+  padding-top: 45px;
 }
 
 .hr-shadow {
@@ -96,7 +97,7 @@ export default {
 
 .btnsStyle > .btn-text {
   width: 70%;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -114,9 +115,9 @@ export default {
 }
 
 .btnsStyle-lg {
-  width: 27vw;
+  width: 29vw;
   color: #025692;
-  height: 13vh;
+  height: 12vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,6 +125,8 @@ export default {
   margin: 3vh 2vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
 }
 
 .btnsStyle-md {
@@ -137,6 +140,8 @@ export default {
   margin: 3vh 1vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
 }
 
 .btnwitharrow {
