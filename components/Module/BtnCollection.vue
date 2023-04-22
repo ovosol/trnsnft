@@ -3,7 +3,7 @@
     <div v-show="!noLogo" :class="'flex-center ' + (btnTitle ? 'small-logo' : 'big-logo')">
       <img class="all-size" src="~/assets/picture/logo.png" alt=""/>
     </div>
-    <h1 v-show="btnTitle" class="title">{{ btnTitle }}</h1>
+    <h1 v-show="btnTitle" class="title"><hr class='hr-shadow'>{{ btnTitle }}</h1>
     <div :class="btnStyle + ' btn-container'">
       <transition-group name="btns" class="flex-center" style="flex-wrap: wrap;" v-if="content == null">
         <div class="coolbtn" v-for="btn in btnArray" :key="btn.name">
@@ -53,24 +53,34 @@ export default {
 }
 
 .big-logo {
-  margin-top: 5vh;
+  margin-top: 90px;
   margin-bottom: 5vh;
-  width: 60vw;
-  /* height: 25vh; */
+  width: 1000px;
+  height: 170px;
 }
 
 .small-logo {
-  width: 30vw;
-  margin-top: -350px;
-  /* height: 15vh; */
+  width: 550px;
+  margin-top: -250px;
+  height: 90px;
+}
+
+.hr-shadow{
+  margin-top: -1px;
+  margin-bottom: 40px;
+  border-bottom: 4px solid #025692;
+  box-shadow: 0 4px 9px #333;
 }
 
 .title {
-  border-top: 2px #025692 solid;
   color: #025692;
   width: 97vw;
   text-align: center;
-  font-size: 36pt;
+  vertical-align: top;
+  display:table-cell;
+  font-size: 40pt;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
 }
 
 .btnsStyle > .btn-text {
@@ -87,7 +97,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 3vh 1vw;
+  margin: 3vh 2vw;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
