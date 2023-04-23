@@ -11,14 +11,14 @@
       </h1>
     </div>
     <div :class="btnStyle + ' btn-container'">
-      <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='content == null'>
+      <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
         <div class='coolbtn' v-for='btn in btnArray' :key='btn.name'>
           <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize" @click='changeBtns(btn)'>
             <b class='btn-text' v-html='btn.name'></b>
           </div>
         </div>
       </transition-group>
-      <HumanCapitalContent v-if='content !== null' :content='content' />
+      <HumanCapitalContent v-if='contentPage !== null' :contentPage='contentPage' />
     </div>
   </div>
 </template>
@@ -34,9 +34,8 @@ export default {
     btnStyle: String,
     btnTitle: String,
     noLogo: Boolean,
-    /** @type {import('vue').PropOptions<HumanCapitalContent || null>}*/
-    content: {
-      type: Object || null,
+    contentPage: {
+      type: String || null,
       required: false,
       default: null
     }

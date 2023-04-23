@@ -1,20 +1,45 @@
 <template>
-  <div>
-    <h2 class="subtitle">{{ cContent.subtitle }}</h2>
+  <div v-if="contentPage && content">
+    <h2 class="subtitle">{{ content.subtitle }}</h2>
     <div class="horizontal">
-    <slide-show :images="cContent.images" v-if="cContent.images"/>
-    <div class="text-wrapper" ref="textWrapper">
-      <p ref="text" class="text">{{ text }}</p>
-      <div class="arrows">
-        <button @click="scrollText('up')" class="arrow">&#8593;</button>
-        <button @click="scrollText('down')" class="arrow">&#8595;</button>
+      <slide-show :images="content.images" v-if="content.images"/>
+      <div class="text-wrapper" ref="textWrapper">
+        <p ref="text" class="text">{{ text }}</p>
+        <div class="arrows">
+          <button @click="scrollText('up')" class="arrow">&#8593;</button>
+          <button @click="scrollText('down')" class="arrow">&#8595;</button>
+        </div>
       </div>
     </div>
+    <div v-if="content.buttons">
+      <button v-for="(btn, index) in content.buttons" :key="index">
+        {{ btn.title }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+/**
+ * @typedef {Object} HumanCapitalContent
+ * @property {string} subtitle
+ * @property {HumanCapitalImage[]} [images]
+ * @property {string} [video]
+ * @property {HumanCapitalButton[]} [buttons]
+ */
+
+/**
+ * @typedef {Object} HumanCapitalButton
+ * @property {string} title
+ * @property {() => void | string} action
+ */
+
+/**
+ * @typedef {Object} HumanCapitalImage
+ * @property {string} src
+ * @property {string} [title]
+ */
+
 import SlideShow from "@/components/Module/SlideShow.vue";
 
 export default {
@@ -23,37 +48,48 @@ export default {
   data() {
     return {
       text: '',
-      isTextOverflowing: false
+      isTextOverflowing: false,
+      /** @type {null | HumanCapitalContent}*/
+      content: null,
     }
   },
   props: {
-    /** @type {import('vue').PropOptions<HumanCapitalContent>}*/
-    content: {
-      type: Object,
-      required: true
+    contentPage: {
+      type: String || null,
+      required: false,
+      default: null
     }
   },
   async mounted() {
-    try {
-      const response = await fetch(`/humanCapital/texts/${this.cContent.code}.txt`);
-      if (response.ok) {
-        this.text = await response.text();
-      } else {
-        console.error(`Error fetching file: ${response.status}`);
-      }
-    } catch (error) {
-      console.error(`Error fetching file: ${error}`);
-    }
+    await this.fetchText()
+    await this.fetchContent()
     this.checkOverflowing();
   },
-  computed: {
-    /** @returns {HumanCapitalContent} */
-    cContent() {
-      return this.content
-    },
-
-  },
   methods: {
+    async fetchText() {
+      try {
+        const response = await fetch(`/humanCapital/${this.contentPage}.txt`);
+        if (response.ok) {
+          this.text = await response.text();
+        } else {
+          this.text = `Страница ${this.contentPage} не найдена`
+        }
+      } catch (error) {
+        this.text = `Страница ${this.contentPage} не найдена (e)`
+      }
+    },
+    async fetchContent() {
+      try {
+        const content = await fetch(`/humanCapital/${this.contentPage}.json`);
+        if (content.ok) {
+          this.content = await content.json();
+        } else {
+          this.content = {subtitle: ""}
+        }
+      } catch (e) {
+        this.content = {subtitle: `ERROR ${e}`}
+      }
+    },
     scrollText(direction) {
       const textElement = this.$refs.text;
       const scrollAmount = 100;
@@ -64,19 +100,19 @@ export default {
         textElement.scrollTop += scrollAmount;
       }
     },
-    checkOverflowing(){
-        if (this.$refs.text &&
-          this.$refs.textWrapper) {
-          console.log('scrollHeight , offsetHeight, clientHeight')
-          console.log(this.$refs.text.scrollHeight , this.$refs.text.offsetHeight, this.$refs.text.clientHeight)
-          console.log(this.$refs.textWrapper.scrollHeight , this.$refs.textWrapper.offsetHeight, this.$refs.textWrapper.clientHeight)
-        }
-        const overflow= (
-          this.$refs.text &&
-          this.$refs.textWrapper &&
-          this.$refs.text.scrollHeight  > this.$refs.text.offsetHeight
-        );
-        console.log(overflow)
+    checkOverflowing() {
+      if (this.$refs.text &&
+        this.$refs.textWrapper) {
+        console.log('scrollHeight , offsetHeight, clientHeight')
+        console.log(this.$refs.text.scrollHeight, this.$refs.text.offsetHeight, this.$refs.text.clientHeight)
+        console.log(this.$refs.textWrapper.scrollHeight, this.$refs.textWrapper.offsetHeight, this.$refs.textWrapper.clientHeight)
+      }
+      const overflow = (
+        this.$refs.text &&
+        this.$refs.textWrapper &&
+        this.$refs.text.scrollHeight > this.$refs.text.offsetHeight
+      );
+      console.log(overflow)
       this.isTextOverflowing = true;
 
     }

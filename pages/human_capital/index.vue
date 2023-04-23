@@ -13,7 +13,7 @@
       :btnArray="btnArray"
       :btnStyle="style"
       :btnTitle="title"
-      :content="content"
+      :contentPage="contentPage"
       @changeBtns="changeBtns"
       class="all-size flex-center human_capital-btns"
     ></ModuleBtnCollection>
@@ -22,7 +22,6 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {getHumanCapitalContent} from "@/components/humanCapitalContent";
 import HumanCapitalContent from "@/components/Module/HumanCapitalContent.vue";
 
 export default {
@@ -35,7 +34,7 @@ export default {
       title: '',
       currentPage: null,
       pagesStack: [],
-      content: null
+      contentPage: null
     }
   },
   computed: {
@@ -77,7 +76,7 @@ export default {
 
       if (this.humanCapital[btn.link]) {
         // first level pages
-        this.content = null
+        this.contentPage = null
         this.title = btn.name.replaceAll(' <br>', '')
         this.array = this.humanCapital[btn.link]
         this.style = this.humanCapital[btn.link].length % 2 ? 'oddBtns' : 'evenBtns'
@@ -87,7 +86,7 @@ export default {
       } else {
         // any content page
         console.log('content page', btn.link)
-        this.content = getHumanCapitalContent(btn.link)
+        this.contentPage = btn.link
         this.array = []
         //this.title = btn.name.replaceAll(' <br>', '')
       }
