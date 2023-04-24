@@ -9,6 +9,7 @@
         <hr class='hr-shadow'>
         {{ btnTitle }}
       </h1>
+      <div v-if='contentPage == null' class='custom-margin'></div>
     </div>
     <div :class="btnStyle + ' btn-container'">
       <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
@@ -50,14 +51,19 @@ export default {
   },
   computed: {
     btnSize() {
-      if (this.btnArray.length < 10) return 'lg'
-      if (this.btnArray.length >= 10) return 'md'
+      if (this.btnArray.length <= 2) return 'lg'
+      if (this.btnArray.length <= 7) return 'md'
+      return 'sm'
     }
   }
 }
 </script>
 
 <style>
+.custom-margin {
+  margin-bottom: 30px;
+}
+
 .btn-container {
   display: flex;
   gap: 1%;
@@ -95,7 +101,6 @@ export default {
   font-size: 40pt;
   font-weight: bolder;
   font-family: Century Gothic, serif;
-  padding-bottom: 40px;
 }
 
 .btnsStyle {
@@ -125,9 +130,26 @@ export default {
   font-weight: bolder;
   font-family: Century Gothic, serif;
   font-size: 24px;
+  margin-top: 100px;
 }
 
 .btnsStyle-md {
+  width: 29vw;
+  color: #025692;
+  height: 12vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 2vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
+  font-size: 24px;
+}
+
+.btnsStyle-sm {
   width: 22vw;
   color: #025692;
   height: 9vh;
