@@ -1,18 +1,20 @@
 <template>
-  <div v-if="contentPage && content">
-    <h2 class="subtitle">{{ content.subtitle }}</h2>
-    <div class="horizontal">
-      <slide-show :images="content.images" v-if="content.images"/>
-      <div class="text-wrapper" ref="textWrapper">
-        <p ref="text" class="text">{{ text }}</p>
-        <div class="arrows">
-          <button @click="scrollText('up')" class="arrow">&#8593;</button>
-          <button @click="scrollText('down')" class="arrow">&#8595;</button>
-        </div>
+  <div v-if='contentPage && content'>
+    <h2 class='subtitle'>{{ content.subtitle }}</h2>
+    <div class='horizontal'>
+      <slide-show :images='content.images' v-if='content.images' />
+      <div class='text-wrapper' ref='textWrapper'>
+        <p ref='text' class='text'>{{ text }}</p>
+        <button @click="scrollText('up')" class='arrow-up'>
+          <img alt src='~assets/creative/arrow_up.png' width='40' height='35'>
+        </button>
+        <button @click="scrollText('down')" class='arrow-down'>
+          <img alt src='~assets/creative/arrow_down.png' width='40' height='35'>
+        </button>
       </div>
     </div>
-    <div v-if="content.buttons">
-      <button v-for="(btn, index) in content.buttons" :key="index" @click="changeBtns(btn)">
+    <div v-if='content.buttons'>
+      <button v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
         {{ btn.name }}
       </button>
     </div>
@@ -40,17 +42,17 @@
  * @property {string} [title]
  */
 
-import SlideShow from "@/components/Module/SlideShow.vue";
+import SlideShow from '@/components/Module/SlideShow.vue'
 
 export default {
-  name: "HumanCapitalContent",
-  components: {SlideShow},
+  name: 'HumanCapitalContent',
+  components: { SlideShow },
   data() {
     return {
       text: '',
       isTextOverflowing: false,
       /** @type {null | HumanCapitalContent}*/
-      content: null,
+      content: null
     }
   },
   props: {
@@ -63,7 +65,7 @@ export default {
   async mounted() {
     await this.fetchText()
     await this.fetchContent()
-    this.checkOverflowing();
+    this.checkOverflowing()
   },
   methods: {
     changeBtns(btn) {
@@ -72,9 +74,9 @@ export default {
     },
     async fetchText() {
       try {
-        const response = await fetch(`/humanCapital/${this.contentPage}.txt`);
+        const response = await fetch(`/humanCapital/${this.contentPage}.txt`)
         if (response.ok) {
-          this.text = await response.text();
+          this.text = await response.text()
         } else {
           this.text = `Страница ${this.contentPage} не найдена`
         }
@@ -84,24 +86,24 @@ export default {
     },
     async fetchContent() {
       try {
-        const content = await fetch(`/humanCapital/${this.contentPage}.json`);
+        const content = await fetch(`/humanCapital/${this.contentPage}.json`)
         if (content.ok) {
-          this.content = await content.json();
+          this.content = await content.json()
         } else {
-          this.content = {subtitle: ""}
+          this.content = { subtitle: '' }
         }
       } catch (e) {
-        this.content = {subtitle: `ERROR ${e}`}
+        this.content = { subtitle: `ERROR ${e}` }
       }
     },
     scrollText(direction) {
-      const textElement = this.$refs.text;
-      const scrollAmount = 100;
+      const textElement = this.$refs.text
+      const scrollAmount = 100
 
       if (direction === 'up') {
-        textElement.scrollTop -= scrollAmount;
+        textElement.scrollTop -= scrollAmount
       } else {
-        textElement.scrollTop += scrollAmount;
+        textElement.scrollTop += scrollAmount
       }
     },
     checkOverflowing() {
@@ -115,9 +117,9 @@ export default {
         this.$refs.text &&
         this.$refs.textWrapper &&
         this.$refs.text.scrollHeight > this.$refs.text.offsetHeight
-      );
+      )
       console.log(overflow)
-      this.isTextOverflowing = true;
+      this.isTextOverflowing = true
 
     }
   }
@@ -130,6 +132,7 @@ export default {
   width: 97vw;
   text-align: center;
   font-size: 18pt;
+  font-family: Century Gothic, sans-serif;
   margin-top: 10px;
 }
 
@@ -163,17 +166,21 @@ export default {
   hyphens: auto;
 }
 
-.arrows {
-  position: absolute;
-  top: 50%;
+.arrow-up {
+  margin-top: 40px;
   right: 0;
-  transform: translateY(-50%);
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-.arrow {
-  background-color: transparent;
+.arrow-down {
+  margin-top: 260px;
+  right: 0;
+  position: absolute;
+  background: transparent;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
 }
 
