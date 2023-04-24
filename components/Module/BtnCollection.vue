@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
-      <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
+      <img class='all-size' src='~/assets/picture/logo.png' alt='' />
     </div>
     <div v-if='!noLogo && btnTitle'>
-      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
+      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt='' /></div>
       <h1 v-show='btnTitle' class='title'>
         <hr class='hr-shadow'>
         {{ btnTitle }}
@@ -13,7 +13,7 @@
     <div :class="btnStyle + ' btn-container'">
       <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
         <div class='coolbtn' v-for='btn in btnArray' :key='btn.name'>
-          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize" @click='changeBtns(btn)'>
+          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize " @click='changeBtns(btn)'>
             <b class='btn-text' v-html='btn.name'></b>
           </div>
         </div>
@@ -21,7 +21,7 @@
       <HumanCapitalContent
         v-if='contentPage !== null'
         :contentPage='contentPage'
-        @changeBtns="changeBtns"/>
+        @changeBtns='changeBtns' />
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@
 import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
 
 export default {
-  components: {HumanCapitalContent},
+  components: { HumanCapitalContent },
   props: {
     btnImg: String,
     btnArray: Array,
@@ -95,12 +95,7 @@ export default {
   font-size: 40pt;
   font-weight: bolder;
   font-family: Century Gothic, serif;
-}
-
-.btnsStyle > .btn-text {
-  width: 70%;
-  font-size: 24px;
-  font-weight: bold;
+  padding-bottom: 40px;
 }
 
 .btnsStyle {
@@ -129,12 +124,13 @@ export default {
   background-repeat: no-repeat;
   font-weight: bolder;
   font-family: Century Gothic, serif;
+  font-size: 24px;
 }
 
 .btnsStyle-md {
-  width: 20vw;
+  width: 22vw;
   color: #025692;
-  height: 13vh;
+  height: 9vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,6 +140,7 @@ export default {
   background-repeat: no-repeat;
   font-weight: bolder;
   font-family: Century Gothic, serif;
+  font-size: 18px;
 }
 
 .btnwitharrow {

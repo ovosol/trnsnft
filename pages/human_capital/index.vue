@@ -99,14 +99,16 @@ export default {
 .human_capital-btns {
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  margin-top: 40px;
 }
 
 .human_capital-back {
   position: absolute;
   left: 0;
-  top: 335px;
-  width: 30px;
-  height: 235px;
+  top: 325px;
+  width: 2vw;
+  height: 225px;
   z-index: 10;
 }
 </style>
