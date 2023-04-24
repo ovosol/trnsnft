@@ -29,6 +29,7 @@ body {
 .all-screen {
   height: 100vh;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 .all-size {

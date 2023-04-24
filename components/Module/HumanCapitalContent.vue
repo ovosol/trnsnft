@@ -130,7 +130,7 @@ export default {
   width: 97vw;
   text-align: center;
   font-size: 18pt;
-  margin-top: 0;
+  margin-top: 10px;
 }
 
 .text-wrapper {
@@ -148,16 +148,18 @@ export default {
 }
 
 .text {
+  text-align: justify;
   flex-grow: 1;
   height: 100%;
   overflow-y: scroll;
   position: absolute;
   left: 0;
   top: 0;
-  width: 90%;
-  font-size: 18pt;
+  width: 95%;
+  font-size: 12pt;
   white-space: pre-wrap;
   word-wrap: break-word;
+  -webkit-hyphens: auto;
   hyphens: auto;
 }
 

@@ -87,7 +87,7 @@ export default {
 }
 
 .hr-shadow {
-  margin-bottom: 40px;
+  margin-bottom: 43px;
   border-bottom: 4px solid #025692;
   box-shadow: 0 4px 9px #333;
 }
