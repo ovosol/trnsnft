@@ -12,8 +12,8 @@
       </div>
     </div>
     <div v-if="content.buttons">
-      <button v-for="(btn, index) in content.buttons" :key="index">
-        {{ btn.title }}
+      <button v-for="(btn, index) in content.buttons" :key="index" @click="changeBtns(btn)">
+        {{ btn.name }}
       </button>
     </div>
   </div>
@@ -30,8 +30,8 @@
 
 /**
  * @typedef {Object} HumanCapitalButton
- * @property {string} title
- * @property {() => void | string} action
+ * @property {string} name
+ * @property {string} link
  */
 
 /**
@@ -66,6 +66,10 @@ export default {
     this.checkOverflowing();
   },
   methods: {
+    changeBtns(btn) {
+      console.log('human capital changeBtns', btn)
+      this.$emit('changeBtns', btn)
+    },
     async fetchText() {
       try {
         const response = await fetch(`/humanCapital/${this.contentPage}.txt`);

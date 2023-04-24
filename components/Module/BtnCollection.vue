@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
-      <img class='all-size' src='~/assets/picture/logo.png' alt='' />
+      <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
     </div>
     <div v-if='!noLogo && btnTitle'>
-      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt='' /></div>
+      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
       <h1 v-show='btnTitle' class='title'>
         <hr class='hr-shadow'>
         {{ btnTitle }}
@@ -18,7 +18,10 @@
           </div>
         </div>
       </transition-group>
-      <HumanCapitalContent v-if='contentPage !== null' :contentPage='contentPage' />
+      <HumanCapitalContent
+        v-if='contentPage !== null'
+        :contentPage='contentPage'
+        @changeBtns="changeBtns"/>
     </div>
   </div>
 </template>
@@ -27,7 +30,7 @@
 import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
 
 export default {
-  components: { HumanCapitalContent },
+  components: {HumanCapitalContent},
   props: {
     btnImg: String,
     btnArray: Array,
