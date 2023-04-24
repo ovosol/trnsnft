@@ -138,8 +138,8 @@ export default {
 
 .text-wrapper {
   flex-grow: 1;
-  margin: 0 42px;
-  height: 40vh;
+  margin: 10px 100px;
+  height: 50vh;
   position: relative;
   overflow: hidden;
 }
