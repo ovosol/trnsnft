@@ -3,15 +3,15 @@
     <h2 class='subtitle'>{{ content.subtitle }}</h2>
     <div class='horizontal'>
       <slide-show :images='content.images' v-if='content.images' />
-      <div class='text-wrapper' ref='textWrapper'>
+      <div :class='"text-wrapper " + (content.images? "text-slide-show":"text-plain") ' ref='textWrapper'>
         <p ref='text' class='text'>{{ text }}</p>
-        <button @click="scrollText('up')" class='arrow-up'>
-          <img alt src='~assets/creative/arrow_up.png' width='40' height='35'>
-        </button>
+      </div>
+      <div><button @click="scrollText('up')" class='arrow-up'>
+        <img alt src='~assets/creative/arrow_up.png' width='40' height='35'>
+      </button>
         <button @click="scrollText('down')" class='arrow-down'>
           <img alt src='~assets/creative/arrow_down.png' width='40' height='35'>
-        </button>
-      </div>
+        </button></div>
     </div>
     <div v-if='content.buttons'>
       <button v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
@@ -135,11 +135,19 @@ export default {
   font-family: Century Gothic, sans-serif;
   margin-top: 10px;
 }
+.text-plain{
+  margin: 10px 100px;
+}
+
+.text-slide-show{
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 100px;
+}
 
 .text-wrapper {
   flex-grow: 1;
-  margin: 10px 100px;
-  height: 50vh;
+  height: 40vh;
   position: relative;
   overflow: hidden;
 }
@@ -160,6 +168,7 @@ export default {
   top: 0;
   width: 95%;
   font-size: 12pt;
+  margin: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
   -webkit-hyphens: auto;
@@ -168,7 +177,7 @@ export default {
 
 .arrow-up {
   margin-top: 40px;
-  right: 0;
+  right: 40px;
   position: absolute;
   background: transparent;
   border: none;
@@ -177,7 +186,7 @@ export default {
 
 .arrow-down {
   margin-top: 260px;
-  right: 0;
+  right: 40px;
   position: absolute;
   background: transparent;
   border: none;
