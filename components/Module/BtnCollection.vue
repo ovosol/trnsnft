@@ -149,6 +149,22 @@ export default {
   font-size: 24px;
 }
 
+.blue-button-sm{
+  width: 22vw;
+  color: white;
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 1vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
+  font-size: 18px;
+  border: none;
+}
 .btnsStyle-sm {
   width: 22vw;
   color: #025692;

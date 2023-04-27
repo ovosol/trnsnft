@@ -14,7 +14,7 @@
         </button></div>
     </div>
     <div v-if='content.buttons'>
-      <button v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
+      <button class='navy-blue-button blue-button-sm' v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
         {{ btn.name }}
       </button>
     </div>
@@ -127,6 +127,12 @@ export default {
 </script>
 
 <style scoped>
+.navy-blue-button{
+  background-image: url('~/assets/creative/learn_more.png');
+  color: white;
+  background-position: center center;
+}
+
 .subtitle {
   color: #025692;
   width: 97vw;
