@@ -1,15 +1,11 @@
 <template>
   <div class="flex-center all-screen corner-decoration">
-    <img
+    <button-back
       @click="returnToMain()"
       v-show="showControl"
-      class="human_capital-back"
-      src="~/assets/creative/sidewitharrow.png"
-      alt=""
     />
     <ModuleBtnCollection
       v-show="!showControl"
-      :btnImg="img"
       :btnArray="smallTablet.main"
       :btnStyle="style"
       @changeBtns="changeModelIndex"
@@ -21,11 +17,12 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import ButtonBack from "@/components/Module/ButtonBack.vue";
 
 export default {
+  components: {ButtonBack},
   data() {
     return {
-      img: 'rbbtn',
       array: [],
       style: 'oddBtns',
       showControl: false,

@@ -17,7 +17,6 @@
         <label id="pwdInputLabel" class="field-placeholder" for="inputName">Пароль</label>
         <!-- тоже на скорую руку, потом может допилю получше, но я правильно поянл тему с плашкой? -->
         <ModuleBtnCollection
-          :btnImg="img"
           :btnArray="[{ name: 'Проверить' }]"
           :btnStyle="style"
           :noLogo="true"
@@ -32,19 +31,15 @@
       class="flex-center all-screen corner-decoration"
     >
       <!-- {{ btnKeys }} -->
-      <br />
+      <br/>
       <!-- {{ title }} -->
-      <br />
-      <img
+      <br/>
+      <button-back
         @click="returnToMain()"
         v-show="title"
-        class="human_capital-back"
-        src="~/assets/creative/sidewitharrow.png"
-        alt=""
       />
       <ModuleBtnCollection
         :noLogo="false"
-        :btnImg="img"
         :btnArray="btnArray"
         :btnStyle="style"
         :btnTitle="title"
@@ -56,13 +51,14 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import {Laurent} from "@/plugins/laurentControllerLegacy";
+import ButtonBack from "@/components/Module/ButtonBack.vue";
 
 export default {
+  components: {ButtonBack},
   data() {
     return {
-      img: 'rbbtn', //btnwitharrow
       array: [],
       style: 'oddBtns',
       title: '',
@@ -112,17 +108,14 @@ export default {
               //await this.$api.samara.postAutoPlay(true)
               await this.$api.samara.postStage(1)
               await this.$api.idle.postState('samara', false)
-            }
-            else if (btn.stage === 'idle'){
+            } else if (btn.stage === 'idle') {
               //const idle = await this.$api.idle.getState('samara')
               await this.$api.idle.postState('samara', true)
               await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
-            }
-            else if (btn.stage === 'light'){
+            } else if (btn.stage === 'light') {
               if (!autoPlay)
-                await Laurent.sendOut(Laurent.appName.Samara, 1,2)
-            }
-            else {
+                await Laurent.sendOut(Laurent.appName.Samara, 1, 2)
+            } else {
               if (!autoPlay) {
                 await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2)
                 //await this.$api.idle.postState('samara', false)
@@ -138,7 +131,7 @@ export default {
           case 'changeYear':
             await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1)
             //await this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1)
-            console.log({ year: btn.name })
+            console.log({year: btn.name})
             await this.$api.idle.postState('timeline', false)
             await this.$api.timeline.postYear(btn.name)
             break
@@ -157,7 +150,7 @@ export default {
           case 'colba':
             let stream7 = (await this.$api.flows.getFlows()).split('')
 
-            const currentColbaState = Number.parseInt(stream7[6-btn.colba])
+            const currentColbaState = Number.parseInt(stream7[6 - btn.colba])
             await Laurent.sendOut(Laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState)
 
             await this.$api.flows.postFlow(btn.colba + 1, currentColbaState === 0)
@@ -191,11 +184,12 @@ export default {
 </script>
 
 <style>
-#pwdInput{
+#pwdInput {
   z-index: 100;
   position: relative;
 }
-#pwdInputLabel{
+
+#pwdInputLabel {
   z-index: 101;
 }
 
@@ -228,14 +222,17 @@ input[type='text'].field-input {
   width: 100%;
   bottom: 0px;
 }
+
 input[type='text'].field-input:focus {
   outline: none;
 }
+
 input[type='text'].field-input.c-fix,
 input[type='text'].field-input:focus,
 input[type='text'].field-input:not(:placeholder-shown) {
   border-color: transparent;
 }
+
 input[type='text'].field-input.c-fix ~ label,
 input[type='text'].field-input:focus ~ label,
 input[type='text'].field-input:not(:placeholder-shown) ~ label {
@@ -244,12 +241,15 @@ input[type='text'].field-input:not(:placeholder-shown) ~ label {
   top: calc(30% - 0.5rem);
   transform: translate('5px0%');
 }
+
 input[type='text'].field-input::-webkit-input-placeholder {
   color: transparent;
 }
+
 input[type='text'].field-input::-moz-placeholder {
   color: transparent;
 }
+
 input[type='text'].field-input:-ms-input-placeholder {
   color: transparent;
 }

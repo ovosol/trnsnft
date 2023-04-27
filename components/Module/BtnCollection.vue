@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
-      <img class='all-size' src='~/assets/picture/logo.png' alt='' />
+      <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
     </div>
     <div v-if='!noLogo && btnTitle'>
-      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt='' /></div>
+      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
       <h1 v-show='btnTitle' class='title'>
         <hr class='hr-shadow'>
         {{ btnTitle }}
@@ -13,27 +13,30 @@
     </div>
     <div :class="btnStyle + ' btn-container'">
       <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
-        <div class='coolbtn' v-for='btn in btnArray' :key='btn.name'>
-          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize " @click='changeBtns(btn)'>
-            <b class='btn-text' v-html='btn.name'></b>
-          </div>
-        </div>
+        <button-menu
+          v-for='btn in btnArray' :key='btn.name'
+          :btn="btn"
+          color="white"
+          @click='changeBtns(btn)'
+          :size="btnSize"
+        />
       </transition-group>
       <HumanCapitalContent
         v-if='contentPage !== null'
         :contentPage='contentPage'
-        @changeBtns='changeBtns' />
+        @changeBtns='changeBtns'
+      />
     </div>
   </div>
 </template>
 
 <script>
 import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
+import ButtonMenu from "@/components/Module/ButtonMenu.vue";
 
 export default {
-  components: { HumanCapitalContent },
+  components: {ButtonMenu, HumanCapitalContent},
   props: {
-    btnImg: String,
     btnArray: Array,
     btnStyle: String,
     btnTitle: String,
@@ -101,84 +104,6 @@ export default {
   font-size: 40pt;
   font-weight: bolder;
   font-family: Century Gothic, serif;
-}
-
-.btnsStyle {
-  width: 27vw;
-  color: #025692;
-  height: 13vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 3vh 2vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.btnsStyle-lg {
-  width: 29vw;
-  color: #025692;
-  height: 12vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 3vh 2vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-weight: bolder;
-  font-family: Century Gothic, serif;
-  font-size: 24px;
-  margin-top: 100px;
-}
-
-.btnsStyle-md {
-  width: 29vw;
-  color: #025692;
-  height: 12vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 3vh 2vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-weight: bolder;
-  font-family: Century Gothic, serif;
-  font-size: 24px;
-}
-
-.blue-button-sm{
-  width: 22vw;
-  color: white;
-  height: 9vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 3vh 1vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-weight: bolder;
-  font-family: Century Gothic, serif;
-  font-size: 18px;
-  border: none;
-}
-.btnsStyle-sm {
-  width: 22vw;
-  color: #025692;
-  height: 9vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 3vh 1vw;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-weight: bolder;
-  font-family: Century Gothic, serif;
-  font-size: 18px;
 }
 
 .btnwitharrow {

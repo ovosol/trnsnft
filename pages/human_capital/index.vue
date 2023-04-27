@@ -1,15 +1,11 @@
 <template>
   <div class="flex-center all-screen corner-decoration">
-    <img
+    <button-back
       @click="returnToMain()"
-      v-show="title"
-      class="human_capital-back"
-      src="~/assets/creative/sidewitharrow.png"
-      alt=""
+      v-show="title || contentPage"
     />
 
     <ModuleBtnCollection
-      :btnImg="img"
       :btnArray="btnArray"
       :btnStyle="style"
       :btnTitle="title"
@@ -23,12 +19,12 @@
 <script>
 import {mapGetters} from 'vuex'
 import HumanCapitalContent from "@/components/Module/HumanCapitalContent.vue";
+import ButtonBack from "@/components/Module/ButtonBack.vue";
 
 export default {
-  components: {HumanCapitalContent},
+  components: {ButtonBack, HumanCapitalContent},
   data() {
     return {
-      img: 'rbbtn',//btnwitharrow
       array: [],
       style: 'oddBtns',
       title: '',
@@ -63,6 +59,7 @@ export default {
         this.parent = null
         this.array = this.humanCapital.main;
         this.title = '';
+        this.contentPage = null
       } else {
         const btn = this.pagesStack.pop()
         this.changeBtns(btn)
@@ -101,14 +98,5 @@ export default {
   align-items: center;
   justify-content: flex-start;
   margin-top: 40px;
-}
-
-.human_capital-back {
-  position: absolute;
-  left: 0;
-  top: 325px;
-  width: 2vw;
-  height: 225px;
-  z-index: 10;
 }
 </style>

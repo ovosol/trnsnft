@@ -14,9 +14,17 @@
         </button></div>
     </div>
     <div v-if='content.buttons'>
-      <button class='navy-blue-button blue-button-sm' v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
+<!--      <div class='navy-blue-button blue-button-sm' v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
         {{ btn.name }}
-      </button>
+      </div>-->
+      <button-menu
+        v-for='(btn, index) in content.buttons'
+        :key='index'
+        :btn="btn"
+        color="blue"
+        size="sm"
+        @click='changeBtns(btn)'
+      ></button-menu>
     </div>
   </div>
 </template>
@@ -43,10 +51,11 @@
  */
 
 import SlideShow from '@/components/Module/SlideShow.vue'
+import ButtonMenu from "@/components/Module/ButtonMenu.vue";
 
 export default {
   name: 'HumanCapitalContent',
-  components: { SlideShow },
+  components: {ButtonMenu, SlideShow },
   data() {
     return {
       text: '',
