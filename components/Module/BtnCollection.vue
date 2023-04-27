@@ -1,19 +1,20 @@
 <template>
   <div>
     <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
-      <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
+      <img class='all-size' src='~/assets/picture/logo.png' alt='' />
     </div>
     <div v-if='!noLogo && btnTitle'>
-      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
+      <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt='' /></div>
       <h1 v-show='btnTitle' class='title'>
         <hr class='hr-shadow'>
         {{ btnTitle }}
       </h1>
+      <div v-if='contentPage == null' class='custom-margin'></div>
     </div>
     <div :class="btnStyle + ' btn-container'">
       <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
         <div class='coolbtn' v-for='btn in btnArray' :key='btn.name'>
-          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize" @click='changeBtns(btn)'>
+          <div :class="btnImg + ' btnsStyle btnsStyle-'+btnSize " @click='changeBtns(btn)'>
             <b class='btn-text' v-html='btn.name'></b>
           </div>
         </div>
@@ -21,7 +22,7 @@
       <HumanCapitalContent
         v-if='contentPage !== null'
         :contentPage='contentPage'
-        @changeBtns="changeBtns"/>
+        @changeBtns='changeBtns' />
     </div>
   </div>
 </template>
@@ -30,7 +31,7 @@
 import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
 
 export default {
-  components: {HumanCapitalContent},
+  components: { HumanCapitalContent },
   props: {
     btnImg: String,
     btnArray: Array,
@@ -50,14 +51,19 @@ export default {
   },
   computed: {
     btnSize() {
-      if (this.btnArray.length < 10) return 'lg'
-      if (this.btnArray.length >= 10) return 'md'
+      if (this.btnArray.length <= 2) return 'lg'
+      if (this.btnArray.length <= 7) return 'md'
+      return 'sm'
     }
   }
 }
 </script>
 
 <style>
+.custom-margin {
+  margin-bottom: 30px;
+}
+
 .btn-container {
   display: flex;
   gap: 1%;
@@ -81,7 +87,7 @@ export default {
 }
 
 .hr-shadow {
-  margin-bottom: 40px;
+  margin-bottom: 43px;
   border-bottom: 4px solid #025692;
   box-shadow: 0 4px 9px #333;
 }
@@ -95,12 +101,6 @@ export default {
   font-size: 40pt;
   font-weight: bolder;
   font-family: Century Gothic, serif;
-}
-
-.btnsStyle > .btn-text {
-  width: 70%;
-  font-size: 24px;
-  font-weight: bold;
 }
 
 .btnsStyle {
@@ -129,12 +129,30 @@ export default {
   background-repeat: no-repeat;
   font-weight: bolder;
   font-family: Century Gothic, serif;
+  font-size: 24px;
+  margin-top: 100px;
 }
 
 .btnsStyle-md {
-  width: 20vw;
+  width: 29vw;
   color: #025692;
-  height: 13vh;
+  height: 12vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 2vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
+  font-size: 24px;
+}
+
+.blue-button-sm{
+  width: 22vw;
+  color: white;
+  height: 9vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,6 +162,23 @@ export default {
   background-repeat: no-repeat;
   font-weight: bolder;
   font-family: Century Gothic, serif;
+  font-size: 18px;
+  border: none;
+}
+.btnsStyle-sm {
+  width: 22vw;
+  color: #025692;
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 1vw;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-weight: bolder;
+  font-family: Century Gothic, serif;
+  font-size: 18px;
 }
 
 .btnwitharrow {

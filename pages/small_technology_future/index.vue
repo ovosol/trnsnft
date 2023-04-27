@@ -70,13 +70,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.human_capital-back {
-  position: absolute;
-  left: 0;
-  top: 30vh;
-  width: 2.8vw;
-  z-index: 10;
-}
-</style>

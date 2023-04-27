@@ -95,37 +95,37 @@ export const state = () => ({
         stage: 'start',
         name: 'Демонстрация',
       },
-        {
-          link: 'samaraButtons',
-          stage: 1,
-          name: 'Участок 1',
-        },
-        {
-          link: 'samaraButtons',
-          stage: 2,
-          name: 'Участок 2',
-        },
-        {
-          link: 'samaraButtons',
-          stage: 3,
-          name: 'Участок 3',
-        },
-        {
-          link: 'samaraButtons',
-          stage: 4,
-          name: 'Участок 4',
-        },
-        {
-          link: 'samaraButtons',
-          stage: 'light',
-          name: 'Подсветка',
-        },
+      {
+        link: 'samaraButtons',
+        stage: 1,
+        name: 'Участок 1',
+      },
+      {
+        link: 'samaraButtons',
+        stage: 2,
+        name: 'Участок 2',
+      },
+      {
+        link: 'samaraButtons',
+        stage: 3,
+        name: 'Участок 3',
+      },
+      {
+        link: 'samaraButtons',
+        stage: 4,
+        name: 'Участок 4',
+      },
+      {
+        link: 'samaraButtons',
+        stage: 'light',
+        name: 'Подсветка',
+      },
       {
         link: 'samaraButtons',
         stage: 'idle',
         name: 'Режим ожидания',
       }
-      ],
+    ],
     // samara: [
     //   {
     //       link: 'samaraButtons',
@@ -134,27 +134,27 @@ export const state = () => ({
 
     // ],
     technology: [
-        {
-          status: 'past',
-          link: 'changeScreenPosition',
-          name: 'Прошлое',
-        },
-        {
-          status: 'present',
-          link: 'changeScreenPosition',
-          name: 'Настоящее',
-        },
-        {
-          status: 'present2',
-          link: 'changeScreenPosition',
-          name: 'Настоящее 2',
-        },
-        {
-          status: 'future',
-          link: 'changeScreenPosition',
-          name: 'Будущее',
-        },
-      ],
+      {
+        status: 'past',
+        link: 'changeScreenPosition',
+        name: 'Прошлое',
+      },
+      {
+        status: 'present',
+        link: 'changeScreenPosition',
+        name: 'Настоящее',
+      },
+      {
+        status: 'present2',
+        link: 'changeScreenPosition',
+        name: 'Настоящее 2',
+      },
+      {
+        status: 'future',
+        link: 'changeScreenPosition',
+        name: 'Будущее',
+      },
+    ],
     // technology: [
 
     //     {
@@ -163,61 +163,61 @@ export const state = () => ({
     //     },
     // ],
     timeline: [
-        {
-          link: 'changeYear',
-          name: '1936',
-          index: 0,
-        },
-        {
-          link: 'changeYear',
-          name: '1953',
-          index: 1,
-        },
-        {
-          link: 'changeYear',
-          name: '1961',
-          index: 2,
-        },
-        {
-          link: 'changeYear',
-          name: '1970',
-          index: 3,
-        },
-        {
-          link: 'changeYear',
-          name: '1974',
-          index: 4,
-        },
-        {
-          link: 'changeYear',
-          name: '1979',
-          index: 5,
-        },
-        {
-          link: 'changeYear',
-          name: '1980s',
-          index: 6,
-        },
-        {
-          link: 'changeYear',
-          name: '1990s',
-          index: 7,
-        },
-        {
-          link: 'changeYear',
-          name: '2000s',
-          index: 8,
-        },
-        {
-          link: 'changeYear',
-          name: '2010s',
-          index: 9,
-        },
-        {
-          link: 'changeTimelineIdle',
-          name: 'Режим ожидания',
-        },
-      ],
+      {
+        link: 'changeYear',
+        name: '1936',
+        index: 0,
+      },
+      {
+        link: 'changeYear',
+        name: '1953',
+        index: 1,
+      },
+      {
+        link: 'changeYear',
+        name: '1961',
+        index: 2,
+      },
+      {
+        link: 'changeYear',
+        name: '1970',
+        index: 3,
+      },
+      {
+        link: 'changeYear',
+        name: '1974',
+        index: 4,
+      },
+      {
+        link: 'changeYear',
+        name: '1979',
+        index: 5,
+      },
+      {
+        link: 'changeYear',
+        name: '1980s',
+        index: 6,
+      },
+      {
+        link: 'changeYear',
+        name: '1990s',
+        index: 7,
+      },
+      {
+        link: 'changeYear',
+        name: '2000s',
+        index: 8,
+      },
+      {
+        link: 'changeYear',
+        name: '2010s',
+        index: 9,
+      },
+      {
+        link: 'changeTimelineIdle',
+        name: 'Режим ожидания',
+      },
+    ],
     // timeline: [
     //     {
     //       link: 'changeYear',
@@ -289,7 +289,7 @@ export const state = () => ({
       },
       {
         link: 'veteran_book',
-        name: 'Книга памяти ветеранов ВОВ',
+        name: 'Книга памяти <br> ветеранов ВОВ',
       },
     ],
     person: [
@@ -325,11 +325,11 @@ export const state = () => ({
     social: [
       {
         link: 'resort',
-        name: 'Восстановительное лечение',
+        name: 'Восстановительное <br> лечение',
       },
       {
         link: 'insurance',
-        name: 'Добровольное медицинское страхование',
+        name: 'Добровольное <br> медицинское <br> страхование',
       },
       {
         link: 'mortgage',
@@ -337,15 +337,15 @@ export const state = () => ({
       },
       {
         link: 'pension',
-        name: 'Негосударственное пенсионное обеспечение',
+        name: 'Негосударственное <br> пенсионное обеспечение',
       },
       {
         link: 'benefits',
-        name: 'Социальные льготы и гарантии',
+        name: 'Социальные льготы <br> и гарантии',
       },
       {
         link: 'young',
-        name: 'Совет молодых специалистов',
+        name: 'Совет молодых <br> специалистов',
       },
       {
         link: 'veteran',
@@ -371,10 +371,10 @@ export const getters = {
   byPath: (state) => (some) => {
     console.log('from getter', some);
     return some.
-      replace(/\[/g, '.').
-      replace(/\]/g, '').
-      split('.').
-      reduce((o, k) => (o || {})[k], state);
+    replace(/\[/g, '.').
+    replace(/\]/g, '').
+    split('.').
+    reduce((o, k) => (o || {})[k], state);
   },
 }
 

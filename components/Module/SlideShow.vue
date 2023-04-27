@@ -50,9 +50,11 @@ export default {
 
 <style scoped>
 .slideshow {
-  width: 500px;
-  height: 500px;
+  width: 470px;
+  height: 320px;
   position: relative;
+  margin-top: 30px;
+  margin-left: 10px
 }
 
 .image-container {

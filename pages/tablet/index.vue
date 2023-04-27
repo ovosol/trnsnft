@@ -198,13 +198,6 @@ export default {
 #pwdInputLabel{
   z-index: 101;
 }
-.human_capital-back {
-  position: absolute;
-  left: 0;
-  top: 40vh;
-  z-index: 10;
-  width: 2vw;
-}
 
 .field-container {
   position: relative;
