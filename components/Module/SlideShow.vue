@@ -53,7 +53,7 @@ export default {
   width: 470px;
   height: 320px;
   position: relative;
-  margin-top: 30px;
+  margin-top: 15px;
   margin-left: 10px
 }
 
