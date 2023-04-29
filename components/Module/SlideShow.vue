@@ -7,8 +7,8 @@
         <span class="image-count">{{ currentIndex + 1 }}/{{ images.length }}</span>
         <button @click="nextImage" class="arrow right-arrow">&#8594;</button>
       </div>
-      <div class="caption" v-if="showCaption">
-        {{ images[0].title}}
+      <div class="caption" v-if="showCaption" v-html='images[0].title'>
+<!--        {{ images[0].title}}-->
       </div>
     </div>
   </div>
