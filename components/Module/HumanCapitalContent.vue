@@ -23,6 +23,7 @@
         :btn="btn"
         color="blue"
         size="sm"
+        style='margin-left: 175px'
         @click='changeBtns(btn)'
       ></button-menu>
     </div>
@@ -151,7 +152,9 @@ export default {
   margin-top: 10px;
 }
 .text-plain{
-  margin: 10px 100px;
+  margin-top: 10px;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
 .text-slide-show{
