@@ -8,5 +8,13 @@
       "link": "social",
       "size": "lg"
     }
+  ],
+  "images": [
+    {
+      "src": "/images/social/social_1.png"
+    },
+    {
+      "src": "/images/social/social_2.png"
+    }
   ]
 }
