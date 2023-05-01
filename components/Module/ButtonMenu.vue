@@ -92,7 +92,8 @@ export default {
 .button-size-lg {
   width: 29vw;
   height: 12vh;
-  margin: 100px 2vw 3vh;
+  margin-left: 50px;
+  margin-top: 20px;
 }
 
 .text-size-lg {

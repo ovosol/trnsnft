@@ -2,7 +2,7 @@
   <div v-if='contentPage && content'>
     <h2 class='subtitle'>{{ content.subtitle }}</h2>
     <div class='horizontal'>
-      <slide-show :images='content.images' v-if='content.images'/>
+      <slide-show :images='content.images' v-if='content.images' />
       <div :class='"text-wrapper " + (content.images? "text-slide-show":"text-plain") ' ref='textWrapper'>
         <p ref='text' class='text'>{{ text }}</p>
       </div>
@@ -19,9 +19,9 @@
       <button-menu
         v-for='(btn, index) in content.buttons'
         :key='index'
-        :btn="btn"
-        color="blue"
-        size="sm"
+        :btn='btn'
+        color='blue'
+        size='sm'
         style='margin-left: 175px'
         @click='changeBtns(btn)'
       ></button-menu>
@@ -60,11 +60,11 @@
  */
 
 import SlideShow from '@/components/Module/SlideShow.vue'
-import ButtonMenu from "@/components/Module/ButtonMenu.vue";
+import ButtonMenu from '@/components/Module/ButtonMenu.vue'
 
 export default {
   name: 'HumanCapitalContent',
-  components: {ButtonMenu, SlideShow},
+  components: { ButtonMenu, SlideShow },
   data() {
     return {
       text: '',
@@ -108,10 +108,10 @@ export default {
         if (content.ok) {
           this.content = await content.json()
         } else {
-          this.content = {subtitle: ''}
+          this.content = { subtitle: '' }
         }
       } catch (e) {
-        this.content = {subtitle: `ERROR ${e}`}
+        this.content = { subtitle: `ERROR ${e}` }
       }
 
       this.$emit('changeTitle', this.content.title)
@@ -176,7 +176,7 @@ export default {
 
 .text-wrapper {
   flex-grow: 1;
-  height: 40vh;
+  height: 330px;
   position: relative;
   overflow: hidden;
 }
