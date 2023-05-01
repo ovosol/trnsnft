@@ -1,0 +1,12 @@
+{
+  "title": "Кадровая политика",
+  "subtitle": null,
+  "buttons": [
+    {
+      "name": "Кадровая политика",
+      "title": "Узнать больше",
+      "link": "person",
+      "size": "lg"
+    }
+  ]
+}

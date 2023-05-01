@@ -2,21 +2,20 @@
   <div v-if='contentPage && content'>
     <h2 class='subtitle'>{{ content.subtitle }}</h2>
     <div class='horizontal'>
-      <slide-show :images='content.images' v-if='content.images' />
+      <slide-show :images='content.images' v-if='content.images'/>
       <div :class='"text-wrapper " + (content.images? "text-slide-show":"text-plain") ' ref='textWrapper'>
         <p ref='text' class='text'>{{ text }}</p>
       </div>
-      <div><button @click="scrollText('up')" class='arrow-up'>
-        <img alt src='~assets/creative/arrow_up.png' width='40' height='35'>
-      </button>
+      <div>
+        <button @click="scrollText('up')" class='arrow-up'>
+          <img alt src='~assets/creative/arrow_up.png' width='40' height='35'>
+        </button>
         <button @click="scrollText('down')" class='arrow-down'>
           <img alt src='~assets/creative/arrow_down.png' width='40' height='35'>
-        </button></div>
+        </button>
+      </div>
     </div>
     <div v-if='content.buttons'>
-<!--      <div class='navy-blue-button blue-button-sm' v-for='(btn, index) in content.buttons' :key='index' @click='changeBtns(btn)'>
-        {{ btn.name }}
-      </div>-->
       <button-menu
         v-for='(btn, index) in content.buttons'
         :key='index'
@@ -33,7 +32,8 @@
 <script>
 /**
  * @typedef {Object} HumanCapitalContent
- * @property {string} subtitle
+ * @property {string} [title]
+ * @property {string | null} subtitle
  * @property {HumanCapitalImage[]} [images]
  * @property {string} [video]
  * @property {HumanCapitalButton[]} [buttons]
@@ -43,6 +43,14 @@
  * @typedef {Object} HumanCapitalButton
  * @property {string} name
  * @property {string} link
+ * @property {string} [title]
+ * @property {"sm" | "md" | "lg"} [size]
+ * @property {"sm" | "md" | "lg"} [textSize]
+ */
+
+/**
+ * @typedef {HumanCapitalButton} HumanCapitalButtonExtended
+
  */
 
 /**
@@ -56,7 +64,7 @@ import ButtonMenu from "@/components/Module/ButtonMenu.vue";
 
 export default {
   name: 'HumanCapitalContent',
-  components: {ButtonMenu, SlideShow },
+  components: {ButtonMenu, SlideShow},
   data() {
     return {
       text: '',
@@ -100,11 +108,13 @@ export default {
         if (content.ok) {
           this.content = await content.json()
         } else {
-          this.content = { subtitle: '' }
+          this.content = {subtitle: ''}
         }
       } catch (e) {
-        this.content = { subtitle: `ERROR ${e}` }
+        this.content = {subtitle: `ERROR ${e}`}
       }
+
+      this.$emit('changeTitle', this.content.title)
     },
     scrollText(direction) {
       const textElement = this.$refs.text
@@ -137,7 +147,7 @@ export default {
 </script>
 
 <style scoped>
-.navy-blue-button{
+.navy-blue-button {
   background-image: url('~/assets/creative/learn_more.png');
   color: white;
   background-position: center center;
@@ -151,13 +161,14 @@ export default {
   font-family: Century Gothic, sans-serif;
   margin-top: 10px;
 }
-.text-plain{
+
+.text-plain {
   margin-top: 10px;
   margin-left: 150px;
   margin-right: 150px;
 }
 
-.text-slide-show{
+.text-slide-show {
   margin-top: 10px;
   margin-left: 20px;
   margin-right: 100px;

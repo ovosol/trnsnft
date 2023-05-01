@@ -27,7 +27,7 @@ export default {
     return {
       array: [],
       style: 'oddBtns',
-      title: '',
+      title: null,
       currentPage: null,
       pagesStack: [],
       contentPage: null
@@ -58,7 +58,7 @@ export default {
         this.current = null
         this.parent = null
         this.array = this.humanCapital.main;
-        this.title = '';
+        this.title = null
         this.contentPage = null
       } else {
         const btn = this.pagesStack.pop()

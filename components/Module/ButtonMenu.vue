@@ -1,6 +1,5 @@
 <template>
-  <div :class='classes' @click='onClick' v-html='btn.name'>
-
+  <div :class='classes' @click='onClick' v-html='btn.title ?? btn.name'>
   </div>
 </template>
 
@@ -22,7 +21,11 @@ export default {
     size: {
       type: "sm" | "md" | "lg",
       default: "md"
-    }
+    },
+    textSize: {
+      type: "sm" | "md" | "lg" | null,
+      default: null
+    },
   },
   methods: {
     onClick() {
@@ -32,28 +35,10 @@ export default {
   computed: {
     classes() {
       const classes = []
-      classes.push("buttonStyle")
-      switch (this.color)
-      {
-        case "blue":
-          classes.push("blue-button")
-          break
-        case "white":
-          classes.push("white-button")
-          break
-      }
-      switch (this.size)
-      {
-        case "sm":
-          classes.push("buttonStyle-sm")
-          break
-        case "md":
-          classes.push("buttonStyle-md")
-          break
-        case "lg":
-          classes.push("buttonStyle-lg")
-          break
-      }
+      classes.push("button")
+      classes.push(`button-color-${this.color}`)
+      classes.push(`button-size-${this.btn.size ?? this.size}`)
+      classes.push(`text-size-${this.btn.textSize ?? this.textSize ?? this.size}`)
 
       return classes.join(" ")
     }
@@ -62,16 +47,17 @@ export default {
 </script>
 
 <style scoped>
-.blue-button{
+.button-color-blue {
   background-image: url('~/assets/creative/learn_more.png');
   color: white;
 }
 
-.white-button{
+.button-color-white {
   background-image: url('~/assets/creative/btnwitharrow.png');
   color: #025692;
 }
-.buttonStyle {
+
+.button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,24 +69,33 @@ export default {
   font-family: Century Gothic, serif;
 }
 
-.buttonStyle-sm {
+.button-size-sm {
   width: 22vw;
   height: 9vh;
   margin: 3vh 1vw;
+}
+
+.text-size-sm {
   font-size: 18px;
 }
 
-.buttonStyle-lg {
-  width: 29vw;
-  height: 12vh;
-  font-size: 24px;
-  margin: 100px 2vw 3vh;
-}
-
-.buttonStyle-md {
+.button-size-md {
   width: 29vw;
   height: 12vh;
   margin: 3vh 2vw;
+}
+
+.text-size-md {
+  font-size: 24px;
+}
+
+.button-size-lg {
+  width: 29vw;
+  height: 12vh;
+  margin: 100px 2vw 3vh;
+}
+
+.text-size-lg {
   font-size: 24px;
 }
 

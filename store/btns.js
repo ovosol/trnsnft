@@ -251,6 +251,7 @@ export const state = () => ({
     ],
   },
   humanCapital: {
+    /** @type {HumanCapitalButtonExtended[]}*/
     main: [
       {
         link: 'humankind',
@@ -258,19 +259,19 @@ export const state = () => ({
         hidden: true,
       },
       {
-        link: 'social',
+        link: 'social-root',
         name: 'Социальная <br> политика',
       },
       {
-        link: 'person',
+        link: 'person-root',
         name: 'Кадровая <br> политика',
       },
       {
-        link: 'ecology',
+        link: 'ecology-root',
         name: 'Энергоэффективность <br> Экология <br> Охрана труда',
       },
       {
-        link: 'charity',
+        link: 'charity-root',
         name: 'Благотворительность',
       },
       {
@@ -316,10 +317,12 @@ export const state = () => ({
       {
         link: 'privolga',
         name: 'Проекты АО «Транснефть – Приволга» <br> в областях благотворительности',
+        textSize: 'sm',
       },
       {
         link: 'marathone',
         name: 'Благотворительный марафон <br> "Помогаем добрым делом"',
+        textSize: 'sm',
       },
     ],
     social: [

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if='!noLogo && !btnTitle' class='flex-center big-logo'>
+    <div v-if='!noLogo && !realTitle' class='flex-center big-logo'>
       <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
     </div>
-    <div v-if='!noLogo && btnTitle'>
+    <div v-if='!noLogo && realTitle'>
       <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
-      <h1 v-show='btnTitle' class='title'>
+      <h1 v-show='realTitle' class='title'>
         <hr class='hr-shadow'>
-        {{ btnTitle }}
+        {{ realTitle }}
       </h1>
       <div v-if='contentPage == null' class='custom-margin'></div>
     </div>
@@ -25,6 +25,8 @@
         v-if='contentPage !== null'
         :contentPage='contentPage'
         @changeBtns='changeBtns'
+        ref="content"
+        @changeTitle='contentTitle = $event'
       />
     </div>
   </div>
@@ -36,10 +38,15 @@ import ButtonMenu from "@/components/Module/ButtonMenu.vue";
 
 export default {
   components: {ButtonMenu, HumanCapitalContent},
+  data() {
+    return {
+      contentTitle: null
+    }
+  },
   props: {
     btnArray: Array,
     btnStyle: String,
-    btnTitle: String,
+    btnTitle: String | null,
     noLogo: Boolean,
     contentPage: {
       type: String || null,
@@ -57,6 +64,9 @@ export default {
       if (this.btnArray.length <= 2) return 'lg'
       if (this.btnArray.length <= 7) return 'md'
       return 'sm'
+    },
+    realTitle() {
+      return this.btnTitle ?? this.contentTitle
     }
   }
 }
