@@ -27,37 +27,37 @@ export const state = () => ({
       {
         link: 'colba',
         colba: 0,
-        name: 'Первая колба',
+        name: 'Покровка-Кротовка',
       },
       {
         link: 'colba',
         colba: 1,
-        name: 'Вторая колба',
+        name: 'Бавлы-Куйбышев',
       },
       {
         link: 'colba',
         colba: 2,
-        name: 'Третья колба',
+        name: 'Бугуруслан-Сызрань',
       },
       {
         link: 'colba',
         colba: 3,
-        name: 'Четвертая колба',
+        name: 'Гурьев-Куйбышев',
       },
       {
         link: 'colba',
         colba: 4,
-        name: 'Пятая колба',
+        name: 'Куйбышев-Тихорецк',
       },
       {
         link: 'colba',
         colba: 5,
-        name: 'Шестая колба',
+        name: 'Куйбышев-Лисичанск',
       },
       {
         link: 'colba',
         colba: 6,
-        name: 'Седьмая колба',
+        name: 'ННК',
       }, {
         link: 'colba-all',
         name: 'Режим ожидания',
