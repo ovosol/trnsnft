@@ -21,7 +21,7 @@
           :btnStyle="style"
           :noLogo="true"
           style="margin-top: 60px"
-          class="all-size flex-center human_capital-btns"
+          class="all-size flex-center "
         ></ModuleBtnCollection>
         <h1 v-show="pass !== undefined" style="color: red">Не правильно</h1>
       </div>
@@ -44,7 +44,7 @@
         :btnStyle="style"
         :btnTitle="title"
         @changeBtns="changeBtns"
-        class="all-size flex-center human_capital-btns"
+        class="all-size flex-center"
       ></ModuleBtnCollection>
     </div>
   </div>

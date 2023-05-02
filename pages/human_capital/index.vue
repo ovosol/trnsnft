@@ -11,7 +11,7 @@
       :btnTitle="title"
       :contentPage="contentPage"
       @changeBtns="changeBtns"
-      class="all-size flex-center human_capital-btns"
+      class="all-size flex-center "
     ></ModuleBtnCollection>
   </div>
 </template>
@@ -93,10 +93,5 @@ export default {
 </script>
 
 <style>
-.human_capital-btns {
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 40px;
-}
+
 </style>

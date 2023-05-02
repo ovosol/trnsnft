@@ -9,7 +9,7 @@
       :btnArray="smallTablet.main"
       :btnStyle="style"
       @changeBtns="changeModelIndex"
-      class="flex-center human_capital-btns"
+      class="flex-center"
     ></ModuleBtnCollection>
     <ModuleModelControl v-show="showControl"> </ModuleModelControl>
   </div>

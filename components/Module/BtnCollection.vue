@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="human_capital-btns">
     <div v-if='!noLogo && !realTitle' class='flex-center big-logo'>
       <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
     </div>
@@ -73,6 +73,12 @@ export default {
 </script>
 
 <style>
+.human_capital-btns {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 40px;
+}
 .custom-margin {
   margin-bottom: 30px;
 }
