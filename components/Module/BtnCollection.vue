@@ -54,6 +54,13 @@ export default {
       default: null
     }
   },
+  watch: {
+    contentPage() {
+      if (this.contentPage === null) {
+        this.contentTitle = null
+      }
+    }
+  },
   methods: {
     changeBtns(btn) {
       this.$emit('changeBtns', btn)
