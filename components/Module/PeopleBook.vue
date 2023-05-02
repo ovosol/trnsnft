@@ -1,5 +1,8 @@
 <template>
   <div class="all-screen flex-center veteran-page">
+    <button-back
+      @click="goBack"
+    />
     <div class="all-size veteran-page">
       <div
         class="all-size flex-center chosen-veteran-container"
@@ -132,6 +135,7 @@
 <script>
 import keyboard from 'vue-keyboard'
 import { mapGetters } from 'vuex'
+import ButtonBack from "@/components/Module/ButtonBack.vue";
 export default {
   name: 'PeopleBook',
   props:{
@@ -160,7 +164,7 @@ export default {
       },
     }
   },
-  components: { keyboard },
+  components: {ButtonBack, keyboard },
 
   methods: {
     custom() {
@@ -204,6 +208,9 @@ export default {
         }, {})
       )
     },
+    goBack() {
+      this.$router.push({path: '/human_capital/'})
+    }
   },
   computed: {
     ...mapGetters(['byPath']),
