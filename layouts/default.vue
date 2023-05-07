@@ -13,6 +13,7 @@ export default {
   },
   mounted() {
     this.refreshData()
+    document.addEventListener('contextmenu', event => event.preventDefault());
   }
 }
 </script>
@@ -24,6 +25,9 @@ export default {
 
 body {
   margin: 0 !important;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .all-screen {
