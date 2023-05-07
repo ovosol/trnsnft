@@ -25,39 +25,32 @@ export const state = () => ({
     ],
     stream7: [
       {
-        link: 'colba',
-        colba: 0,
+        link: 'colba-0',
         name: 'Покровка-Кротовка',
       },
       {
-        link: 'colba',
-        colba: 1,
+        link: 'colba-1',
         name: 'Бавлы-Куйбышев',
       },
       {
-        link: 'colba',
-        colba: 2,
+        link: 'colba-2',
         name: 'Бугуруслан-Сызрань',
       },
       {
-        link: 'colba',
-        colba: 3,
+        link: 'colba-3',
         name: 'Гурьев-Куйбышев',
       },
       {
-        link: 'colba',
-        colba: 4,
+        link: 'colba-4',
         name: 'Куйбышев-Тихорецк',
       },
       {
-        link: 'colba',
-        colba: 5,
+        link: 'colba-5',
         name: 'Куйбышев-Лисичанск',
       },
       {
-        link: 'colba',
-        colba: 6,
-        name: 'ННК',
+        link: 'colba-6',
+        name: 'НKК',
       }, {
         link: 'colba-all',
         name: 'Режим ожидания',

@@ -171,22 +171,26 @@ export default {
                 console.log(error)
               })
             break
-          case 'colba':
-            let stream7 = (await this.$api.flows.getFlows()).split('')
-
-            const currentColbaState = Number.parseInt(stream7[6 - btn.colba])
-            await Laurent.sendOut(Laurent.appName.Flows, btn.colba + 1, 1 - currentColbaState)
-
-            await this.$api.flows.postFlow(btn.colba + 1, currentColbaState === 0)
-            break
           case 'colba-all':
             const current = await this.$api.flows.getFlows()
             const needToTurnOn = Number.parseInt(current) !== 0
-            for (let i = 1; i <= 7; i++) {
-              await this.$api.flows.postFlow(i, !needToTurnOn)
-            }
-            const mask = (needToTurnOn ? '0' : '1').repeat(7) + 'xxxxx'
+
+            const value = (needToTurnOn ? '0' : '1').repeat(7)
+
+            await this.$api.flows.postAllFlows(value)
+
+            const mask = value + 'xxxxx'
             Laurent.sendOutAll(Laurent.appName.Flows, mask).then()
+            break
+          case startsWith(btn.link, 'colba'):
+            const stream = Number.parseInt(btn.link.split('-')[1])
+            console.log(stream)
+            let stream7 = (await this.$api.flows.getFlows()).split('')
+
+            const currentColbaState = Number.parseInt(stream7[6 - stream])
+            await Laurent.sendOut(Laurent.appName.Flows, stream + 1, 1 - currentColbaState)
+
+            await this.$api.flows.postFlow(stream + 1, currentColbaState === 0)
             break
 
           default:

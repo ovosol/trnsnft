@@ -4,13 +4,15 @@
       <video autoplay muted loop id="myVideo" class="all-screen-overlay">
         <source src="~/assets/picture/streams/map_stream.mp4" type="video/mp4">
       </video>
-      <img v-for="(item, index) in streamArr" :key="index"
-           v-show="item === '1'"
-           class="all-size all-screen-overlay"
-           :src="
-            require('~/assets/picture/streams/lines/stream' + `${(index+1)}` +  '.png')
-          "
-           alt=""
+      <audio autoplay id="myAudio" ref="audio">
+        <source :src="audio" type="audio/mp3">
+      </audio>
+      <img
+        v-for="(item, index) in streamArr" :key="index"
+        v-show="item === '1'"
+        class="all-size all-screen-overlay"
+        :src="require('~/assets/picture/streams/lines/stream' + `${(index+1)}` +  '.png')"
+        alt=""
       />
     </div>
   </div>
@@ -27,6 +29,50 @@ export default {
   data() {
     return {
       streamArr: [],
+      audio: null
+    }
+  },
+  watch: {
+    streamArr(newVal, oldVal) {
+      if (JSON.stringify(newVal) === JSON.stringify(oldVal)) return;
+      if (newVal.length !== oldVal.length) return;
+
+      let switchedOn = null
+
+      for (let i = 0; i < newVal.length; i++) {
+        if (newVal[i] === oldVal[i]) {
+          continue;
+        }
+
+        if (newVal[i] === '0') {
+          this.audio = null
+          this.$refs.audio.pause()
+          return;
+        }
+
+        if (switchedOn === null) {
+          switchedOn = i
+        } else {
+          switchedOn = -1
+          break;
+        }
+      }
+
+      if (switchedOn == null) {
+        return;
+      }
+
+      if (switchedOn < 0) {
+        this.audio = null
+        this.$refs.audio.pause()
+        return;
+      }
+
+      let value = switchedOn
+      console.log("value", value, switchedOn)
+      this.audio = `/audio/streams/colba-${value}.mp3`
+      this.$refs.audio.load()
+      this.$refs.audio.play()
     }
   },
   methods: {

@@ -119,6 +119,9 @@ export default ({app, store}, inject) => {
       },
       postFlow: async (flow, condition) => {
         return await postCached(`/api/flows/`, {flow, condition})
+      },
+      postAllFlows: async (mask) => {
+        return await postCached(`/api/flows/${mask}/` )
       }
     },
     samara: {
