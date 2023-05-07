@@ -43,8 +43,10 @@
         :btnArray="btnArray"
         :btnStyle="style"
         :btnTitle="title"
+        :active-buttons="activeButtons"
         @changeBtns="changeBtns"
         class="all-size flex-center"
+        ref="btns"
       ></ModuleBtnCollection>
     </div>
   </div>
@@ -65,12 +67,10 @@ export default {
       myBtn: '',
       pass: undefined,
       truePass: 'asd',
+      activeButtons: {}
     }
   },
   computed: {
-    // btnKeys() {
-    //   return Object.keys(this.tablet)
-    // },
     btnArray() {
       //return only visible buttons
       return (this.array.length === 0 ? this.tablet.main : this.array).filter(btn => btn.hidden !== true)
@@ -92,7 +92,36 @@ export default {
       this.array = this.tablet.main
       this.title = ''
     },
+    /**
+     *
+
+     * @return {Promise<void>}
+     */
+    async updateButtons() {
+      switch (this.myBtn) {
+        case "samara": {
+          const idleState = await this.$api.idle.getState('samara')
+
+          for (let stage of ['start', '1', '2', '3', '4', 'light']) {
+            this.activeButtons[`samaraButtons-${stage}`] = idleState
+          }
+
+          this.activeButtons['samaraButtons-idle'] = !idleState
+          this.$refs.btns.$forceUpdate()
+          break
+        }
+        case "timeline": {
+          const idleState = await this.$api.idle.getState('timeline')
+          // TODO add timeline idle
+          break
+        }
+      }
+    },
     async changeBtns(btn) {
+      const startsWith = (str, prefix) => {
+        if (str.slice(0, prefix.length) === prefix)
+          return str
+      }
       if (this.tablet[btn.link]) {
         console.log(btn.link)
         this.array = this.tablet[btn.link]
@@ -101,26 +130,21 @@ export default {
         this.myBtn = btn.link
       } else {
         switch (btn.link) {
-          case 'samaraButtons':
-            const autoPlay = await this.$api.samara.getAutoPlay()
-            // TODO handle laurent
-            if (btn.stage === 'start') {
-              //await this.$api.samara.postAutoPlay(true)
+          case startsWith(btn.link, 'samaraButtons'):
+            const stage = btn.link.split('-')[1]
+            const samaraIdle = await this.$api.idle.getState('samara')
+            if (stage === 'start') {
               await this.$api.samara.postStage(1)
               await this.$api.idle.postState('samara', false)
-            } else if (btn.stage === 'idle') {
-              //const idle = await this.$api.idle.getState('samara')
+            } else if (stage === 'idle') {
               await this.$api.idle.postState('samara', true)
               await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
-            } else if (btn.stage === 'light') {
-              if (!autoPlay)
+            } else if (stage === 'light') {
+              if (samaraIdle)
                 await Laurent.sendOut(Laurent.appName.Samara, 1, 2)
             } else {
-              if (!autoPlay) {
-                await Laurent.sendRelay(Laurent.appName.Samara, btn.stage, 2)
-                //await this.$api.idle.postState('samara', false)
-                //await this.$api.samara.postStage(btn.stage)
-                //await this.$api.samara.postAutoPlay(false)
+              if (samaraIdle) {
+                await Laurent.sendRelay(Laurent.appName.Samara, stage, 2)
               }
             }
             break
@@ -166,7 +190,7 @@ export default {
             break
 
           default:
-            console.log(btn.link)
+            console.warn("Unhandled button", btn.link)
             break
         }
       }
@@ -179,6 +203,7 @@ export default {
   },
   mounted() {
     this.pass = sessionStorage.getItem('tablet_pass') || undefined
+    setInterval(this.updateButtons, 300)
   },
 }
 </script>

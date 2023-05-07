@@ -26,9 +26,15 @@ export default {
       type: "sm" | "md" | "lg" | null,
       default: null
     },
+    interactive: {
+      type: Boolean,
+      default: true,
+      required: false
+    }
   },
   methods: {
     onClick() {
+      if (!this.interactive) return
       this.$emit("click", this.btn);
     }
   },
@@ -39,6 +45,10 @@ export default {
       classes.push(`button-color-${this.color}`)
       classes.push(`button-size-${this.btn.size ?? this.size}`)
       classes.push(`text-size-${this.btn.textSize ?? this.textSize ?? this.size}`)
+
+      if (!this.interactive) {
+        classes.push("disabled")
+      }
 
       return classes.join(" ")
     }
@@ -55,6 +65,11 @@ export default {
 .button-color-white {
   background-image: url('~/assets/creative/btnwitharrow.png');
   color: #025692;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button {

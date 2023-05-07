@@ -91,39 +91,32 @@ export const state = () => ({
     ],
     samara: [
       {
-        link: 'samaraButtons',
-        stage: 'start',
+        link: 'samaraButtons-start',
         name: 'Демонстрация',
       },
       {
-        link: 'samaraButtons',
-        stage: 1,
+        link: 'samaraButtons-1',
         name: 'Резервуарный парк НП «ССН»',
       },
       {
-        link: 'samaraButtons',
-        stage: 2,
+        link: 'samaraButtons-2',
         name: 'Узел компаундирования',
       },
       {
-        link: 'samaraButtons',
-        stage: 3,
+        link: 'samaraButtons-3',
         name: 'Резервуарные парки <br>НПС «Самара-1» и НПС «Самара-2»',
         textSize: 'sm'
       },
       {
-        link: 'samaraButtons',
-        stage: 4,
+        link: 'samaraButtons-4',
         name: 'Магистральные насосные',
       },
       {
-        link: 'samaraButtons',
-        stage: 'light',
+        link: 'samaraButtons-light',
         name: 'Подсветка',
       },
       {
-        link: 'samaraButtons',
-        stage: 'idle',
+        link: 'samaraButtons-idle',
         name: 'Режим ожидания',
       }
     ],

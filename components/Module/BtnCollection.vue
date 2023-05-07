@@ -19,6 +19,7 @@
           color="white"
           @click='changeBtns(btn)'
           :size="btnSize"
+          :interactive='canInteract(btn)'
         />
       </transition-group>
       <HumanCapitalContent
@@ -52,6 +53,11 @@ export default {
       type: String || null,
       required: false,
       default: null
+    },
+    activeButtons: {
+      type: Object,
+      required: false,
+      default: null
     }
   },
   watch: {
@@ -64,6 +70,17 @@ export default {
   methods: {
     changeBtns(btn) {
       this.$emit('changeBtns', btn)
+    },
+    /**
+     *
+     * @param {HumanCapitalButtonExtended} btn
+     * @return {boolean}
+     */
+    canInteract(btn) {
+
+      if (this.activeButtons === null) return true
+      if (this.activeButtons[btn.link] === undefined) return true
+      return this.activeButtons[btn.link]
     }
   },
   computed: {
