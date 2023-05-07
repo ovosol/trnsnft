@@ -13,16 +13,17 @@
       @changeBtns="changeBtns"
       class="all-size flex-center "
     ></ModuleBtnCollection>
+    <idle @on-idle="returnToMain(true)"/>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
-import HumanCapitalContent from "@/components/Module/HumanCapitalContent.vue";
 import ButtonBack from "@/components/Module/ButtonBack.vue";
+import Idle from "@/pages/human_capital/Idle.vue";
 
 export default {
-  components: {ButtonBack, HumanCapitalContent},
+  components: {Idle, ButtonBack},
   data() {
     return {
       array: [],
@@ -52,14 +53,15 @@ export default {
     }
   },
   methods: {
-    returnToMain() {
+    returnToMain(forceMain = false) {
       this.currentPage = null
-      if (this.pagesStack.length === 0) {
+      if (forceMain || this.pagesStack.length === 0) {
         this.current = null
         this.parent = null
         this.array = this.humanCapital.main;
         this.title = null
         this.contentPage = null
+        this.pagesStack = []
       } else {
         const btn = this.pagesStack.pop()
         this.changeBtns(btn)
@@ -92,6 +94,3 @@ export default {
 }
 </script>
 
-<style>
-
-</style>

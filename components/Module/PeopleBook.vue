@@ -115,13 +115,7 @@
         ]"
       ></keyboard>
     </div>
-    <v-idle
-      style="display: none"
-      @idle="mainBtnClick = false; visibleKeyboard = false; modal = false"
-      :loop="true"
-      :duration="5"
-      :events="['mousemove', 'keypress', 'click', 'touchmove', 'touchstart', 'touchmove', 'scroll']"
-    />
+    <idle @on-idle="mainBtnClick = false; visibleKeyboard = false; modal = false"/>
     <div
       class="rbbtn btnsStyle main-vet-btn"
       v-show="!mainBtnClick"
@@ -136,6 +130,7 @@
 import keyboard from 'vue-keyboard'
 import { mapGetters } from 'vuex'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
+import Idle from "@/pages/human_capital/Idle.vue";
 export default {
   name: 'PeopleBook',
   props:{
@@ -164,7 +159,7 @@ export default {
       },
     }
   },
-  components: {ButtonBack, keyboard },
+  components: {Idle, ButtonBack, keyboard },
 
   methods: {
     custom() {

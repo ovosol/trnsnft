@@ -98,22 +98,23 @@ export const state = () => ({
       {
         link: 'samaraButtons',
         stage: 1,
-        name: 'Участок 1',
+        name: 'Резервуарный парк НП «ССН»',
       },
       {
         link: 'samaraButtons',
         stage: 2,
-        name: 'Участок 2',
+        name: 'Узел компаундирования',
       },
       {
         link: 'samaraButtons',
         stage: 3,
-        name: 'Участок 3',
+        name: 'Резервуарные парки <br>НПС «Самара-1» и НПС «Самара-2»',
+        textSize: 'sm'
       },
       {
         link: 'samaraButtons',
         stage: 4,
-        name: 'Участок 4',
+        name: 'Магистральные насосные',
       },
       {
         link: 'samaraButtons',
