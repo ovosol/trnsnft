@@ -38,6 +38,7 @@ import HumanCapitalContent from '@/components/Module/HumanCapitalContent.vue'
 import ButtonMenu from "@/components/Module/ButtonMenu.vue";
 
 export default {
+  name: 'BtnCollection',
   components: {ButtonMenu, HumanCapitalContent},
   data() {
     return {

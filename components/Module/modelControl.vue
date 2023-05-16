@@ -31,6 +31,7 @@ import { mapMutations, mapGetters } from 'vuex'
 // import VueRangeSlider from 'vue-range-component'
 
 export default {
+  name: 'ModelControl',
   data() {
     return {
       modelValue: 1,

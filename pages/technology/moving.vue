@@ -1,13 +1,10 @@
 <template>
   <div class="all-screen">
-    <div v-for="(video, index) in movingVideos" :key="index">
       <ModuleVideo
-        v-if="fixedVideo === index"
         class="all-size"
         :videoSrc="video"
         :loop="true"
       ></ModuleVideo>
-    </div>
     <div
       style="height: 100vh; display: flex"
       class="all-size corner-decoration"
@@ -97,7 +94,15 @@ export default {
         console.log(response, 'response.data')
         return response.stage
       })
-    const movingVideos = [];
+
+    const video = await $axios
+      .$get('api/technologies/moving/' + stage + '/')
+      .then((response) => {
+        console.log(response, 'response.data')
+        return process.env.BASE_URL + response.current_video
+      })
+
+    /*const movingVideos = [];
     for (const period of ['past', 'present_1', 'present_2']) {
       const video = await $axios
         .$get('api/technologies/moving/' + period + '/')
@@ -110,9 +115,9 @@ export default {
     }
     movingVideos.forEach((e) => {
       e = '/media/' + e
-    })
+    })*/
 
-    return { movingVideos, stage }
+    return { video, stage }
   },
   data() {
     return {
@@ -121,15 +126,11 @@ export default {
       value: 60,
       carouselIndex: 1,
       slider: 0,
-      movingVideos: [],
+      video: null,
       stage: '',
     }
   },
-  // watch: {
-  //   modelValue(mv) {
-  //     this.CHANGE_BY_PATH(['smallTablet.modelValue', mv])
-  //   },
-  // },
+
   methods: {
     carouselAuto: function () {
       setInterval(() => {
@@ -153,47 +154,8 @@ export default {
   mounted() {
     this.carouselAuto()
   },
-  // mounted() {
-  //   this.changePos = function (pos) {
-  //     document.scrollTop = pos
-  //     console.log(document)
-  //   }
-  // },
-  // watch: {
-  // 'smallTablet.model': function () {
-  //   this.$nextTick(function () {
-  //     if (this.$refs[this.pageType][0].scrollTop !== this.scrollValue) {
-  //       this.$refs[this.pageType][0].scrollTop = this.scrollValue
-  //     }
-  //   })
-  // },
-  // value(mv) {
-  //   this.CHANGE_MODEL_VALUE(mv)
-  // },
-  // },
-  // components: {
-  //   ThreejsComponent: process.browser ? () => import('~/path/to/ThreejsComponent.vue') : null
-  // },
   computed: {
-    fixedVideo: function () {
-      return this.stage === 'past'
-        ? 0
-        : this.stage === 'present'
-        ? 1
-        : this.stage === 'present2'
-        ? 2
-        : false
-    },
-    ...mapGetters({ byPath: 'byPath', videoByPath: 'video/byPath' }),
-    videoTechnology() {
-      return this.videoByPath('technology')
-    },
-    technology() {
-      return this.byPath('technology')
-    },
-    smallTablet() {
-      return this.byPath('smallTablet')
-    },
+    ...mapGetters({ byPath: 'byPath',  }),
     modelIndex() {
       return this.byPath('smallTablet.modelIndex')
     },

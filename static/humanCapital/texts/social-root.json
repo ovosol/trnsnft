@@ -1,0 +1,20 @@
+{
+  "title": "Социальная политика",
+  "subtitle": null,
+  "buttons": [
+    {
+      "name": "Социальная политика",
+      "title": "Узнать больше",
+      "link": "social",
+      "size": "lg"
+    }
+  ],
+  "images": [
+    {
+      "src": "/humanCapital/images/social/social_1.png"
+    },
+    {
+      "src": "/humanCapital/images/social/social_2.png"
+    }
+  ]
+}

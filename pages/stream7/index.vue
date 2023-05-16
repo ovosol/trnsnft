@@ -70,7 +70,7 @@ export default {
 
       let value = switchedOn
       console.log("value", value, switchedOn)
-      this.audio = `/audio/streams/colba-${value}.mp3`
+      this.audio = `/flows/audio/colba-${value}.mp3`
       this.$refs.audio.load()
       this.$refs.audio.play()
     }

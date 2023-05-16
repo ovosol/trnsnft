@@ -21,13 +21,11 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters({ videoByPath: 'video/byPath', byPath: 'byPath' }),
+    ...mapGetters({ byPath: 'byPath' }),
     samara() {
       return this.byPath('samara')
     },
-    videoSamara() {
-      return this.videoByPath('samara')
-    },
+
   },
   // mounted() {
   //   this.refreshData()

@@ -92,7 +92,7 @@ export default {
     },
     async fetchText() {
       try {
-        const response = await fetch(`/humanCapital/${this.contentPage}.txt`)
+        const response = await fetch(`/humanCapital/texts/${this.contentPage}.txt`)
         if (response.ok) {
           this.text = await response.text()
         } else {
@@ -104,14 +104,14 @@ export default {
     },
     async fetchContent() {
       try {
-        const content = await fetch(`/humanCapital/${this.contentPage}.json`)
+        const content = await fetch(`/humanCapital/texts/${this.contentPage}.json`)
         if (content.ok) {
           this.content = await content.json()
         } else {
-          this.content = { subtitle: '' }
+          this.content = {subtitle: ''}
         }
       } catch (e) {
-        this.content = { subtitle: `ERROR ${e}` }
+        this.content = {subtitle: `ERROR ${e}`}
       }
 
       this.$emit('changeTitle', this.content.title)

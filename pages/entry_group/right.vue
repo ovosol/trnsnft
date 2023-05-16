@@ -6,8 +6,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-// /video_stand/page/
+
 export default {
   data() {
     return {
@@ -23,12 +22,6 @@ export default {
         })
 
     return { entryGroup }
-  },
-  computed: {
-    ...mapGetters({videoByPath: 'video/byPath'}),
-    // entryGroup() {
-    //   return this.videoByPath('entryGroup')
-    // }
   },
 }
 </script>

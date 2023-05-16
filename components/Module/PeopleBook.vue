@@ -1,9 +1,10 @@
 <template>
   <div class="all-screen flex-center veteran-page">
     <button-back
+      v-show="!modal"
       @click="goBack"
     />
-    <div class="all-size veteran-page">
+    <div :class="'all-size veteran-page ' + veteranClass">
       <div
         class="all-size flex-center chosen-veteran-container"
         style="align-items: center"
@@ -17,20 +18,9 @@
           <div class="chosen-veteran-desc">
             <h2>{{ modalInfo.name }}</h2>
             <p>{{ modalInfo.desc }}</p>
-            <div style="width: 100%; text-align: center">
+            <div class="back-from-photo">
               <div @click="modal = false">
-                <!-- btnwitharrow -->
-                <div
-                  class="rbbtn"
-                  style="
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                    background-position: center center;
-                    animation: none;
-                  "
-                >
                   Назад
-                </div>
               </div>
             </div>
           </div>
@@ -117,11 +107,11 @@
     </div>
     <idle @on-idle="mainBtnClick = false; visibleKeyboard = false; modal = false"/>
     <div
-      class="rbbtn btnsStyle main-vet-btn"
+      class="main-vet-btn"
       v-show="!mainBtnClick"
       @click="mainBtnClick = true"
     >
-      🔎 Поиск по имени
+      Коснитесь для поиска
     </div>
   </div>
 </template>
@@ -204,6 +194,10 @@ export default {
       )
     },
     goBack() {
+      if (this.mainBtnClick){
+        this.mainBtnClick = false
+        return
+      }
       this.$router.push({path: '/human_capital/'})
     }
   },
@@ -229,20 +223,42 @@ export default {
       // Возвращает массив с отфильтрованными данными.
       return users_array
     },
+    veteranClass() {
+      if (this.modal) return 'veteran-page-main'
+      if (this.mainBtnClick) return 'veteran-page-search'
+      return 'veteran-page-main'
+    }
   },
 }
 </script>
 
 <style>
+.back-from-photo{
+  text-align: right;
+  font-weight: bold;
+  width: 300px;
+  position: absolute;
+  right: 112px;
+  bottom: 24px;
+}
+
 .veteran-page {
-  background-image: url('~/assets/creative/veteranBg.png');
   background-size: 100vw 100vh;
   display: flex;
 }
-.main-vet-btn{
 
+.veteran-page-main{
+  background-image: url('~/assets/creative/veteranBg.jpg');
+}
+
+.veteran-page-search{
+  background-image: url('~/assets/creative/veteranBgSearch.jpg');
+}
+.main-vet-btn{
   z-index: 10;
   position: absolute;
+  font-size: 18pt;
+  left: 100px;
   display: flex;
   align-self: self-end;
   margin-bottom: 20px;
