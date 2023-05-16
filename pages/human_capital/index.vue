@@ -1,5 +1,16 @@
 <template>
-  <div class="flex-center all-screen corner-decoration">
+  <div class="flex-center all-screen ">
+    <div id="videoBackground">
+      <video
+        src="/humanCapital/video/Capital_BG_loop.mp4"
+        autoplay
+        loop
+        muted
+        width="100%"
+        height="100%"
+        style="object-fit: cover;"
+      ></video>
+    </div>
     <button-back
       @click="returnToMain()"
       v-show="title || contentPage"
@@ -17,13 +28,26 @@
   </div>
 </template>
 
+<style scoped>
+#videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+</style>
+
 <script>
 import {mapGetters} from 'vuex'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 import Idle from "@/pages/human_capital/Idle.vue";
+import VideoPlayer from 'vue-video-player-mx'
 
 export default {
-  components: {Idle, ButtonBack},
+  components: {Idle, ButtonBack, VideoPlayer},
   data() {
     return {
       array: [],

@@ -132,12 +132,12 @@ export default {
 
 .hr-shadow {
   margin-bottom: 43px;
-  border-bottom: 4px solid #025692;
+  border-bottom: 4px solid #ffffff;
   box-shadow: 0 4px 9px #333;
 }
 
 .title {
-  color: #025692;
+  color: #ffffff;
   width: 97vw;
   text-align: center;
   vertical-align: bottom;

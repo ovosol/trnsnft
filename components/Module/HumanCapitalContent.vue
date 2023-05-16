@@ -2,7 +2,7 @@
   <div v-if='contentPage && content'>
     <h2 class='subtitle'>{{ content.subtitle }}</h2>
     <div class='horizontal'>
-      <slide-show :images='content.images' v-if='content.images' />
+      <slide-show :images='content.images' v-if='content.images'/>
       <div :class='"text-wrapper " + (content.images? "text-slide-show":"text-plain") ' ref='textWrapper'>
         <p ref='text' class='text'>{{ text }}</p>
       </div>
@@ -15,14 +15,13 @@
         </button>
       </div>
     </div>
-    <div v-if='content.buttons'>
+    <div v-if='content.buttons' class="content-buttons">
       <button-menu
         v-for='(btn, index) in content.buttons'
         :key='index'
         :btn='btn'
-        color='blue'
+        color='white'
         size='sm'
-        style='margin-left: 175px'
         @click='changeBtns(btn)'
       ></button-menu>
     </div>
@@ -64,7 +63,7 @@ import ButtonMenu from '@/components/Module/ButtonMenu.vue'
 
 export default {
   name: 'HumanCapitalContent',
-  components: { ButtonMenu, SlideShow },
+  components: {ButtonMenu, SlideShow},
   data() {
     return {
       text: '',
@@ -153,8 +152,14 @@ export default {
   background-position: center center;
 }
 
+.content-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .subtitle {
-  color: #025692;
+  color: #ffffff;
   width: 97vw;
   text-align: center;
   font-size: 18pt;
@@ -188,6 +193,7 @@ export default {
 }
 
 .text {
+  color: #ffffff;
   text-align: justify;
   flex-grow: 1;
   height: 100%;
