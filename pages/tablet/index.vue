@@ -138,13 +138,16 @@ export default {
               await this.$api.idle.postState('samara', false)
             } else if (stage === 'idle') {
               await this.$api.idle.postState('samara', true)
-              await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
+              await Laurent.apps.samara.changeLight(1)
+              // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 1)
             } else if (stage === 'light') {
               if (samaraIdle)
-                await Laurent.sendOut(Laurent.appName.Samara, 1, 2)
+                await Laurent.apps.samara.changeLight(2)
+                // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 2)
             } else {
               if (samaraIdle) {
-                await Laurent.sendRelay(Laurent.appName.Samara, stage, 2)
+                await Laurent.apps.samara.changeGroup(stage,2)
+                // TODO await Laurent.sendRelay(Laurent.appName.Samara, stage, 2)
               }
             }
             break

@@ -118,11 +118,43 @@ const getAddressForApp = (app) => {
   }
 }
 
+const samara = {
+  /**
+   *
+   * @param {0|1|2}state
+   * @return {Promise<void>}
+   */
+  changeLight : async (state) => {
+    return await sendOut(appName.Samara, 5, state)
+  },
+  /**
+   *
+   * @param {1|2|3|4} stage
+   * @param {0|1|2} state
+   * @return {Promise<void>}
+   */
+  changeGroup : async (stage, state) => {
+    return await sendRelay(appName.Samara, stage, state)
+  },
+  /**
+   *
+   * @param {string} state up to 12 characters with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right. Example: '012x'
+   * @return {Promise<void>}
+   */
+  changeAllGroups : async (state) => {
+    await Laurent.setAllRelays(Laurent.appName.Samara, state)
+  }
+}
+
+
 export const Laurent = {
   setOneRelayOn,
   sendRelay,
   sendOut,
   sendOutAll,
   appName,
-  setAllRelays
+  setAllRelays,
+  apps: {
+    samara,
+  }
 }

@@ -68,10 +68,10 @@ export default {
       const times = [30, 60, 82, 98]
       //const times = [3, 6, 8, 9, 12]
       const actions = [
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '1000').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '1100').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '1110').then(),
-        () => Laurent.setAllRelays(Laurent.appName.Samara, '1111').then(),
+        () => Laurent.apps.samara.changeAllGroups('1000').then(),
+        () => Laurent.apps.samara.changeAllGroups('1100').then(),
+        () => Laurent.apps.samara.changeAllGroups('1110').then(),
+        () => Laurent.apps.samara.changeAllGroups('1111').then(),
       ]
       const startTime = Date.now()
       console.log('startSequence')
@@ -83,10 +83,10 @@ export default {
           actions[i]()
         }, times[i] * 1000))
       }
-
-      await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
-      await Laurent.sendOut(Laurent.appName.Samara, 1, 0)
-      //TODO disable lights
+      await Laurent.apps.samara.changeAllGroups('0000')
+      // TODO await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
+      await Laurent.apps.samara.changeLight(0)
+      // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 0)
     },
     async stopSequence() {
       console.log('stopSequence')
@@ -94,8 +94,10 @@ export default {
         clearTimeout(timer)
       })
       this.timers = []
-      await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
-      await Laurent.sendOut(Laurent.appName.Samara, 1, 1)
+      await Laurent.apps.samara.changeAllGroups('0000')
+      // TODO await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
+      await Laurent.apps.samara.changeLight(1)
+      // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 1)
     },
     async changeSamaraSimple() {
       console.log("ON SAMARA VIDEO END")
@@ -103,7 +105,8 @@ export default {
       //await this.$api.samara.postAutoPlay(false)
       console.log("CHANGING IDLE SAMARA")
       await this.$api.idle.postState('samara', true)
-      await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
+      await Laurent.apps.samara.changeAllGroups('00001xxxxxxx')
+      // TODO await Laurent.setAllRelays(Laurent.appName.Samara, '00001xxxxxxx')
     },
     async changeSamara() {
       /*const autoplay = await this.$api.samara.getAutoPlay()
