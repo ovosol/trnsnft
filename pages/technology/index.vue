@@ -32,13 +32,8 @@ export default {
       stage: '',
     }
   },
-  async asyncData({ $axios }) {
-    const stage = await $axios
-        .$get('/api/technologies/stage/')
-        .then((response) => {
-          console.log(response, 'response.data')
-          return response.stage
-        })
+  async asyncData({ $axios, $api }) {
+    const stage = await $api.technology.getStage()
     return { stage }
   },
   computed: {
@@ -49,16 +44,7 @@ export default {
   },
   methods: {
     async changeStage(stage) {
-      await this.$axios
-        .$post('/api/technologies/stage/', {
-          stage: stage,
-        })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      await this.$api.technology.setStage(stage)
     }
     // ...mapMutations(['CHANGE_BY_PATH']),
   },

@@ -11,6 +11,7 @@ const appName = {
   'Light': 'light',
   'Flows': 'flows',
   'Samara': 'samara',
+  'Technology': 'technology',
 }
 
 const getUrl = async (url, timeout = 100) => {
@@ -113,6 +114,8 @@ const getAddressForApp = (app) => {
       return "192.168.1.3"
     case appName.Samara:
       return "192.168.1.4"
+    case appName.Technology:
+      return "192.168.1.5"
     default:
       throw new Error(`Unknown app name: ${app}`)
   }
@@ -124,7 +127,7 @@ const samara = {
    * @param {0|1|2}state
    * @return {Promise<void>}
    */
-  changeLight : async (state) => {
+  changeLight: async (state) => {
     return await sendOut(appName.Samara, 5, state)
   },
   /**
@@ -133,7 +136,7 @@ const samara = {
    * @param {0|1|2} state
    * @return {Promise<void>}
    */
-  changeGroup : async (stage, state) => {
+  changeGroup: async (stage, state) => {
     return await sendRelay(appName.Samara, stage, state)
   },
   /**
@@ -141,8 +144,27 @@ const samara = {
    * @param {string} state up to 12 characters with 0 (off), 1 (on), 2 (inverse), x (skip). Left to right. Example: '012x'
    * @return {Promise<void>}
    */
-  changeAllGroups : async (state) => {
+  changeAllGroups: async (state) => {
     await Laurent.setAllRelays(Laurent.appName.Samara, state)
+  }
+}
+
+const technology = {
+  /**
+   *
+   * @param {boolean} state
+   * @return {Promise<void>}
+   */
+  move: async (state) => {
+    // TODO change relay
+  },
+  /**
+   *
+   * @param {boolean} isRight
+   * @return {Promise<void>}
+   */
+  setDirection: async (isRight) => {
+
   }
 }
 

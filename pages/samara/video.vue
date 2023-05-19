@@ -27,12 +27,10 @@ export default {
     let idleVideo = ''
     const autoplay = await $api.samara.getAutoPlay()
     if (idleState) {
-      const res = await $api.idle.getVideo('samara')
-      idleVideo = process.env.BASE_URL + res.current_video
+      idleVideo = await $api.idle.getVideo('samara')
     } else {
       stage = await $api.samara.getStage()
-      const res = await $api.samara.getVideo(stage)
-      currentVideo = process.env.BASE_URL + res.current_video
+      currentVideo = await $api.samara.getVideo(stage)
     }
 
     return {currentVideo, stage, idleState, idleVideo, autoplay}

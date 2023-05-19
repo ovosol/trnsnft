@@ -70,7 +70,8 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number}>}
        */
       getVideo: async (idleApp) => {
-        return await getCached(`/api/idle/${idleApp}/video/`)
+        const res = await getCached(`/api/idle/${idleApp}/video/`)
+        return process.env.BASE_URL + res.current_video
       },
       /**
        * Set state of idle app
@@ -106,7 +107,8 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number, intro_video: string, intro_video_duration: number}>}
        */
       getVideo: async (year, videoIndex) => {
-        return await getCached(`/api/timeline/${year}/${videoIndex}/`)
+        const res = await getCached(`/api/timeline/${year}/${videoIndex}/`)
+        return process.env.BASE_URL + res.current_video
       }
     },
     flows: {
@@ -121,7 +123,7 @@ export default ({app, store}, inject) => {
         return await postCached(`/api/flows/`, {flow, condition})
       },
       postAllFlows: async (mask) => {
-        return await postCached(`/api/flows/${mask}/` )
+        return await postCached(`/api/flows/${mask}/`)
       }
     },
     samara: {
@@ -146,7 +148,8 @@ export default ({app, store}, inject) => {
        * @return {Promise<{current_video: string, video_duration: number}>}
        */
       getVideo: async (stage) => {
-        return await getCached(`/api/area_samara/${stage}/video/`)
+        const res = await getCached(`/api/area_samara/${stage}/video/`)
+        return process.env.BASE_URL + res.current_video
       },
       /**
        * Get autoplay
@@ -180,6 +183,34 @@ export default ({app, store}, inject) => {
        */
       getEmployeeList: async (group) => {
         return await getCached(`/api/video_stand/employee_list/${group}/`)
+      }
+    },
+    technology: {
+      /**
+       *
+       * @param {string} stage
+       * @return {Promise<*>}
+       */
+      setStage: async (stage) => {
+        return await postCached(`/api/technologies/stage/`, {stage})
+      },
+      /**
+       *
+       * @return {Promise<string>}
+       */
+      getStage: async () => {
+        const res = await getCached('/api/technologies/stage/')
+        return res.stage
+      },
+      /**
+       *
+       * @param {'moving' | 'backstage' } screen
+       * @param stage
+       * @return {Promise<void>}
+       */
+      getVideo: async (screen, stage) => {
+        const res = await getCached(`/api/technologies/${screen}/${stage}/`)
+        return process.env.BASE_URL + res.current_video
       }
     }
   })

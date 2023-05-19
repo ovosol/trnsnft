@@ -162,17 +162,16 @@ export default {
             await this.$api.idle.postState('timeline', false)
             await this.$api.timeline.postYear(btn.name)
             break
-          case 'changeScreenPosition':
-            await this.$axios
-              .$post('/api/technologies/stage/', {
-                stage: btn.status,
-              })
-              .then(function (response) {
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
+          case startsWith(btn.link, 'technology-'):
+            const btnName = btn.link.split('-')[1]
+            const idleState = await this.$api.idle.getState('technology')
+            if (btnName === 'idle') {
+              await this.$api.idle.postState('technology', !idleState)
+            } else {
+              await this.$api.technology.setStage(btnName)
+              await this.$api.idle.postState('technology', false)
+            }
+
             break
           case 'colba-all':
             const current = await this.$api.flows.getFlows()

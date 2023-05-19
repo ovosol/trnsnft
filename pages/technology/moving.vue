@@ -1,10 +1,17 @@
 <template>
   <div class="all-screen">
-      <ModuleVideo
-        class="all-size"
-        :videoSrc="video"
-        :loop="true"
-      ></ModuleVideo>
+    <ModuleVideo
+      v-if="idleState"
+      :videoSrc="idleVideo"
+      :loop="true"
+    ></ModuleVideo>
+    <ModuleVideo
+      v-else
+      class="all-size"
+      :videoSrc="video"
+      :loop="true"
+      @ended="startIdle()"
+    ></ModuleVideo>
     <div
       style="height: 100vh; display: flex"
       class="all-size corner-decoration"
@@ -13,7 +20,7 @@
       <div class="future-moving-screen flex-center">
         <div class="carousel" style="justify-content: space-between;" v-show="modelIndex === null">
           <div class="logo-place">
-            <img src="~/assets/picture/logo.png" alt="" />
+            <img src="~/assets/picture/logo.png" alt=""/>
           </div>
           <div class="carousel-items">
             <img
@@ -53,7 +60,7 @@
         </div>
         <div class="carousel all-screen" style="justify-content: center;" v-show="modelIndex !== null">
           <div class="logo-place" style="padding-bottom: 15vh;">
-            <img src="~/assets/picture/logo.png" alt="" />
+            <img src="~/assets/picture/logo.png" alt=""/>
           </div>
           <div
             class="carousel-items all-size"
@@ -84,40 +91,24 @@
 // import VueRangeSlider from 'vue-range-component'
 // import VueProduct360 from '@deviznet/vue-product-360'
 
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
-  async asyncData({ $axios }) {
-    const stage = await $axios
-      .$get('/api/technologies/stage/')
-      .then((response) => {
-        console.log(response, 'response.data')
-        return response.stage
-      })
+  async asyncData({$api}) {
+    let idleVideo = ""
 
-    const video = await $axios
-      .$get('api/technologies/moving/' + stage + '/')
-      .then((response) => {
-        console.log(response, 'response.data')
-        return process.env.BASE_URL + response.current_video
-      })
+    let stage = ""
+    let video = ""
+    const idleState = await $api.idle.getState('technology')
+    if (idleState) {
+      idleVideo = await $api.idle.getVideo('technology')
+    } else {
+      stage = await $api.technology.getStage()
 
-    /*const movingVideos = [];
-    for (const period of ['past', 'present_1', 'present_2']) {
-      const video = await $axios
-        .$get('api/technologies/moving/' + period + '/')
-        .then((response) => {
-          console.log(response, 'response.data')
-          return process.env.BASE_URL + response.current_video
-        })
-
-      movingVideos.push(video)
+      video = await $api.technology.getVideo("moving", stage)
     }
-    movingVideos.forEach((e) => {
-      e = '/media/' + e
-    })*/
 
-    return { video, stage }
+    return {video, stage, idleState, idleVideo}
   },
   data() {
     return {
@@ -128,6 +119,8 @@ export default {
       slider: 0,
       video: null,
       stage: '',
+      idleState: false,
+      idleVideo: null,
     }
   },
 
@@ -137,10 +130,6 @@ export default {
         this.carouselChange(1)
       }, 5000)
     },
-    // changeModelValue (newVal) {
-    //   console.log('changeModelValue', newVal)
-    //   this.modelValue = newVal
-    // },
     carouselChange(count) {
       this.carouselIndex += count
       if (this.carouselIndex === 6) {
@@ -150,12 +139,15 @@ export default {
         this.carouselIndex = 5
       }
     },
+    startIdle() {
+      this.$api.idle.postState('technology', true)
+    }
   },
   mounted() {
     this.carouselAuto()
   },
   computed: {
-    ...mapGetters({ byPath: 'byPath',  }),
+    ...mapGetters({byPath: 'byPath',}),
     modelIndex() {
       return this.byPath('smallTablet.modelIndex')
     },
@@ -171,6 +163,7 @@ export default {
   /* padding: 10vh 0; */
   height: 80%;
 }
+
 .future-moving-screen > .carousel {
   display: flex;
   flex-direction: column;
@@ -178,6 +171,7 @@ export default {
   height: 80vh;
   /* margin: 10vh auto auto auto; */
 }
+
 .future-moving-screen > .carousel > .logo-place {
   display: flex;
   flex-direction: column;
@@ -185,6 +179,7 @@ export default {
   align-content: center;
   width: 100%;
 }
+
 .future-moving-screen > .carousel > .logo-place > img {
   width: 50%;
   display: flex;
@@ -196,16 +191,19 @@ export default {
   height: 40%;
   display: flex;
 }
+
 .future-moving-screen > .carousel > div {
   display: flex;
   justify-content: center;
   /* padding: 10% 0%; */
 }
+
 .future-moving-screen > .carousel > div > div > img {
   padding: 10% 0%;
   width: 80%;
   height: 80%;
 }
+
 .future-moving-screen > .carousel > .control-elements {
   display: flex;
   justify-content: space-around;
@@ -213,19 +211,22 @@ export default {
   height: 10%;
   justify-content: center;
 }
+
 .future-moving-screen > .carousel > .control-elements > div {
   width: 10%;
 }
+
 .future-moving-screen > .carousel > .control-elements > div > img {
   width: 60%;
 }
 
 .text-elements > .name {
   font-size: 180%;
-    font-weight: 800;
-    text-align: center;
-    padding-bottom: 30px;
+  font-weight: 800;
+  text-align: center;
+  padding-bottom: 30px;
 }
+
 .text-elements > .desc {
   margin: auto 50px;
 }

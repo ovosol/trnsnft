@@ -123,24 +123,28 @@ export const state = () => ({
     technology: [
       {
         status: 'past',
-        link: 'changeScreenPosition',
+        link: 'technology-past',
         name: 'Прошлое',
       },
       {
-        status: 'present',
-        link: 'changeScreenPosition',
+        status: 'present_1',
+        link: 'technology-present_1',
         name: 'Настоящее',
       },
       {
-        status: 'present2',
-        link: 'changeScreenPosition',
+        status: 'present_2',
+        link: 'technology-present_2',
         name: 'Настоящее 2',
       },
       {
         status: 'future',
-        link: 'changeScreenPosition',
+        link: 'technology-future',
         name: 'Будущее',
       },
+      {
+        link: 'technology-idle',
+        name: 'Режим ожидания',
+      }
     ],
     // technology: [
 
@@ -199,6 +203,12 @@ export const state = () => ({
         link: 'changeYear',
         name: '2010s',
         index: 9,
+      },
+      {
+        link: 'changeYear',
+        name: 'VIP экскурсия',
+        index: -1,
+        hidden: true,
       },
       {
         link: 'changeTimelineIdle',

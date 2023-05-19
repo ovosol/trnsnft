@@ -26,12 +26,10 @@ export default {
     const idleState = await $api.idle.getState('timeline')
 
     if (idleState) {
-      const res = await $api.idle.getVideo('timeline')
-      idleVideo = process.env.BASE_URL + res.current_video
+      idleVideo = await $api.idle.getVideo('timeline')
     } else {
       chosenYear = await $api.timeline.getYear()
-      const res = await $api.timeline.getVideo(chosenYear, 1)
-      currentVideo = process.env.BASE_URL + res.current_video
+      currentVideo = await $api.timeline.getVideo(chosenYear, 1)
     }
 
     return {
