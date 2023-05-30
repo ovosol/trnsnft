@@ -143,10 +143,10 @@ export default {
             } else if (stage === 'light') {
               if (samaraIdle)
                 await Laurent.apps.samara.changeLight(2)
-                // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 2)
+              // TODO await Laurent.sendOut(Laurent.appName.Samara, 5, 2)
             } else {
               if (samaraIdle) {
-                await Laurent.apps.samara.changeGroup(stage,2)
+                await Laurent.apps.samara.changeGroup(stage, 2)
                 // TODO await Laurent.sendRelay(Laurent.appName.Samara, stage, 2)
               }
             }
@@ -156,11 +156,15 @@ export default {
             await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
             break
           case 'changeYear':
-            await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1)
+            if (btn.index < 0) {
+              await Laurent.setAllRelays(Laurent.appName.Timeline, '1'.repeat(12)) //TODO
+            } else {
+              await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1)
+            }
             //await this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1)
             console.log({year: btn.name})
             await this.$api.idle.postState('timeline', false)
-            await this.$api.timeline.postYear(btn.name)
+            await this.$api.timeline.postYear(btn.name) //TODO name is not suitable
             break
           case startsWith(btn.link, 'technology-'):
             const btnName = btn.link.split('-')[1]
@@ -168,8 +172,9 @@ export default {
             if (btnName === 'idle') {
               await this.$api.idle.postState('technology', !idleState)
             } else {
-              await this.$api.technology.setStage(btnName)
-              await this.$api.idle.postState('technology', false)
+              // await this.$api.technology.setStage(btnName) TODO uncomment
+              // await this.$api.idle.postState('technology', false) TODO uncomment
+              await this.$api.technology.setLaurentStage(btnName)
             }
 
             break

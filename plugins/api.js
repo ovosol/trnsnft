@@ -2,6 +2,10 @@
  * @typedef { 'human_capital' | 'timeline' | 'samara' | 'flows' | 'technology'} IdleApp
  */
 
+/**
+ * @typedef { 'past' | 'present_1' | 'present_2' | 'present_3' | 'future' } TechnologyLaurentStage
+ */
+
 const requestCache = {}
 
 let a;
@@ -188,7 +192,7 @@ export default ({app, store}, inject) => {
     technology: {
       /**
        *
-       * @param {string} stage
+       * @param {TechnologyLaurentStage} stage
        * @return {Promise<*>}
        */
       setStage: async (stage) => {
@@ -201,6 +205,14 @@ export default ({app, store}, inject) => {
       getStage: async () => {
         const res = await getCached('/api/technologies/stage/')
         return res.stage
+      },
+      /**
+       *
+       * @param {TechnologyLaurentStage} stage
+       * @return {Promise<*>}
+       */
+      setLaurentStage: async (stage) => {
+        return await postCached(`/api/technologies/laurent_stage/`, {stage})
       },
       /**
        *

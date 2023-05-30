@@ -137,6 +137,11 @@ export const state = () => ({
         name: 'Настоящее 2',
       },
       {
+        status: 'present_3',
+        link: 'technology-present_3',
+        name: 'Настоящее 3',
+      },
+      {
         status: 'future',
         link: 'technology-future',
         name: 'Будущее',

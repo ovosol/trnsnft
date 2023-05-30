@@ -157,15 +157,8 @@ const technology = {
    */
   move: async (state) => {
     // TODO change relay
-  },
-  /**
-   *
-   * @param {boolean} isRight
-   * @return {Promise<void>}
-   */
-  setDirection: async (isRight) => {
-
   }
+
 }
 
 
