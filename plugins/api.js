@@ -1,9 +1,13 @@
 /**
- * @typedef { 'human_capital' | 'timeline' | 'samara' | 'flows' | 'technology'} IdleApp
+ * @typedef { 'human_capital' | 'timeline' | 'samara' | 'flows' | 'technology' | 'technology_vertical' | 'technology_small' } IdleApp
  */
 
 /**
- * @typedef { 'past' | 'present_1' | 'present_2' | 'present_3' | 'future' } TechnologyLaurentStage
+ * @typedef { 'past' | 'present_1' | 'present_2' | 'present_3' | 'future' } TechnologyLaurentPoint
+ */
+
+/**
+ * @typedef { 'past' | 'diaskan' | 'volzhanka' | 'future' } TechnologyStage
  */
 
 const requestCache = {}
@@ -192,7 +196,7 @@ export default ({app, store}, inject) => {
     technology: {
       /**
        *
-       * @param {TechnologyLaurentStage} stage
+       * @param {TechnologyStage} stage
        * @return {Promise<*>}
        */
       setStage: async (stage) => {
@@ -208,11 +212,11 @@ export default ({app, store}, inject) => {
       },
       /**
        *
-       * @param {TechnologyLaurentStage} stage
+       * @param {TechnologyLaurentPoint} point
        * @return {Promise<*>}
        */
-      setLaurentStage: async (stage) => {
-        return await postCached(`/api/technologies/laurent_stage/`, {stage})
+      setLaurentPoint: async (point) => {
+        return await postCached(`/api/technologies/laurent_point/`, {point: point})
       },
       /**
        *

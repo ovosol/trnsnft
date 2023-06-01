@@ -7,6 +7,7 @@
     ></ModuleVideo>
     <ModuleVideo
       v-else
+      v-if="stage !== 'future'"
       class="all-size"
       :videoSrc="video"
       :loop="true"
@@ -14,13 +15,18 @@
     ></ModuleVideo>
     <div
       style="height: 100vh; display: flex"
-      class="all-size corner-decoration"
+      class="all-size"
       v-show="stage === 'future'"
     >
+      <ModuleVideo
+        class="all-size background-video"
+        :videoSrc="video"
+        :loop="true"
+      ></ModuleVideo>
       <div class="future-moving-screen flex-center">
         <div class="carousel" style="justify-content: space-between;" v-show="modelIndex === null">
           <div class="logo-place">
-            <img src="~/assets/picture/logo.png" alt=""/>
+            <img src="~/assets/picture/logo_dark.png" alt=""/>
           </div>
           <div class="carousel-items">
             <img
@@ -76,7 +82,7 @@
                 :images="models[index].jpgs"
                 :remove360="true"
               >
-                <p>Грузиться</p>
+                <p>Грузится</p>
               </Vue360Spinner>
             </div>
           </div>
@@ -87,24 +93,20 @@
 </template>
 
 <script>
-// import 'vue-range-component/dist/vue-range-slider.css'
-// import VueRangeSlider from 'vue-range-component'
-// import VueProduct360 from '@deviznet/vue-product-360'
-
 import {mapGetters} from 'vuex'
 
 export default {
   async asyncData({$api}) {
     let idleVideo = ""
 
-    let stage = ""
     let video = ""
-    const idleState = await $api.idle.getState('technology')
+    let idleState = await $api.idle.getState('technology')
+    const stage = await $api.technology.getStage()
+    // show idle video if the screen is moving to start position
+    idleState = idleState || stage === 'preparation'
     if (idleState) {
-      idleVideo = await $api.idle.getVideo('technology')
+      idleVideo = await $api.idle.getVideo('technology_vertical')
     } else {
-      stage = await $api.technology.getStage()
-
       video = await $api.technology.getVideo("moving", stage)
     }
 
@@ -118,13 +120,40 @@ export default {
       carouselIndex: 1,
       slider: 0,
       video: null,
-      stage: '',
+      /** @type {TechnologyStage | null}*/
+      stage: null,
       idleState: false,
       idleVideo: null,
+      /** @type {Timeline | null}*/
+      timeline: null,
     }
   },
-
+  watch: {
+    idleState(newVal) {
+      console.log('idleState', newVal)
+      if (!newVal) {
+        this.startSequence()
+      } else {
+        this.stopSequence()
+      }
+    }
+  },
   methods: {
+    async startSequence() {
+      if (this.stage === 'diaskan') {
+        this.timeline = new Timeline(true)
+        const app = this
+        this.timeline.addAction(32, () => {
+          app.$api.technology.setLaurentPoint("present_2")
+        })
+        this.timeline.addAction(73, () => {
+          app.$api.technology.setLaurentPoint("present_3")
+        })
+      }
+    },
+    async stopSequence() {
+      this.timeline?.stop()
+    },
     carouselAuto: function () {
       setInterval(() => {
         this.carouselChange(1)
@@ -140,6 +169,8 @@ export default {
       }
     },
     startIdle() {
+      this.timeline?.stop()
+      this.timeline?.clearActions()
       this.$api.idle.postState('technology', true)
     }
   },
@@ -159,9 +190,17 @@ export default {
 </script>
 
 <style>
+.background-video{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 .future-moving-screen {
-  /* padding: 10vh 0; */
   height: 80%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .future-moving-screen > .carousel {
@@ -178,6 +217,7 @@ export default {
   justify-content: space-between;
   align-content: center;
   width: 100%;
+  top: 24px;
 }
 
 .future-moving-screen > .carousel > .logo-place > img {

@@ -48,7 +48,8 @@ export default {
       currentVideo: '',
       idleVideo: '',
       autoplay: '',
-      timers: []
+      /** @type {Timeline | null}*/
+      timeline: null
     }
   },
   watch: {
@@ -71,16 +72,16 @@ export default {
         () => Laurent.apps.samara.changeAllGroups('1110').then(),
         () => Laurent.apps.samara.changeAllGroups('1111').then(),
       ]
-      const startTime = Date.now()
+
+      this.timeline = new Timeline(true)
+
+     /* const startTime = Date.now()*/
       console.log('startSequence')
 
       for (let i = 0; i < times.length; i++) {
-        this.timers.push(setTimeout(() => {
-          const elapsedTime = Date.now() - startTime
-          console.log('Waypoint', i, elapsedTime)
-          actions[i]()
-        }, times[i] * 1000))
+        this.timeline.addAction(times[i], actions[i])
       }
+      this.timeline.start()
       await Laurent.apps.samara.changeAllGroups('0000')
       // TODO await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
       await Laurent.apps.samara.changeLight(0)
@@ -88,10 +89,7 @@ export default {
     },
     async stopSequence() {
       console.log('stopSequence')
-      this.timers.forEach(timer => {
-        clearTimeout(timer)
-      })
-      this.timers = []
+      this.timeline?.stop()
       await Laurent.apps.samara.changeAllGroups('0000')
       // TODO await Laurent.setAllRelays(Laurent.appName.Samara, '0000')
       await Laurent.apps.samara.changeLight(1)

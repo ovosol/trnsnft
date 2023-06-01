@@ -122,24 +122,16 @@ export const state = () => ({
     // ],
     technology: [
       {
-        status: 'past',
         link: 'technology-past',
         name: 'Прошлое',
       },
       {
-        status: 'present_1',
-        link: 'technology-present_1',
-        name: 'Настоящее',
+        link: 'technology-diaskan',
+        name: 'Диаскан',
       },
       {
-        status: 'present_2',
-        link: 'technology-present_2',
-        name: 'Настоящее 2',
-      },
-      {
-        status: 'present_3',
-        link: 'technology-present_3',
-        name: 'Настоящее 3',
+        link: 'technology-volzhanka',
+        name: 'Волжанка',
       },
       {
         status: 'future',

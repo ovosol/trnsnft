@@ -168,13 +168,13 @@ export default {
             break
           case startsWith(btn.link, 'technology-'):
             const btnName = btn.link.split('-')[1]
-            const idleState = await this.$api.idle.getState('technology')
+            //const idleState = await this.$api.idle.getState('technology')
             if (btnName === 'idle') {
-              await this.$api.idle.postState('technology', !idleState)
+              await this.$api.idle.postState('technology', true)
+              await this.$api.technology.setLaurentPoint('past')
             } else {
-              // await this.$api.technology.setStage(btnName) TODO uncomment
-              // await this.$api.idle.postState('technology', false) TODO uncomment
-              await this.$api.technology.setLaurentStage(btnName)
+              await this.$api.idle.postState('technology', false)
+              await this.$api.technology.setStage(btnName)
             }
 
             break
