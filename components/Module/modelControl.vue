@@ -55,7 +55,7 @@ export default {
     images(){
       console.log('index', this.modelIndex)
       console.log('models', this.models)
-      return this.models[this.modelIndex].jpgs
+      return this.models[this.modelIndex].imagesSmall
     },
   },
   methods: {

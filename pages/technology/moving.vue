@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="carousel all-screen" style="justify-content: center;" v-if="modelIndex !== null">
-          <div class="logo-place" style="padding-bottom: 15vh;">
+          <div class="logo-place" style="padding-bottom: 3vh;">
             <img src="~/assets/picture/logo.png" alt=""/>
           </div>
           <div
@@ -76,10 +76,10 @@
           >
             <div class="text-elements all-size">
               <div class="name">{{ models[modelIndex].name }}</div>
-              <div class="desc">{{ models[modelIndex].desc }}</div>
+              <div class="desc" v-html="description"></div>
               <Vue360Spinner class="moving-spinner"
                 :reverse="true"
-                :images="models[modelIndex].jpgs"
+                :images="models[modelIndex].imagesBig"
                 :remove360="true"
                 :model-value="modelFrame"
               >
@@ -216,6 +216,11 @@ export default {
     models() {
       return this.byPath('technology.models')
     },
+    description() {
+      let d = this.models[this.modelIndex].desc
+      d = d.replaceAll('\n', '<br/>')
+      return d
+    }
   },
 }
 </script>
@@ -303,6 +308,6 @@ export default {
 }
 
 .text-elements > .desc {
-  margin: auto 50px;
+  margin: auto 120px;
 }
 </style>
