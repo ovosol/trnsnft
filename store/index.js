@@ -38,7 +38,7 @@ export const state = () => ({
         link: 'model_controller',
         name: 'Устройство для безогневой резки труб',
         imagesBig: importAll(require.context('/static/models/VOLZH/', false, /.*\.png$/)),
-        imagesSmall: importAll(require.context('/static/modelsSmall/VOLZH/', false, /.*\.png$/)),
+        imagesSmall: importAll(require.context('/static/modelsSmall/VOLZH/', false, /.*\.jpg$/)),
       },
       {
         model: 1,
@@ -52,7 +52,7 @@ export const state = () => ({
         link: 'model_controller',
         name: 'Установка для плоскосворачиваемого рукава',
         imagesBig: importAll(require.context('/static/models/TPGS/', false, /.*\.png$/)),
-        imagesSmall: importAll(require.context('/static/modelsSmall/TPGS/', false, /.*\.png$/)),
+        imagesSmall: importAll(require.context('/static/modelsSmall/TPGS/', false, /.*\.jpg$/)),
       },
       {
         model: 2,
@@ -61,7 +61,7 @@ export const state = () => ({
         link: 'model_controller',
         name: 'Установка ледорезная',
         imagesBig: importAll(require.context('/static/models/UL/', false, /.*\.png$/)),
-        imagesSmall: importAll(require.context('/static/modelsSmall/UL/', false, /.*\.png$/)),
+        imagesSmall: importAll(require.context('/static/modelsSmall/UL/', false, /.*\.jpg$/)),
       },
       {
         model: 3,
@@ -71,7 +71,7 @@ export const state = () => ({
         link: 'model_controller',
         name: 'Герметизирующее устройство для вантуза трубопровода',
         imagesBig: importAll(require.context('/static/models/PUIPG/', false, /.*\.png$/)),
-        imagesSmall: importAll(require.context('/static/modelsSmall/PUIPG/', false, /.*\.png$/)),
+        imagesSmall: importAll(require.context('/static/modelsSmall/PUIPG/', false, /.*\.jpg$/)),
       },
     ],
   },
