@@ -77,7 +77,7 @@
             <div class="text-elements all-size">
               <div class="name">{{ models[modelIndex].name }}</div>
               <div class="desc">{{ models[modelIndex].desc }}</div>
-              <Vue360Spinner
+              <Vue360Spinner class="moving-spinner"
                 :reverse="true"
                 :images="models[modelIndex].jpgs"
                 :remove360="true"
@@ -162,6 +162,7 @@ export default {
         this.timeline.addAction(73, () => {
           app.$api.technology.postLaurentPoint("present_3")
         })
+        this.timeline.start()
       }
     },
     async stopSequence() {
@@ -219,6 +220,9 @@ export default {
 </script>
 
 <style>
+.moving-spinner{
+  height: 60vh;
+}
 .background-video {
   position: absolute;
   width: 100%;
@@ -234,10 +238,10 @@ export default {
 }
 
 .future-moving-screen > .carousel {
-  display: flex;
-  flex-direction: column;
+ /* display: flex;
+  flex-direction: column;*/
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   /* margin: 10vh auto auto auto; */
 }
 
