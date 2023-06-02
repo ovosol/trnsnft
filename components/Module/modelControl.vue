@@ -1,17 +1,16 @@
 <template>
   <div class="all-size flex-center" style="align-items: center">
     <div class="sliderus">
-      <div v-show="index === modelIndex" v-for="index in 3" :key="index">
-        <div>
+        <div >
           <Vue360Spinner
             :reverse="true"
             @changeCurrent="changeModelValue"
-            :images="models[index].jpgs"
+            :images="images"
           >
-            <p>Грузиться</p>
+            <p>Грузится</p>
           </Vue360Spinner>
         </div>
-      </div>
+
       <!-- <label for="vue-range-slider">x</label> -->
       <!-- <vue-range-slider
         :name="'x'"
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 // import 'vue-range-component/dist/vue-range-slider.css'
 // import VueProduct360 from '@deviznet/vue-product-360'
 // import VueRangeSlider from 'vue-range-component'
@@ -35,32 +34,40 @@ export default {
   data() {
     return {
       modelValue: 1,
+      lastSendFrame: 1,
     }
   },
   props: {
-    modelNum: Number,
+    modelIndex: Number,
   },
   components: {
     // VueProduct360,
     // VueRangeSlider,
   },
-  watch: {
-    modelValue(mv) {
-      this.CHANGE_BY_PATH(['smallTablet.modelValue', mv])
-    },
+  mounted() {
+    setTimeout(this.sendFrame, 30);
   },
   computed: {
-    ...mapGetters({ byPath: 'byPath' }),
-    modelIndex() {
-      return this.byPath('smallTablet.modelIndex')
-    },
+    ...mapGetters({byPath: 'byPath'}),
     models() {
       return this.byPath('technology.models')
     },
+    images(){
+      console.log('index', this.modelIndex)
+      console.log('models', this.models)
+      return this.models[this.modelIndex].jpgs
+    },
   },
   methods: {
-    ...mapMutations(['CHANGE_BY_PATH']),
-    changeModelValue (newVal) {
+    async sendFrame() {
+      if (this.lastSendFrame !== this.modelValue) {
+        await this.$api.technology.postModelFrame(this.modelValue)
+        this.lastSendFrame = this.modelValue
+      }
+
+      setTimeout(this.sendFrame, 30);
+    },
+    changeModelValue(newVal) {
       console.log('changeModelValue', newVal)
       this.modelValue = newVal
     },
@@ -83,9 +90,11 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .vue-product-360 > img[draggable="false"]:last-child {
   height: 20%;
 }
+
 /* .vue-product-360 > img[draggable="false"]:first-child {
   height: 55%;
 } */

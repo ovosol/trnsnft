@@ -49,6 +49,10 @@ import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'vue-product-360',
   props: {
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
     remove360: {
       type: Boolean,
       default: false,
@@ -166,35 +170,31 @@ export default {
       }
     },
     slideToRight() {
-      if (this.carousel.current < this.images.length) {
-        this.carousel.current += 1
-        this.carousel.currentPath = this.images[this.carousel.current - 1]
-      } else if (this.infinite) {
-        this.carousel.current = 0
-        this.carousel.currentPath = this.images[this.carousel.current]
+      let newCurrent = this.carousel.current + 1
+      if (newCurrent >= this.images.length){
+        if (this.infinite)
+          newCurrent = 0
+        else
+          newCurrent = this.images.length - 1
       }
+      this.slideTo(newCurrent)
     },
     slideToLeft() {
-      if (this.carousel.current > 1) {
-        this.carousel.current -= 1
-        this.carousel.currentPath = this.images[this.carousel.current - 1]
-      } else if (this.infinite) {
-        this.carousel.current = this.images.length
-        this.carousel.currentPath = this.images[this.carousel.current - 1]
+      let newCurrent = this.carousel.current - 1
+      if (newCurrent < 0){
+        if (this.infinite)
+          newCurrent = this.images.length - 1
+        else
+          newCurrent = 0
       }
+      this.slideTo(newCurrent)
     },
     slideTo(position) {
       if (this.images[position]) {
         this.carousel.current = position
         this.carousel.currentPath =
-          this.images[position === 0 ? position : position - 1]
+          this.images[position]
       }
-    },
-  },
-  computed: {
-    ...mapGetters({ byPath: 'byPath' }),
-    modelValue() {
-      return this.byPath('smallTablet.modelValue')
     },
   },
   watch: {

@@ -171,10 +171,10 @@ export default {
             //const idleState = await this.$api.idle.getState('technology')
             if (btnName === 'idle') {
               await this.$api.idle.postState('technology', true)
-              await this.$api.technology.setLaurentPoint('past')
+              await this.$api.technology.postLaurentPoint('past')
             } else {
               await this.$api.idle.postState('technology', false)
-              await this.$api.technology.setStage(btnName)
+              await this.$api.technology.postStage(btnName)
             }
 
             break

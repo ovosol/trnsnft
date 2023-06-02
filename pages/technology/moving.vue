@@ -16,15 +16,18 @@
     <div
       style="height: 100vh; display: flex"
       class="all-size"
-      v-show="stage === 'future'"
+      v-if="stage === 'future'"
     >
-      <ModuleVideo
+      <video
         class="all-size background-video"
-        :videoSrc="video"
+        :src="video"
         :loop="true"
-      ></ModuleVideo>
+        autoplay
+        muted
+        v-if="stage === 'future'"
+      ></video>
       <div class="future-moving-screen flex-center">
-        <div class="carousel" style="justify-content: space-between;" v-show="modelIndex === null">
+        <div class="carousel" style="justify-content: space-between;" v-if="modelIndex === null">
           <div class="logo-place">
             <img src="~/assets/picture/logo_dark.png" alt=""/>
           </div>
@@ -64,23 +67,21 @@
             </div>
           </div>
         </div>
-        <div class="carousel all-screen" style="justify-content: center;" v-show="modelIndex !== null">
+        <div class="carousel all-screen" style="justify-content: center;" v-if="modelIndex !== null">
           <div class="logo-place" style="padding-bottom: 15vh;">
             <img src="~/assets/picture/logo.png" alt=""/>
           </div>
           <div
             class="carousel-items all-size"
-            v-show="index === modelIndex"
-            v-for="(model, index) in models"
-            :key="index"
           >
             <div class="text-elements all-size">
-              <div class="name">{{ model.name }}</div>
-              <div class="desc">{{ model.desc }}</div>
+              <div class="name">{{ models[modelIndex].name }}</div>
+              <div class="desc">{{ models[modelIndex].desc }}</div>
               <Vue360Spinner
                 :reverse="true"
-                :images="models[index].jpgs"
+                :images="models[modelIndex].jpgs"
                 :remove360="true"
+                :model-value="modelFrame"
               >
                 <p>Грузится</p>
               </Vue360Spinner>
@@ -126,6 +127,11 @@ export default {
       idleVideo: null,
       /** @type {Timeline | null}*/
       timeline: null,
+      modelFrame: 0,
+      carouselInterval: null,
+      modelIndexInterval: null,
+      modelFrameInterval: null,
+      modelIndex: null,
     }
   },
   watch: {
@@ -136,7 +142,14 @@ export default {
       } else {
         this.stopSequence()
       }
-    }
+    },
+    stage(newVal) {
+      if (newVal === 'future') {
+        this.startCarousel()
+      } else {
+        this.stopCarousel()
+      }
+    },
   },
   methods: {
     async startSequence() {
@@ -144,20 +157,39 @@ export default {
         this.timeline = new Timeline(true)
         const app = this
         this.timeline.addAction(32, () => {
-          app.$api.technology.setLaurentPoint("present_2")
+          app.$api.technology.postLaurentPoint("present_2")
         })
         this.timeline.addAction(73, () => {
-          app.$api.technology.setLaurentPoint("present_3")
+          app.$api.technology.postLaurentPoint("present_3")
         })
       }
     },
     async stopSequence() {
       this.timeline?.stop()
     },
-    carouselAuto: function () {
-      setInterval(() => {
-        this.carouselChange(1)
-      }, 5000)
+    startCarousel() {
+      this.carouselInterval =
+        setInterval(() => {
+          this.carouselChange(1)
+        }, 5000)
+
+      this.modelIndexInterval =
+        setInterval(async () => {
+          this.modelIndex = await this.$api.technology.getModelIndex()
+        }, 100)
+
+      this.modelFrameInterval =
+        setInterval(async () => {
+          if (this.modelIndex === null) return
+          this.modelFrame = await this.$api.technology.getModelFrame()
+        }, 30)
+    },
+    stopCarousel() {
+      clearInterval(this.carouselInterval)
+      clearInterval(this.modelIndexInterval)
+      clearInterval(this.modelFrameInterval)
+      this.modelIndex = null
+      this.modelFrame = 0
     },
     carouselChange(count) {
       this.carouselIndex += count
@@ -175,13 +207,10 @@ export default {
     }
   },
   mounted() {
-    this.carouselAuto()
+    this.startCarousel()
   },
   computed: {
     ...mapGetters({byPath: 'byPath',}),
-    modelIndex() {
-      return this.byPath('smallTablet.modelIndex')
-    },
     models() {
       return this.byPath('technology.models')
     },
@@ -190,13 +219,14 @@ export default {
 </script>
 
 <style>
-.background-video{
+.background-video {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: -1;
 }
+
 .future-moving-screen {
   height: 80%;
   margin-top: auto;

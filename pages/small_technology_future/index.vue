@@ -11,12 +11,12 @@
       @changeBtns="changeModelIndex"
       class="flex-center"
     ></ModuleBtnCollection>
-    <ModuleModelControl v-show="showControl"> </ModuleModelControl>
+    <ModuleModelControl v-if="showControl" :modelIndex="modelIndex"></ModuleModelControl>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 
 export default {
@@ -25,45 +25,44 @@ export default {
     return {
       array: [],
       style: 'oddBtns',
-      showControl: false,
+      modelIndex: null,
+      lastSendTime: 0,
+      lastSendIndex: 0,
     }
   },
   computed: {
     btnKeys() {
       return Object.keys(this.btns)
     },
-    //   btnArray() {
-    //     if (this.array.length === 0) {
-    //       return this.btns.main
-    //     } else {
-    //       return this.array
-    //     }
-    //   },
     ...mapGetters({
       getByPath: 'btns/byPath',
     }),
     smallTablet() {
       return this.getByPath('smallTablet')
     },
+    showControl() {
+      return this.modelIndex !== null
+    },
+  },
+  mounted() {
+    setTimeout(this.sendIndex, 100)
   },
   methods: {
-    ...mapMutations(['CHANGE_BY_PATH']),
     returnToMain() {
-      this.CHANGE_BY_PATH(['smallTablet.modelIndex', null])
-      this.showControl = false
+      this.modelIndex = null
     },
-    changeModelIndex(btn) {
-      this.showControl = true
-      this.CHANGE_BY_PATH(['smallTablet.modelIndex', btn.model])
-      // this.CHANGE_MODEL_INDEX(btn.model);
-      // if (this.btns[btn.link]) {
-      //   this.array = this.btns[btn.link]
-      //   this.title = btn.name.replaceAll(' <br>', '')
-      //   this.style = this.btns[btn.link].length % 2 ? 'odd' : 'even'
-      // } else {
-      //   this.$router.push({ path: '/human_capital/' + btn.link })
-      // }
+    async changeModelIndex(btn) {
+      this.modelIndex = btn.model
     },
+    async sendIndex() {
+      if (this.lastSendIndex !== this.modelIndex) {
+        await this.$api.technology.postModelIndex(this.modelIndex)
+        this.lastSendIndex = this.modelIndex
+      }
+
+      setTimeout(this.sendIndex, 100)
+    }
   },
+
 }
 </script>

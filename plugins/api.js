@@ -199,7 +199,7 @@ export default ({app, store}, inject) => {
        * @param {TechnologyStage} stage
        * @return {Promise<*>}
        */
-      setStage: async (stage) => {
+      postStage: async (stage) => {
         return await postCached(`/api/technologies/stage/`, {stage})
       },
       /**
@@ -215,7 +215,7 @@ export default ({app, store}, inject) => {
        * @param {TechnologyLaurentPoint} point
        * @return {Promise<*>}
        */
-      setLaurentPoint: async (point) => {
+      postLaurentPoint: async (point) => {
         return await postCached(`/api/technologies/laurent_point/`, {point: point})
       },
       /**
@@ -227,6 +227,38 @@ export default ({app, store}, inject) => {
       getVideo: async (screen, stage) => {
         const res = await getCached(`/api/technologies/${screen}/${stage}/`)
         return process.env.BASE_URL + res.current_video
+      },
+      /**
+       *
+       * @return {Promise<number | null>}
+       */
+      getModelIndex: async () => {
+        const res = await getCached(`/api/technologies/model/index/`)
+        return res.index
+      },
+      /**
+       *
+       * @param {number | number} modelIndex
+       * @return {Promise<*>}
+       */
+      postModelIndex: async (modelIndex) => {
+        return await postCached(`/api/technologies/model/index/`, {index: modelIndex})
+      },
+      /**
+       *
+       * @return {Promise<number>}
+       */
+      getModelFrame: async () => {
+        const res = await getCached(`/api/technologies/model/frame/`)
+        return res.frame
+      },
+      /**
+       *
+       * @param {number} frameIndex
+       * @return {Promise<*>}
+       */
+      postModelFrame: async (frameIndex) => {
+        return await postCached(`/api/technologies/model/frame/`, {frame: frameIndex})
       }
     }
   })

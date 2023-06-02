@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     async changeStage(stage) {
-      await this.$api.technology.setStage(stage)
+      await this.$api.technology.postStage(stage)
     }
     // ...mapMutations(['CHANGE_BY_PATH']),
   },
