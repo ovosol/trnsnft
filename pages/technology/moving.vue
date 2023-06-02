@@ -1,30 +1,30 @@
 <template>
-  <div class="all-screen">
+  <div class="all-screen" v-if="dataLoaded">
     <ModuleVideo
-      v-if="idleState"
-      :videoSrc="idleVideo"
+      v-if="data.idleState"
+      :videoSrc="data.idleVideo"
       :loop="true"
     ></ModuleVideo>
     <ModuleVideo
       v-else
-      v-if="stage !== 'future'"
+      v-if="data.stage !== 'future'"
       class="all-size"
-      :videoSrc="video"
+      :videoSrc="data.video"
       :loop="false"
       @ended="startIdle()"
     ></ModuleVideo>
     <div
       style="height: 100vh; display: flex"
       class="all-size"
-      v-if="stage === 'future'"
+      v-if="data.stage === 'future'"
     >
       <video
         class="all-size background-video"
-        :src="video"
+        :src="data.video"
         :loop="true"
         autoplay
         muted
-        v-if="stage === 'future'"
+        v-if="data.stage === 'future'"
       ></video>
       <div class="future-moving-screen flex-center">
         <div class="carousel" style="justify-content: space-between;" v-if="modelIndex === null">
@@ -123,11 +123,6 @@ export default {
       value: 60,
       carouselIndex: 1,
       slider: 0,
-      video: null,
-      /** @type {TechnologyStage | null}*/
-      stage: null,
-      idleState: false,
-      idleVideo: null,
       /** @type {Timeline | null}*/
       timeline: null,
       modelFrame: 0,
@@ -135,6 +130,13 @@ export default {
       modelIndexInterval: null,
       modelFrameInterval: null,
       modelIndex: null,
+      data: {
+        /** @type {TechnologyStage | null}*/
+        stage: null,
+        idleState: false,
+        idleVideo: null,
+        video: null,
+      }
     }
   },
   watch: {
@@ -157,18 +159,15 @@ export default {
   methods: {
     async loadData(){
       while (true){
-        const data = await getCurrentData("moving", this.$api)
+        this.data = await getCurrentData("moving", this.$api)
 
-        this.video = data.video
-        this.idleVideo = data.idleVideo
-        this.stage = data.stage
-        this.idleState = data.idleState
+        this.dataLoaded = true
 
         await new Promise(resolve => setTimeout(resolve, 500))
       }
     },
     async startSequence() {
-      if (this.stage === 'diaskan') {
+      if (this.data.stage === 'diaskan') {
         this.timeline = new Timeline(true)
         const app = this
         this.timeline.addAction(34, () => {

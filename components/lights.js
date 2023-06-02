@@ -7,7 +7,7 @@ import {Laurent} from "@/plugins/laurentControllerLegacy";
  * @property {number[]} [relays] - An array of relay numbers associated with the light.
  * @property {number[]} [outs] - An array of output numbers associated with the light.
  * @property {Laurent.appName} app - The name of the app associated with the light.
- * @property {boolean} exclusive - Whether the light is exclusive (only one light can be on at a time).
+ * @property {boolean} [mode] - The mode of the light. True for on, false for off.
  */
 
 /**
@@ -17,33 +17,33 @@ import {Laurent} from "@/plugins/laurentControllerLegacy";
 export const lights = {
   "timeline": {
     name: "История",
-    relays: [1,4],
+    relays: [1, 4],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "technology": {
     name: "Технологии",
-    relays: [3,5],
+    relays: [3, 5],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "stream7": {
     name: "7 потоков нефти",
-    relays: [3,6],
+    relays: [3, 6],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "human_capital": {
-    name: "Человеческий капитал",
-    relays: [2,8],
+    name: "Люди",
+    relays: [2, 8],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "samara": {
     name: "Самара",
-    relays: [3,7],
+    relays: [3, 7],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "samara_table": {
     name: "Самара стол",
@@ -55,17 +55,11 @@ export const lights = {
     name: "Общий свет",
     relays: [12],
     app: Laurent.appName.Light,
-    exclusive: true
+    exclusive: false
   },
   "full": {
-    name: "Весь свет вкл",
-    relays: [1,2,3,4,5,6,7,8,12],
-    app: Laurent.appName.Light,
-    exclusive: true
-  },
-  "off": {
-    name: "Весь свет выкл",
-    relays: [],
+    name: "Весь свет",
+    relays: [1, 2, 3, 4, 5, 6, 7, 8, 12],
     app: Laurent.appName.Light,
     exclusive: true
   }
@@ -77,6 +71,11 @@ export const lights = {
  * @return {LightInfo}
  */
 export const getLightInfo = (lightName) => {
-  lightName = lightName.replace(/light-/, "")
-  return lights[lightName]
+  const [prefix, name, state] = lightName.split("-")
+  const light = lights[name]
+  if (state === "on")
+    light.mode = true
+  else if (state === "off")
+    light.mode = false
+  return light
 }

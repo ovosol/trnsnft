@@ -1,13 +1,13 @@
 <template>
-  <div class="all-screen">
+  <div class="all-screen" v-if="loaded">
     <ModuleVideo
-      v-if="idleState"
-      :videoSrc="idleVideo"
+      v-if="data.idleState"
+      :videoSrc="data.idleVideo"
       :loop="true"
     ></ModuleVideo>
     <ModuleVideo
       class="all-size"
-      :videoSrc="video"
+      :videoSrc="data.video"
       :loop="true"
     ></ModuleVideo>
   </div>
@@ -20,24 +20,25 @@ import {getCurrentData} from "@/components/movingFetch";
 export default {
   data() {
     return {
-      video: null,
-      stage: '',
-      idleState: false,
-      idleVideo: null,
+      loaded: false,
+      data: {
+        /** @type {TechnologyStage | null}*/
+        stage: null,
+        idleState: false,
+        idleVideo: null,
+        video: null,
+      }
     }
   },
   mounted() {
     this.loadData()
   },
-  methods:{
-    async loadData(){
-      while (true){
-        const data = await getCurrentData("backstage", this.$api)
+  methods: {
+    async loadData() {
+      while (true) {
+        this.data = await getCurrentData("backstage", this.$api)
 
-        this.video = data.video
-        this.idleVideo = data.idleVideo
-        this.stage = data.stage
-        this.idleState = data.idleState
+        this.loaded = true
 
         await new Promise(resolve => setTimeout(resolve, 500))
       }

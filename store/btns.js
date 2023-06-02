@@ -27,33 +27,51 @@ export const state = () => ({
         name: 'Свет',
       }
     ],
-    light:[
+    light: [
       {
-        link: 'light-timeline',
+        link: 'light-timeline-on',
       },
       {
-        link: 'light-technology',
+        link: 'light-timeline-off',
       },
       {
-        link: 'light-stream7',
+        link: 'light-technology-on',
       },
       {
-        link: 'light-human_capital',
+        link: 'light-technology-off',
       },
       {
-        link: 'light-samara',
+        link: 'light-stream7-on'
+      },
+      {
+        link: 'light-stream7-off'
+      },
+      {
+        link: 'light-human_capital-on',
+      },
+      {
+        link: 'light-human_capital-off',
+      },
+      {
+        link: 'light-samara-on',
+      },
+      {
+        link: 'light-samara-off',
       },
       {
         link: 'light-samara_table',
       },
       {
-        link: 'light-backlight',
+        link: 'light-backlight-on',
       },
       {
-        link: 'light-full',
+        link: 'light-backlight-off',
       },
       {
-        link: 'light-off',
+        link: 'light-full-on',
+      },
+      {
+        link: 'light-full-off',
       }
     ],
     stream7: [
@@ -409,11 +427,7 @@ export const state = () => ({
 export const getters = {
   byPath: (state) => (some) => {
     console.log('from getter', some);
-    return some.
-    replace(/\[/g, '.').
-    replace(/\]/g, '').
-    split('.').
-    reduce((o, k) => (o || {})[k], state);
+    return some.replace(/\[/g, '.').replace(/\]/g, '').split('.').reduce((o, k) => (o || {})[k], state);
   },
 }
 

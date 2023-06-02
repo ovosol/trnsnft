@@ -130,7 +130,12 @@ export default {
           this.array.forEach(btn => {
             if (!btn.name && startsWith(btn.link, 'light')) {
               const light = getLightInfo(btn.link)
-              btn.name = light.name
+              btn.light = light
+              let name = light.name
+              if (typeof light.mode !== 'undefined') {
+                name += ' <br> ' + (light.mode ? '💡' : '⚫')
+              }
+              btn.name = name
             }
           })
         this.title = btn.name.replaceAll(' <br>', '')
@@ -144,33 +149,40 @@ export default {
               break
 
             if (light.relays) {
-              if (light.relays.length === 1 && !light.exclusive) {
+              if (light.relays.length === 1) {
                 await Laurent.sendRelay(light.app, light.relays[0], 2)
               } else {
                 const maskLength = Laurent.thingsPerApp[light.app].relays
+                const mode = light.mode
                 // get the array of relays. create a binary mask with length of maskLength, fill with 0s and for each relay in the array set the corresponding bit to 1
                 const mask = light.relays.reduce((acc, relay) => {
-                  acc[relay - 1] = 1
+                  acc[relay - 1] = 1;
                   return acc
-                }, new Array(maskLength).fill(0))
+                }, new Array(maskLength).fill("x"))
                 // convert mask to string
-                const maskStr = mask.join('')
+                let maskStr = mask.join('')
+                console.log("mode: " + mode)
+                if (!mode) maskStr = maskStr.replaceAll('1', '0')
+
                 await Laurent.setAllRelays(light.app, maskStr)
               }
             }
 
             if (light.outs) {
-              if (light.outs.length === 0 && light.exclusive) {
+              if (light.outs.length === 1) {
                 await Laurent.sendOut(light.app, light.outs[0], 2)
               } else {
                 const maskLength = Laurent.thingsPerApp[light.app].outs
+                const mode = light.mode;
                 // get the array of outs. create a binary mask with length of maskLength, fill with 0s and for each out in the array set the corresponding bit to 1
                 const mask = light.outs.reduce((acc, out) => {
                   acc[out - 1] = 1
                   return acc
-                }, new Array(maskLength).fill(0))
+                }, new Array(maskLength).fill("x"))
                 // convert mask to string
-                const maskStr = mask.join('')
+                let maskStr = mask.join('')
+                console.log("mode: " + mode)
+                if (!mode) maskStr = maskStr.replaceAll('1', '0')
                 await Laurent.setAllOuts(light.app, maskStr)
               }
             }
@@ -287,8 +299,7 @@ export default {
   top: 50%;
   color: #adadad;
   pointer-events: none;
-//transition: all 0.14s ease-in-out; font-size: 18px;
-  transform: translate('5px-50%');
+//transition: all 0.14s ease-in-out; font-size: 18px; transform: translate('5px-50%');
 }
 
 input[type='text'].field-input {
