@@ -182,24 +182,24 @@ export default {
 }
 
 
-@keyframes moveInBottom {
+/*@keyframes moveInBottom {
   0% {
-    /* opacity: 0; */
+    !* opacity: 0; *!
     background-size: 100% 100%;
   }
 
   50% {
     background-size: 103% 103%;
-    /* opacity: 1; */
-    /* transform: scaleX(1.4) scaleY(1.6); */
+    !* opacity: 1; *!
+    !* transform: scaleX(1.4) scaleY(1.6); *!
   }
 
   100% {
     background-size: 100% 100%;
-    /* opacity: 0; */
-    /* transform: scaleX(1) scaleY(1); */
+    !* opacity: 0; *!
+    !* transform: scaleX(1) scaleY(1); *!
   }
-}
+}*/
 </style>
 
 

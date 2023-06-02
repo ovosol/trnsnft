@@ -7,21 +7,54 @@ export const state = () => ({
         hidden: true,
       },
       {
-        link: 'samara',
-        name: 'Самара',
+        link: 'timeline',
+        name: 'История',
       },
       {
         link: 'technology',
         name: 'Технологии',
       },
       {
-        link: 'timeline',
-        name: 'Таймлайн',
-      },
-      {
         link: 'stream7',
         name: '7 потоков нефти',
       },
+      {
+        link: 'samara',
+        name: 'Самара',
+      },
+      {
+        link: 'light',
+        name: 'Свет',
+      }
+    ],
+    light:[
+      {
+        link: 'light-timeline',
+      },
+      {
+        link: 'light-technology',
+      },
+      {
+        link: 'light-stream7',
+      },
+      {
+        link: 'light-human_capital',
+      },
+      {
+        link: 'light-samara',
+      },
+      {
+        link: 'light-samara_table',
+      },
+      {
+        link: 'light-backlight',
+      },
+      {
+        link: 'light-full',
+      },
+      {
+        link: 'light-off',
+      }
     ],
     stream7: [
       {

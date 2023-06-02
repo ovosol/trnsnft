@@ -15,6 +15,8 @@
 
 <script>
 
+import {getCurrentData} from "@/components/movingFetch";
+
 export default {
   data() {
     return {
@@ -24,7 +26,24 @@ export default {
       idleVideo: null,
     }
   },
-  async asyncData({$axios, $api}) {
+  mounted() {
+    this.loadData()
+  },
+  methods:{
+    async loadData(){
+      while (true){
+        const data = await getCurrentData("backstage", this.$api)
+
+        this.video = data.video
+        this.idleVideo = data.idleVideo
+        this.stage = data.stage
+        this.idleState = data.idleState
+
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+    },
+  }
+  /*async asyncData({$axios, $api}) {
     let idleVideo = ""
     let video = ""
     let idleState = await $api.idle.getState('technology')
@@ -38,7 +57,7 @@ export default {
     }
 
     return {video, stage, idleState, idleVideo}
-  },
+  },*/
 }
 </script>
 

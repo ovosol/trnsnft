@@ -14,6 +14,11 @@ const appName = {
   'Technology': 'technology',
 }
 
+const thingsPerApp = {
+  [appName.Light]: {relays: 12},
+  [appName.Samara]: {relays: 8, outs: 8},
+}
+
 const getUrl = async (url, timeout = 100) => {
   try {
     await axios.get(url, {
@@ -40,6 +45,13 @@ const setAllRelays = async (app, state) => {
   throwIfWrongCharacters(state)
   const ip = getAddressForApp(app)
   const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,ALL,${state}`
+  await getUrl(url)
+}
+
+const setAllOuts = async (app, state) => {
+  throwIfWrongCharacters(state)
+  const ip = getAddressForApp(app)
+  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=OUT,ALL,${state}`
   await getUrl(url)
 }
 
@@ -169,7 +181,9 @@ export const Laurent = {
   sendOutAll,
   appName,
   setAllRelays,
+  setAllOuts,
   apps: {
     samara,
-  }
+  },
+  thingsPerApp
 }

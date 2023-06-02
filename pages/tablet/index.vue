@@ -56,6 +56,7 @@
 import {mapGetters, mapMutations} from 'vuex'
 import {Laurent} from "@/plugins/laurentControllerLegacy";
 import ButtonBack from "@/components/Module/ButtonBack.vue";
+import {getLightInfo, lights} from "@/components/lights";
 
 export default {
   components: {ButtonBack},
@@ -125,11 +126,55 @@ export default {
       if (this.tablet[btn.link]) {
         console.log(btn.link)
         this.array = this.tablet[btn.link]
+        if (this.array && this.array.length > 0)
+          this.array.forEach(btn => {
+            if (!btn.name && startsWith(btn.link, 'light')) {
+              const light = getLightInfo(btn.link)
+              btn.name = light.name
+            }
+          })
         this.title = btn.name.replaceAll(' <br>', '')
         this.style = this.tablet[btn.link].length % 2 ? 'oddBtns' : 'evenBtns'
         this.myBtn = btn.link
       } else {
         switch (btn.link) {
+          case startsWith(btn.link, 'light-'):
+            const light = getLightInfo(btn.link)
+            if (!Object.values(Laurent.appName).includes(light.app))
+              break
+
+            if (light.relays) {
+              if (light.relays.length === 1 && !light.exclusive) {
+                await Laurent.sendRelay(light.app, light.relays[0], 2)
+              } else {
+                const maskLength = Laurent.thingsPerApp[light.app].relays
+                // get the array of relays. create a binary mask with length of maskLength, fill with 0s and for each relay in the array set the corresponding bit to 1
+                const mask = light.relays.reduce((acc, relay) => {
+                  acc[relay - 1] = 1
+                  return acc
+                }, new Array(maskLength).fill(0))
+                // convert mask to string
+                const maskStr = mask.join('')
+                await Laurent.setAllRelays(light.app, maskStr)
+              }
+            }
+
+            if (light.outs) {
+              if (light.outs.length === 0 && light.exclusive) {
+                await Laurent.sendOut(light.app, light.outs[0], 2)
+              } else {
+                const maskLength = Laurent.thingsPerApp[light.app].outs
+                // get the array of outs. create a binary mask with length of maskLength, fill with 0s and for each out in the array set the corresponding bit to 1
+                const mask = light.outs.reduce((acc, out) => {
+                  acc[out - 1] = 1
+                  return acc
+                }, new Array(maskLength).fill(0))
+                // convert mask to string
+                const maskStr = mask.join('')
+                await Laurent.setAllOuts(light.app, maskStr)
+              }
+            }
+            break
           case startsWith(btn.link, 'samaraButtons'):
             const stage = btn.link.split('-')[1]
             const samaraIdle = await this.$api.idle.getState('samara')
@@ -242,8 +287,7 @@ export default {
   top: 50%;
   color: #adadad;
   pointer-events: none;
-  transition: all 0.14s ease-in-out;
-  font-size: 18px;
+//transition: all 0.14s ease-in-out; font-size: 18px;
   transform: translate('5px-50%');
 }
 

@@ -28,7 +28,7 @@
       ></video>
       <div class="future-moving-screen flex-center">
         <div class="carousel" style="justify-content: space-between;" v-if="modelIndex === null">
-          <div class="logo-place">
+          <div class="logo-place" style="padding-bottom: 15vh;">
             <img src="~/assets/picture/logo_dark.png" alt=""/>
           </div>
           <div class="carousel-items">
@@ -69,7 +69,7 @@
         </div>
         <div class="carousel all-screen" style="justify-content: center;" v-if="modelIndex !== null">
           <div class="logo-place" style="padding-bottom: 3vh;">
-            <img src="~/assets/picture/logo.png" alt=""/>
+            <img src="~/assets/picture/logo_dark.png" alt=""/>
           </div>
           <div
             class="carousel-items all-size"
@@ -96,9 +96,10 @@
 <script>
 import {mapGetters} from 'vuex'
 import {Timeline} from "@/components/timeline";
+import {getCurrentData} from "@/components/movingFetch";
 
 export default {
-  async asyncData({$api}) {
+  /*async asyncData({$api}) {
     let idleVideo = ""
 
     let video = ""
@@ -113,9 +114,10 @@ export default {
     }
 
     return {video, stage, idleState, idleVideo}
-  },
+  },*/
   data() {
     return {
+      dataLoaded: false,
       futureMoving: false,
       newCoords: {},
       value: 60,
@@ -153,11 +155,23 @@ export default {
     },
   },
   methods: {
+    async loadData(){
+      while (true){
+        const data = await getCurrentData("moving", this.$api)
+
+        this.video = data.video
+        this.idleVideo = data.idleVideo
+        this.stage = data.stage
+        this.idleState = data.idleState
+
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+    },
     async startSequence() {
       if (this.stage === 'diaskan') {
         this.timeline = new Timeline(true)
         const app = this
-        this.timeline.addAction(32, () => {
+        this.timeline.addAction(34, () => {
           app.$api.technology.postLaurentPoint("present_2")
         })
         this.timeline.addAction(73, () => {
@@ -210,6 +224,10 @@ export default {
   },
   mounted() {
     this.startCarousel()
+    this.loadData()
+  },
+  destroyed() {
+    this.stopCarousel()
   },
   computed: {
     ...mapGetters({byPath: 'byPath',}),
