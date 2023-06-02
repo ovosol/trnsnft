@@ -1,7 +1,7 @@
 <template>
   <div class="human_capital-btns">
     <div v-if='!noLogo && !realTitle' class='flex-center big-logo'>
-      <img class='all-size' src='~/assets/picture/logo.png' alt=''/>
+      <img class='all-size' :src='logoUrl' alt=''/>
     </div>
     <div v-if='!noLogo && realTitle'>
       <div class='flex-center small-logo'><img class='all-size' src='~/assets/picture/logo.png' alt=''/></div>
@@ -46,6 +46,10 @@ export default {
     }
   },
   props: {
+    logoStyle: {
+      type: 'light' | 'dark',
+      default: 'light'
+    },
     btnArray: Array,
     btnStyle: String,
     btnTitle: String | null,
@@ -92,6 +96,10 @@ export default {
     },
     realTitle() {
       return this.btnTitle ?? this.contentTitle
+    },
+    logoUrl() {
+      if (this.logoStyle === 'light') return require('~/assets/picture/logo.png')
+      return require('~/assets/picture/logo_dark.png')
     }
   }
 }

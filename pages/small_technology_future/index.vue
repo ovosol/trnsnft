@@ -10,6 +10,7 @@
       :btnStyle="style"
       @changeBtns="changeModelIndex"
       class="flex-center"
+      logo-style="dark"
     ></ModuleBtnCollection>
     <ModuleModelControl v-if="showControl" :modelIndex="modelIndex"></ModuleModelControl>
   </div>

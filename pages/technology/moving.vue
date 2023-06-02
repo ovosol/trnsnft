@@ -10,7 +10,7 @@
       v-if="stage !== 'future'"
       class="all-size"
       :videoSrc="video"
-      :loop="true"
+      :loop="false"
       @ended="startIdle()"
     ></ModuleVideo>
     <div

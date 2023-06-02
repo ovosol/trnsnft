@@ -76,23 +76,10 @@ export default {
 </script>
 
 <style>
-.vue-product-360,
 .sliderus,
-.vue-product-360 > img,
 .sliderus > div,
 .sliderus > div > div {
   height: 100%;
-}
-
-.vue-product-360 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.vue-product-360 > img[draggable="false"]:last-child {
-  height: 20%;
 }
 
 /* .vue-product-360 > img[draggable="false"]:first-child {

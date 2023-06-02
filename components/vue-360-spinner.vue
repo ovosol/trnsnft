@@ -16,24 +16,11 @@
         draggable="false"
         :src="images[carousel.current]"
         :class="imageClass"
-        @mouseup="handleMouseUp"
-        @mousedown="handleMouseDown"
-        @mousemove="handleMouseMove"
-        @mouseleave="handleMouseLeave"
-        @touchend="handleTouchEnd"
-        @touchstart="handleTouchStart"
-        @touchmove="handleTouchMove"
+
       />
       <img
         v-if="!remove360"
         draggable="false"
-        @mouseup="handleMouseUp"
-        @mousedown="handleMouseDown"
-        @mousemove="handleMouseMove"
-        @mouseleave="handleMouseLeave"
-        @touchend="handleTouchEnd"
-        @touchstart="handleTouchStart"
-        @touchmove="handleTouchMove"
         src="~/assets/picture/modelControl/circle.png"
         alt=""
       />
@@ -42,9 +29,22 @@
   </div>
 </template>
 
+<style scoped>
+.vue-product-360 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vue-product-360 > img[draggable="false"]:last-child {
+  height: 20%;
+}
+</style>
+
 <script>
 import ImagesLoader from './ImagesLoader'
-import { mapMutations, mapGetters } from 'vuex'
+import {mapMutations} from 'vuex'
 
 export default {
   name: 'vue-product-360',
@@ -118,19 +118,19 @@ export default {
     },
     handleMouseUp() {
       this.mouse.isMoving = false
-      this.$emit('stopping', { position: this.carousel.current })
+      this.$emit('stopping', {position: this.carousel.current})
     },
     handleMouseLeave() {
       if (this.mouse.isMoving) {
         this.mouse.isMoving = false
-        this.$emit('stopping', { position: this.carousel.current })
+        this.$emit('stopping', {position: this.carousel.current})
       }
     },
     handleMouseDown(event) {
       if (!this.disabled) {
         this.mouse.savedPositionX = event.pageX
         this.mouse.isMoving = true
-        this.$emit('starting', { position: this.carousel.current })
+        this.$emit('starting', {position: this.carousel.current})
       }
     },
     handleTouchStart(event) {
@@ -158,36 +158,39 @@ export default {
         const distance = this.mouse.currentPositionX - this.mouse.savedPositionX
         if (Math.abs(distance) > this.speed) {
           this.mouse.savedPositionX = this.mouse.currentPositionX
+          const steps = Math.floor(Math.abs(distance) / this.speed)
           if (
             (distance > 0 && !this.reverse) ||
             (distance < 0 && this.reverse)
           ) {
-            this.slideToRight()
+            this.slideToRight(steps)
           } else {
-            this.slideToLeft()
+            this.slideToLeft(steps)
           }
         }
       }
     },
-    slideToRight() {
-      let newCurrent = this.carousel.current + 1
-      if (newCurrent >= this.images.length){
-        if (this.infinite)
-          newCurrent = 0
-        else
-          newCurrent = this.images.length - 1
+    slideToRight(steps = 1) {
+      let newCurrent = this.carousel.current + steps;
+      if (newCurrent >= this.images.length) {
+        if (this.infinite) {
+          newCurrent = newCurrent % this.images.length;
+        } else {
+          newCurrent = this.images.length - 1;
+        }
       }
-      this.slideTo(newCurrent)
+      this.slideTo(newCurrent);
     },
-    slideToLeft() {
-      let newCurrent = this.carousel.current - 1
-      if (newCurrent < 0){
-        if (this.infinite)
-          newCurrent = this.images.length - 1
-        else
-          newCurrent = 0
+    slideToLeft(steps = 1) {
+      let newCurrent = this.carousel.current - steps;
+      if (newCurrent < 0) {
+        if (this.infinite) {
+          newCurrent = this.images.length - 1;
+        } else {
+          newCurrent = 0;
+        }
       }
-      this.slideTo(newCurrent)
+      this.slideTo(newCurrent);
     },
     slideTo(position) {
       if (this.images[position]) {
@@ -218,7 +221,6 @@ export default {
         if (this.carousel.current !== this.modelValue) {
           this.carousel.current = newVal;
           this.modelValue = newVal
-          // this.CHANGE_BY_PATH(['smallTablet.modelValue', newVal])
         }
       })
     },

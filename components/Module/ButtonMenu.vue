@@ -23,7 +23,7 @@ export default {
       default: "md"
     },
     textSize: {
-      type: "sm" | "md" | "lg" | null,
+      type: "xs" | "sm" | "md" | "lg" | null,
       default: null
     },
     interactive: {
@@ -58,12 +58,12 @@ export default {
 
 <style scoped>
 .button-color-blue {
-  background-image: url('~/assets/creative/learn_more.png');
+  background-image: url('~assets/creative/learn_more.png');
   color: white;
 }
 
 .button-color-white {
-  background-image: url('~/assets/creative/btnwitharrow.png');
+  background-image: url('~assets/creative/btnwitharrow.png');
   color: #025692;
 }
 
@@ -88,6 +88,10 @@ export default {
   width: 22vw;
   height: 9vh;
   margin: 3vh 1vw;
+}
+
+.text-size-xs {
+  font-size: 12px;
 }
 
 .text-size-sm {

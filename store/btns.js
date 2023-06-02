@@ -225,22 +225,31 @@ export const state = () => ({
       {
         model: 0,
         link: 'model_controller',
-        name: 'УСТРОИЙСТВО ДЛЯ БЕЗОГНЕВОЙ РЕЗКИ ТРУБ',
+        name: 'УСТРОИЙСТВО ДЛЯ <BR> БЕЗОГНЕВОЙ РЕЗКИ ТРУБ',
+        textSize: 'xs',
+        size: 'lg'
+
       },
       {
         model: 1,
         link: 'model_controller',
         name: 'УСТАНОВКА ДЛЯ <BR> ПЛОСКОСВОРАЧИВАЕМОГО РУКАВА',
+        textSize: 'xs',
+        size: 'lg'
       },
       {
         model: 2,
         link: 'model_controller',
         name: 'УСТАНОВКА ЛЕДОРЕЗНАЯ',
+        textSize: 'xs',
+        size: 'lg'
       },
       {
         model: 3,
         link: 'model_controller',
         name: 'ГЕРМЕТИЗИРУЮЩЕЕ УСТРОЙСТВО ДЛЯ <BR> ВАНТУЗА ТРУБОПРОВОДА',
+        textSize: 'xs',
+        size: 'lg'
       },
     ],
   },
