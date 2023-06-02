@@ -1,4 +1,4 @@
-class Timeline {
+export class Timeline {
   constructor(debug = false) {
     this.debug = debug
   }

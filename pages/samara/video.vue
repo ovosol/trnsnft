@@ -17,6 +17,7 @@
 <script>
 
 import {Laurent} from "@/plugins/laurentControllerLegacy";
+import {Timeline} from "@/components/timeline";
 
 export default {
   async asyncData({$axios, $api}) {

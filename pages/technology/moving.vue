@@ -95,6 +95,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {Timeline} from "@/components/timeline";
 
 export default {
   async asyncData({$api}) {
