@@ -32,7 +32,7 @@ export default {}
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   text-align: start;
   margin: auto;
   max-width: 600px;

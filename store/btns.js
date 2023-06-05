@@ -2,11 +2,6 @@ export const state = () => ({
   tablet: {
     main: [
       {
-        link: 'humanCapital',
-        name: 'Почётные сотрудники',
-        hidden: true,
-      },
-      {
         link: 'timeline',
         name: 'История',
       },
@@ -21,6 +16,10 @@ export const state = () => ({
       {
         link: 'samara',
         name: 'Самара',
+      },
+      {
+        link: 'humanCapital',
+        name: 'Люди',
       },
       {
         link: 'light',
@@ -76,6 +75,9 @@ export const state = () => ({
     ],
     stream7: [
       {
+        link: 'light-stream7-on'
+      },
+      {
         link: 'colba-0',
         name: 'Покровка-Кротовка',
       },
@@ -106,34 +108,22 @@ export const state = () => ({
         link: 'colba-all',
         name: 'Режим ожидания',
       },
+      {
+        link: 'light-stream7-off'
+      },
     ],
     humanCapital: [
       {
-        link: '-',
-        name: 'Какаято кнопка',
+        link: 'light-human_capital-on',
       },
       {
-        link: '-',
-        name: 'Какаято кнопка',
-      },
-      {
-        link: '-',
-        name: 'Какаято кнопка',
-      },
-      {
-        link: '-',
-        name: 'Какаято кнопка',
-      },
-      {
-        link: '-',
-        name: 'Какаято кнопка',
-      },
-      {
-        link: '-',
-        name: 'Какаято кнопка',
+        link: 'light-human_capital-off',
       },
     ],
     samara: [
+      {
+        link: 'light-samara-on',
+      },
       {
         link: 'samaraButtons-start',
         name: 'Демонстрация',
@@ -149,7 +139,7 @@ export const state = () => ({
       {
         link: 'samaraButtons-3',
         name: 'Резервуарные парки <br>НПС «Самара-1» и НПС «Самара-2»',
-        textSize: 'sm'
+        textSize: 'xs'
       },
       {
         link: 'samaraButtons-4',
@@ -157,21 +147,20 @@ export const state = () => ({
       },
       {
         link: 'samaraButtons-light',
-        name: 'Подсветка',
+        name: 'Подсветка стола',
       },
       {
         link: 'samaraButtons-idle',
         name: 'Режим ожидания',
-      }
+      },
+      {
+        link: 'light-samara-off',
+      },
     ],
-    // samara: [
-    //   {
-    //       link: 'samaraButtons',
-    //       name: 'Кнопки Самары',
-    //     },
-
-    // ],
     technology: [
+      {
+        link: 'light-technology-on',
+      },
       {
         link: 'technology-past',
         name: 'Прошлое',
@@ -192,16 +181,15 @@ export const state = () => ({
       {
         link: 'technology-idle',
         name: 'Режим ожидания',
-      }
+      },
+      {
+        link: 'light-technology-off',
+      },
     ],
-    // technology: [
-
-    //     {
-    //       link: 'changeScreenPosition',
-    //       name: 'Перемещение Экрана',
-    //     },
-    // ],
     timeline: [
+      {
+        link: 'light-timeline-on',
+      },
       {
         link: 'changeYear',
         name: '1936',
@@ -261,14 +249,10 @@ export const state = () => ({
         link: 'changeTimelineIdle',
         name: 'Режим ожидания',
       },
+      {
+        link: 'light-timeline-off',
+      },
     ],
-    // timeline: [
-    //     {
-    //       link: 'changeYear',
-    //       name: 'Переключение годов',
-    //     },
-    //   ],
-
   },
   smallTablet: {
     main: [
