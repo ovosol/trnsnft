@@ -14,7 +14,7 @@
     <div :class="btnStyle + ' btn-container'">
       <transition-group name='btns' class='flex-center' style='flex-wrap: wrap;' v-if='contentPage == null'>
         <button-menu
-          v-for='btn in btnArray' :key='btn.name'
+          v-for='btn in filteredArray' :key='btn.name'
           :btn="btn"
           color="white"
           @click='changeBtns(btn)'
@@ -89,9 +89,12 @@ export default {
     }
   },
   computed: {
+    filteredArray() {
+      return this.btnArray.filter(btn => btn.hidden !== true)
+    },
     btnSize() {
-      if (this.btnArray.length <= 2) return 'lg'
-      if (this.btnArray.length <= 7) return 'md'
+      if (this.filteredArray.length <= 2) return 'lg'
+      if (this.filteredArray.length <= 7) return 'md'
       return 'sm'
     },
     realTitle() {

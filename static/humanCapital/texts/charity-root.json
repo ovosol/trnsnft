@@ -8,5 +8,37 @@
       "link": "charity",
       "size": "lg"
     }
+  ],
+  "images": [
+    {
+      "src": "/humanCapital/images/charity/charity_01.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_02.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_03.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_04.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_05.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_06.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_07.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_08.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_09.jpg"
+    },
+    {
+      "src": "/humanCapital/images/charity/charity_10.jpg"
+    }
   ]
 }

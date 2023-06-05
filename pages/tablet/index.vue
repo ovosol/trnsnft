@@ -73,7 +73,7 @@ export default {
   computed: {
     btnArray() {
       //return only visible buttons
-      return (this.array.length === 0 ? this.tablet.main : this.array).filter(btn => btn.hidden !== true)
+      return (this.array.length === 0 ? this.tablet.main : this.array)
     },
     tablet() {
       return this.$store.state.btns.tablet
