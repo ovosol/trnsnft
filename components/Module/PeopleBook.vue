@@ -4,6 +4,7 @@
       v-show="!modal"
       @click="goBack"
     />
+    <video class="people-bg-video" :src="videoUrl" muted autoplay loop></video>
     <div :class="'all-size veteran-page ' + veteranClass">
       <div
         class="all-size flex-center chosen-veteran-container"
@@ -13,29 +14,27 @@
       >
         <div class="chosen-veteran">
           <div class="chosen-veteran-img">
-            <img :src="modalInfo.img" alt="" />
+            <img :src="modalInfo.img" alt=""/>
           </div>
           <div class="chosen-veteran-desc">
             <h2>{{ modalInfo.name }}</h2>
             <p>{{ modalInfo.desc }}</p>
             <div class="back-from-photo">
               <div @click="modal = false">
-                  Назад
+                Назад
               </div>
             </div>
           </div>
         </div>
-        <!-- Знаю бред, потом сверстаю нормальную модалку, пока так  -->
       </div>
       <div
         v-show="!modal && mainBtnClick"
         :style="'z-index: ' + (visibleKeyboard ? 3 : 6)"
       >
 
-        <div class="corner-decoration all-screen var flex-center" style="justify-content: center;" >
-          <div class="v-container v-grid flex-center">
+        <div class="corner-decoration all-screen var flex-center" style="justify-content: center;">
+          <div class="v-container v-grid" id="peopleGrid">
             <div class="searcher flex-center">
-              <!-- <label for="div">Список ветеранов </label> -->
               <div class="filter">
                 <input
                   @click="
@@ -62,10 +61,8 @@
                 style="display: flex"
                 class="item-letter"
                 v-for="letterItem in letterArr.data"
-                :key="letterItem.fio + 1"
+                :key="letterItem.id + 1"
               >
-                <!-- {{letterItem}} -->
-                <!-- <img style="width: 100px" :src="letterItem.photo" alt="" /> -->
                 <div
                   class="modal"
                   style="width: 100%; text-align: right"
@@ -94,7 +91,7 @@
       class="ui-keyboard-case flex-center"
       style="flex-direction: column;"
     >
-      <div v-show="visibleKeyboard" class="search-name"><h3>{{searchName}}</h3></div>
+      <div v-show="visibleKeyboard" class="search-name"><h3>{{ searchName }}</h3></div>
       <keyboard
         v-show="visibleKeyboard"
         v-model="searchName"
@@ -120,17 +117,20 @@
 import keyboard from 'vue-keyboard'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 import Idle from "@/pages/human_capital/Idle.vue";
+
 export default {
   name: 'PeopleBook',
-  props:{
+  props: {
     peopleType: {
       type: 'veterans' | 'fame',
       required: true,
     },
+    /** @type {Array<Employee>}*/
     veterans: {
       type: Array,
       required: true,
     },
+    videoUrl: {type: String, required: true}
   },
   data() {
     return {
@@ -148,7 +148,7 @@ export default {
       },
     }
   },
-  components: {Idle, ButtonBack, keyboard },
+  components: {Idle, ButtonBack, keyboard},
 
   methods: {
     custom() {
@@ -158,25 +158,25 @@ export default {
         this.visibleKeyboard === false
       ) {
         this.modal = true
-        // this.modalIndex = this.filteredVeterans[0]
         this.modalInfo = {
           name: this.filteredVeterans[0].fio,
           img: this.filteredVeterans[0].photo,
           desc: this.filteredVeterans[0].description,
         }
-        // this.modalIndex = 0
-      }
-      if(this.filteredVeterans.length === 0) {
-        this.visibleKeyboard === true
       }
     },
+    /**
+     *
+     * @param {Employee[]} vet
+     * @return {{title: String, data: Employee[] }[]}
+     */
     arraysByAlphabet(vet) {
       //Здесь я разбиваю пришедший массив ветеранов на массив объектов title первая буква и внутри все ветераны с этой буквы, после сортирую по возрастанию
-      return Object.values(
+      const values = Object.values(
         vet.reduce((acc, word) => {
           let firstLetter = word.fio[0].toLocaleUpperCase()
           if (!acc[firstLetter]) {
-            acc[firstLetter] = { title: firstLetter, data: [word] }
+            acc[firstLetter] = {title: firstLetter, data: [word]}
           } else {
             acc[firstLetter].data.push(word)
           }
@@ -186,14 +186,18 @@ export default {
               result[key] = acc[key]
               return result
             }, {})
-          // acc = Object.values(acc)
-          console.log(acc)
           return acc
         }, {})
-      )
+      );
+      console.log(values)
+      return values
     },
     goBack() {
-      if (this.mainBtnClick){
+      if (this.visibleKeyboard) {
+        this.visibleKeyboard = false
+        return
+      }
+      if (this.mainBtnClick) {
         this.mainBtnClick = false
         return
       }
@@ -201,10 +205,14 @@ export default {
     }
   },
   computed: {
+    /**
+     *
+     * @return {Employee[]}
+     */
     filteredVeterans() {
-      //Здесь я фильтрую согласно инфпуту
-      var users_array = this.veterans,
-        searchName = this.searchName
+      //Здесь я фильтрую согласно инпуту
+      let users_array = [...this.veterans]
+      let searchName = this.searchName
       if (!searchName) {
         return users_array
       }
@@ -227,7 +235,22 @@ export default {
 </script>
 
 <style>
-.back-from-photo{
+.people-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+#peopleGrid {
+  max-height: calc(100vh - 200px);
+//max-height: 100vh; overflow-y: auto; margin-top: 100px;
+}
+
+.back-from-photo {
   text-align: right;
   font-weight: bold;
   width: 300px;
@@ -241,14 +264,15 @@ export default {
   display: flex;
 }
 
-.veteran-page-main{
-  background-image: url('~/assets/creative/veteranBg.jpg');
+.veteran-page-main {
+  background-image: url('~assets/creative/veteranBg.png');
 }
 
-.veteran-page-search{
-  background-image: url('~/assets/creative/veteranBgSearch.jpg');
+.veteran-page-search {
+  background-image: url('~assets/creative/veteranBgSearch.jpg');
 }
-.main-vet-btn{
+
+.main-vet-btn {
   z-index: 10;
   position: absolute;
   font-size: 18pt;
@@ -257,14 +281,17 @@ export default {
   align-self: self-end;
   margin-bottom: 20px;
 }
+
 .v-grid {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 30px;
 }
+
 .ui-keyboard-case > .search-name > h3 {
   margin: 0;
 }
+
 .ui-keyboard-case > .search-name {
   border-radius: 30px;
   background: linear-gradient(180deg, #eaeaec00 70%, #e12123 100%);
@@ -272,6 +299,7 @@ export default {
   text-align: center;
   padding: 0 10px;
 }
+
 .v-container {
   position: absolute;
   justify-content: flex-start;
@@ -285,17 +313,21 @@ export default {
   flex-wrap: wrap;
   justify-content: flex-start;
 }
+
 .corner-decoration.all-screen.var {
   background-attachment: fixed;
   height: 200vh;
 }
+
 .corner-decoration.all-screen.var > div {
-  margin-top: 200px;
+//margin-top: 200px;
 }
+
 .v-container > .var-title > .item-letter > div > h4 {
   margin-left: 30px;
   font-size: 12px;
 }
+
 .v-container > .var-title > label > h4 {
   color: white;
   background-image: url('~/assets/creative/veteran-var.png');
@@ -310,9 +342,11 @@ export default {
   align-items: center;
   /* padding-left: 27%; */
 }
+
 .searcher > .filter > input:focus-visible {
   border: none !important;
 }
+
 .searcher > .filter > input {
   width: 20vw;
   text-align: center;
@@ -322,6 +356,7 @@ export default {
   border: none;
   color: black;
 }
+
 .v-container > .v > .modal > h3.text {
   background-image: linear-gradient(180deg, #00000000, #000000ff);
   color: white;
@@ -329,6 +364,7 @@ export default {
   margin: 0;
   font-size: 100%;
 }
+
 .v-container > .v > .modal {
   justify-content: center;
   display: flex;
@@ -337,9 +373,11 @@ export default {
   height: 200px;
   background-size: 100% 100%;
 }
+
 .v-container > .v {
   cursor: pointer;
 }
+
 .searcher {
   grid-area: 1 / 1 / 1 / 5;
   /* position: absolute; */
@@ -347,6 +385,7 @@ export default {
   display: flex;
   z-index: 7;
 }
+
 /* .vue-keyboard-key {
   background: #1777bba0;
   color: white;
@@ -380,6 +419,7 @@ export default {
     bottom: 0px; */
   /* position: fixed; */
 }
+
 /* button.vue-keyboard-key:nth-child(11),
 div.vue-keyboard-row:nth-child(4) > button:nth-child(1),
 div.vue-keyboard-row:nth-child(5) > button:nth-child(1),
@@ -410,14 +450,17 @@ button.action:nth-child(2) {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
+
 .chosen-veteran > .chosen-veteran-img {
   height: 100%;
   width: auto;
 }
+
 .chosen-veteran > .chosen-veteran-img > img {
   height: 100%;
   width: auto;
 }
+
 .chosen-veteran > .chosen-veteran-desc {
   display: flex;
   flex-direction: column;
@@ -425,15 +468,18 @@ button.action:nth-child(2) {
   align-items: flex-start;
   padding: 20px 0px 30px 10px;
 }
+
 .chosen-veteran > .chosen-veteran-desc > h2 {
   text-align: center;
   width: 100%;
 }
+
 .chosen-veteran > .chosen-veteran-desc > p {
   text-align: left;
   width: 90%;
   margin: 0;
 }
+
 button.action:nth-child(1),
 button.vue-keyboard-key:nth-child(13),
 button.action:nth-child(3) {

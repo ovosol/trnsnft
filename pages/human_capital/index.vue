@@ -102,7 +102,8 @@ export default {
         this.style = this.humanCapital[btn.link].length % 2 ? 'oddBtns' : 'evenBtns'
       } else if (btn.link.includes('_book')) {
         // honor or veteran book
-        this.$router.push({path: '/human_capital/' + btn.link})
+        const book = btn.link.split('_')[0]
+        this.$router.push({path: '/human_capital/book/' + book})
       } else {
         // any content page
         console.log('content page', btn.link)

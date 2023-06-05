@@ -75,7 +75,7 @@ export default ({app, store}, inject) => {
       /**
        * Get video and duration of idle app
        * @param {IdleApp} idleApp
-       * @return {Promise<{current_video: string, video_duration: number}>}
+       * @return {Promise<string>}
        */
       getVideo: async (idleApp) => {
         const res = await getCached(`/api/idle/${idleApp}/video/`)

@@ -314,6 +314,7 @@ export const state = () => ({
       {
         link: 'certificates',
         name: 'Сертификаты <br> и свидетельства',
+        hidden: true,
       },
       {
         link: 'building_quality',
@@ -322,11 +323,11 @@ export const state = () => ({
     ],
     humankind: [
       {
-        link: 'honor_book',
+        link: 'fame_book',
         name: 'Книга почёта',
       },
       {
-        link: 'veteran_book',
+        link: 'veterans_book',
         name: 'Книга памяти <br> ветеранов ВОВ',
       },
     ],

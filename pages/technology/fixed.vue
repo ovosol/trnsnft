@@ -4,6 +4,7 @@
       v-if="data.idleState"
       :videoSrc="data.idleVideo"
       :loop="true"
+      mute
     ></ModuleVideo>
     <ModuleVideo
       v-else
