@@ -24,11 +24,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-// import 'vue-range-component/dist/vue-range-slider.css'
-// import VueProduct360 from '@deviznet/vue-product-360'
-// import VueRangeSlider from 'vue-range-component'
-
 export default {
   name: 'ModelControl',
   data() {
@@ -48,9 +43,8 @@ export default {
     setTimeout(this.sendFrame, 30);
   },
   computed: {
-    ...mapGetters({byPath: 'byPath'}),
     models() {
-      return this.byPath('technology.models')
+      return this.$store.state.technology.models
     },
     images(){
       console.log('index', this.modelIndex)

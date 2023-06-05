@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 
 export default {
@@ -35,11 +34,8 @@ export default {
     btnKeys() {
       return Object.keys(this.btns)
     },
-    ...mapGetters({
-      getByPath: 'btns/byPath',
-    }),
     smallTablet() {
-      return this.getByPath('smallTablet')
+      return this.$store.state.btns.smallTablet
     },
     showControl() {
       return this.modelIndex !== null

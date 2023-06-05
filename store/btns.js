@@ -254,9 +254,8 @@ export const state = () => ({
       },
       {
         link: 'changeYear',
-        name: 'VIP экскурсия',
+        name: 'VIP',
         index: -1,
-        hidden: true,
       },
       {
         link: 'changeTimelineIdle',
@@ -423,14 +422,3 @@ export const state = () => ({
     ],
   },
 })
-
-export const getters = {
-  byPath: (state) => (some) => {
-    console.log('from getter', some);
-    return some.replace(/\[/g, '.').replace(/\]/g, '').split('.').reduce((o, k) => (o || {})[k], state);
-  },
-}
-
-export const mutations = {}
-
-export const actions = {}

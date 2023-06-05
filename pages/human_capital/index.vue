@@ -69,11 +69,8 @@ export default {
         return this.array
       }
     },
-    ...mapGetters({
-      byPath: 'btns/byPath'
-    }),
     humanCapital() {
-      return this.byPath('humanCapital')
+      return this.$store.state.btns.humanCapital
     }
   },
   methods: {

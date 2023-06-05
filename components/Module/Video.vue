@@ -27,7 +27,6 @@
 </template>
 
 <script>
-//   import { mapGetters } from 'vuex'
 import VideoPlayer from 'vue-video-player-mx'
 
 export default {

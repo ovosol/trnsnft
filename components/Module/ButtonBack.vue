@@ -2,7 +2,7 @@
   <img
     @click="click"
     class="human_capital-back"
-    src="~/assets/creative/sidewitharrow.png"
+    src="~assets/creative/sidewitharrow.png"
     alt=""
   />
 </template>
@@ -23,7 +23,6 @@ export default {
   position: absolute;
   left: 0;
   top: 325px;
-  width: 2vw;
   height: 225px;
   z-index: 10;
 }

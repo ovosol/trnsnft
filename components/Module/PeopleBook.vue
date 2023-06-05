@@ -118,7 +118,6 @@
 
 <script>
 import keyboard from 'vue-keyboard'
-import { mapGetters } from 'vuex'
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 import Idle from "@/pages/human_capital/Idle.vue";
 export default {
@@ -202,11 +201,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['byPath']),
-    // veterans() {
-    //   return this.byPath('humanCapital.veterans')
-    // },
-
     filteredVeterans() {
       //Здесь я фильтрую согласно инфпуту
       var users_array = this.veterans,

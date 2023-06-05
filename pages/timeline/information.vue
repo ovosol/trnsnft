@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 import {Laurent} from "@/plugins/laurentControllerLegacy";
 
 export default {
@@ -59,17 +58,6 @@ export default {
       ],
     }
   },
-  watcher: {
-    chosenYear() {
-      this.intro = true
-    },
-  },
-  computed: {
-    ...mapGetters({videoByPath: 'btns/byPath', byPath: 'byPath'}),
-    timeline() {
-      return this.byPath('timeline')
-    },
-  },
   methods: {
     async changeTimeline() {
       let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
@@ -82,9 +70,7 @@ export default {
       }
 
       let newYear = this.allYears[counter]
-      if (!this.timeline.pause) {
-        this.timeline.pause = false
-      }
+
       await Laurent.setOneRelayOn(Laurent.appName.Timeline, counter + 1).then()
       await this.$api.timeline.postYear(newYear)
     },

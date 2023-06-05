@@ -44,7 +44,6 @@
 
 <script>
 import ImagesLoader from './ImagesLoader'
-import {mapMutations} from 'vuex'
 
 export default {
   name: 'vue-product-360',
@@ -110,7 +109,6 @@ export default {
     this.carousel.currentPath = this.images[this.carousel.current]
   },
   methods: {
-    ...mapMutations(['CHANGE_BY_PATH']),
     handleLoading() {
       return ImagesLoader(this.images).then(() => {
         this.isLoaded = true

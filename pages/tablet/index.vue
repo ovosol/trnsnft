@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
 import {Laurent} from "@/plugins/laurentControllerLegacy";
 import ButtonBack from "@/components/Module/ButtonBack.vue";
 import {getLightInfo, lights} from "@/components/lights";
@@ -76,26 +75,17 @@ export default {
       //return only visible buttons
       return (this.array.length === 0 ? this.tablet.main : this.array).filter(btn => btn.hidden !== true)
     },
-    ...mapGetters({
-      getByPath: 'btns/byPath',
-    }),
     tablet() {
-      return this.getByPath('tablet')
+      return this.$store.state.btns.tablet
     },
   },
   methods: {
-    ...mapMutations([
-      'CHANGE_SAMARA_VIDEO',
-      'CHANGE_TIMELINE_VIDEO',
-      'CHANGE_BY_PATH',
-    ]),
     returnToMain() {
       this.array = this.tablet.main
       this.title = ''
     },
     /**
      *
-
      * @return {Promise<void>}
      */
     async updateButtons() {

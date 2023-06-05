@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -36,17 +35,10 @@ export default {
     const stage = await $api.technology.getStage()
     return { stage }
   },
-  computed: {
-    ...mapGetters(['byPath']),
-    technology() {
-      return this.byPath('technology')
-    }
-  },
   methods: {
     async changeStage(stage) {
       await this.$api.technology.postStage(stage)
     }
-    // ...mapMutations(['CHANGE_BY_PATH']),
   },
 }
 </script>

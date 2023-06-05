@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['byPath']),
     samara() {
-      return this.byPath('samara')
+      return this.$store.state.samara
     }
   },
 }

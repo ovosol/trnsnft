@@ -6,8 +6,7 @@
       :loop="true"
     ></ModuleVideo>
     <ModuleVideo
-      v-else
-      v-if="data.stage !== 'future'"
+      v-if="!data.idleState && data.stage !== 'future'"
       class="all-size"
       :videoSrc="data.video"
       :loop="false"
@@ -29,7 +28,7 @@
       <div class="future-moving-screen flex-center">
         <div class="carousel" style="justify-content: space-between;" v-if="modelIndex === null">
           <div class="logo-place" style="padding-bottom: 15vh;">
-            <img src="~/assets/picture/logo_dark.png" alt=""/>
+            <img src="~assets/picture/logo_dark.png" alt=""/>
           </div>
           <div class="carousel-items">
             <img
@@ -42,10 +41,6 @@
           </div>
           <div class="control-elements">
             <div @click="carouselChange(-1)" class="arrow-back">
-              <!-- <img
-                src="~/assets/picture/carousel/controlElements/arrowBack.png"
-                alt=""
-              /> -->
             </div>
             <div class="circle" v-for="item in 5" :key="item + '1'">
               <img
@@ -60,16 +55,12 @@
               />
             </div>
             <div @click="carouselChange(1)" class="arrow-forward">
-              <!-- <img
-                src="~/assets/picture/carousel/controlElements/arrowForward.png"
-                alt=""
-              /> -->
             </div>
           </div>
         </div>
         <div class="carousel all-screen" style="justify-content: center;" v-if="modelIndex !== null">
           <div class="logo-place" style="padding-bottom: 3vh;">
-            <img src="~/assets/picture/logo_dark.png" alt=""/>
+            <img src="~assets/picture/logo_dark.png" alt=""/>
           </div>
           <div
             class="carousel-items all-size"
@@ -77,7 +68,8 @@
             <div class="text-elements all-size">
               <div class="name">{{ models[modelIndex].name }}</div>
               <div class="desc" v-html="description"></div>
-              <Vue360Spinner class="moving-spinner"
+              <Vue360Spinner
+                class="moving-spinner"
                 :reverse="true"
                 :images="models[modelIndex].imagesBig"
                 :remove360="true"
@@ -94,27 +86,10 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 import {Timeline} from "@/components/timeline";
 import {getCurrentData} from "@/components/movingFetch";
 
 export default {
-  /*async asyncData({$api}) {
-    let idleVideo = ""
-
-    let video = ""
-    let idleState = await $api.idle.getState('technology')
-    const stage = await $api.technology.getStage()
-    // show idle video if the screen is moving to start position
-    idleState = idleState || stage === 'preparation'
-    if (idleState) {
-      idleVideo = await $api.idle.getVideo('technology_vertical')
-    } else {
-      video = await $api.technology.getVideo("moving", stage)
-    }
-
-    return {video, stage, idleState, idleVideo}
-  },*/
   data() {
     return {
       dataLoaded: false,
@@ -140,34 +115,35 @@ export default {
     }
   },
   watch: {
-    idleState(newVal) {
-      console.log('idleState', newVal)
-      if (!newVal) {
-        this.startSequence()
-      } else {
-        this.stopSequence()
-      }
-    },
-    stage(newVal) {
+    'data.stage': function (newVal) {
       if (newVal === 'future') {
         this.startCarousel()
       } else {
         this.stopCarousel()
       }
     },
+    'data.idleState': function (newVal) {
+      console.log('=== idleState', newVal)
+      console.log('=== stage', this.data.stage)
+      if (!newVal) {
+        this.startSequence()
+      } else {
+        this.stopSequence()
+      }
+    },
   },
   methods: {
-    async loadData(){
-      while (true){
+    async loadData() {
+      while (true) {
         this.data = await getCurrentData("moving", this.$api)
-
         this.dataLoaded = true
-
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await new Promise(resolve => setTimeout(resolve, 300))
       }
     },
     async startSequence() {
+      console.log('=== startSequence', this.data.stage)
       if (this.data.stage === 'diaskan') {
+        console.log("=== waypoint")
         this.timeline = new Timeline(true)
         const app = this
         this.timeline.addAction(34, () => {
@@ -229,11 +205,11 @@ export default {
     this.stopCarousel()
   },
   computed: {
-    ...mapGetters({byPath: 'byPath',}),
     models() {
-      return this.byPath('technology.models')
+      return this.$store.state.technology.models
     },
     description() {
+      if (this.modelIndex === null) return ''
       let d = this.models[this.modelIndex].desc
       d = d.replaceAll('\n', '<br/>')
       return d
@@ -243,9 +219,10 @@ export default {
 </script>
 
 <style>
-.moving-spinner{
+.moving-spinner {
   height: 60vh;
 }
+
 .background-video {
   position: absolute;
   width: 100%;
@@ -261,8 +238,8 @@ export default {
 }
 
 .future-moving-screen > .carousel {
- /* display: flex;
-  flex-direction: column;*/
+  /* display: flex;
+   flex-direction: column;*/
   width: 100%;
   height: 100vh;
   /* margin: 10vh auto auto auto; */
