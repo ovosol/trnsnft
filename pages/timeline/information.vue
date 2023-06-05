@@ -60,10 +60,12 @@ export default {
   },
   methods: {
     async changeTimeline() {
-      let counter = this.allYears.findIndex((x) => x === this.chosenYear) + 1
+      let index = this.allYears.findIndex((x) => x === this.chosenYear);
+
+      let counter = index + 1
       counter %= this.allYears.length;
 
-      if (counter === 0) {
+      if (index < 0 || counter === 0) {
         await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
         await this.$api.idle.postState('timeline', true)
         return
