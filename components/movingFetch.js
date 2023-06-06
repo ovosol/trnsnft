@@ -2,7 +2,7 @@
  *
  * @param {'moving' | 'backstage' } screen
  * @param $api
- * @return {Promise<{stage: string, idleState: boolean, idleVideo: string, video: string}>}
+ * @return {Promise<{stage: string|null, idleState: boolean, idleVideo: string, video: string}>}
  */
 export const getCurrentData = async (screen, $api) => {
   let idleVideo = ""

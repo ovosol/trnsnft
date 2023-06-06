@@ -1,12 +1,12 @@
-import createCache from 'vuex-cache'
+// import createCache from 'vuex-cache'
 
 function importAll(r) {
   r = r.keys().map((path) => r(path))
   return r
 }
+/*
 
-
-export const plugins = [createCache()]
+export const plugins = [createCache()]*/
 
 export const state = () => ({
   samara: {

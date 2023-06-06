@@ -1,7 +1,17 @@
 <template>
   <div>
-    <transition name="half">
+    <video
+      ref="videoStandard"
+      preload="auto"
+      :src="videoSrc"
+      :autoPlay="true"
+      :muted="mute"
+      :loop="loop"
+    >
+
+    </video>
       <video-player
+        v-if="false"
         ref="videoPlay"
         :src="videoSrc"
         :autoPlay="true"
@@ -23,7 +33,6 @@
         @enterWebFullscreen="onEnterWebFullscreen"
         @cancelWebFullscreen="onCancelWebFullscreen"
       ></video-player>
-    </transition>
   </div>
 </template>
 
@@ -38,62 +47,62 @@ export default {
   props: {
     videoSrc: String,
     loop: Boolean,
-    pause: Boolean,
     mute: {type: Boolean, default: false, required: false}
   },
   mounted() {
-    console.log(this.$refs.videoPlay.$el, 'this.$refs');
-  },
-  watch: {
-    'pause': function () {
-      this.$nextTick(function () {
-        if (this.pause) {
-          return this.$refs.videoPlay.pause()
-        }
-        return this.$refs.videoPlay.play()
-      })
-    },
+    //console.log(this.$refs.videoPlay.$el, 'this.$refs');
+    this.$nextTick(() => {
+      const player = this.$refs.videoStandard
+      player.addEventListener('play', this.onPlay)
+      player.addEventListener('pause', this.onPause)
+      player.addEventListener('ended', this.onFinish)
+      player.addEventListener('seeked', this.onSeeked)
+      player.addEventListener('timeupdate', this.onTimeUpdate)
+    });
   },
   methods: {
     onPlay(info) {
-      console.log('1', info.currentTime)
+      console.log('onPlay', info)
     },
     onPause(info) {
-      console.log('2', info.currentTime)
+      console.log('onPause', info)
     },
     onFinish() {
-      console.log('3')
+      console.log('onFinish')
       this.$emit('ended')
     },
     onRateChange(rate) {
-      console.log('4', rate)
+      console.log('onRateChange', rate)
     },
     onVolumeChange(volume) {
-      console.log('5', volume)
+      console.log('onVolumeChange', volume)
     },
     onProgressChange(progress) {
-      console.log('5', progress)
+      console.log('onProgressChange', progress)
     },
     onEnterFullscreen() {
-      console.log('6')
+      console.log('onEnterFullscreen')
     },
     onCancelFullscreen() {
-      console.log('7')
+      console.log('onCancelFullscreen')
     },
     onEnterWebFullscreen() {
-      console.log('8')
+      console.log('onEnterWebFullscreen')
     },
     onCancelWebFullscreen() {
-      console.log('9')
+      console.log('onCancelWebFullscreen')
     },
     onSeeked(info) {
-      console.log('10', info.currentTime)
+      console.log('onSeeked', info, info.target.currentTime)
     },
     onDownloadResource() {
-      console.log('11')
+      console.log('onDownloadResource')
     },
     onTimeUpdate(info) {
-      console.log('12', `${info.currentTime}/${info.duration}: ${(100 * info.currentTime / info.duration).toFixed(2)}%`)
+      //console.log('onTimeUpdate', info)
+      const currentTime = info.target.currentTime
+      const duration = info.target.duration
+      console.log('onTimeUpdate', `${currentTime}/${duration}: ${(100 * currentTime / duration).toFixed(2)}%`)
     },
   },
 }

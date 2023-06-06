@@ -109,8 +109,8 @@ export default {
         /** @type {TechnologyStage | null}*/
         stage: null,
         idleState: false,
-        idleVideo: null,
-        video: null,
+        idleVideo: "",
+        video: "",
       }
     }
   },
@@ -135,7 +135,18 @@ export default {
   methods: {
     async loadData() {
       while (true) {
-        this.data = await getCurrentData("moving", this.$api)
+        const data = await getCurrentData("moving", this.$api)
+        if (data.stage === this.data.stage
+          && data.idleState === this.data.idleState
+          && data.idleVideo === this.data.idleVideo
+          && data.video === this.data.video
+          && data.stage === this.data.stage) {
+          // data is the same
+        } else {
+          console.log("=== data is different")
+          console.log(this.data, data)
+          this.data = data
+        }
         this.dataLoaded = true
         await new Promise(resolve => setTimeout(resolve, 300))
       }
@@ -166,14 +177,15 @@ export default {
 
       this.modelIndexInterval =
         setInterval(async () => {
+          if (this.data.idleState || this.data.stage !== 'future') return
           this.modelIndex = await this.$api.technology.getModelIndex()
-        }, 100)
+        }, 300)
 
       this.modelFrameInterval =
         setInterval(async () => {
           if (this.modelIndex === null) return
           this.modelFrame = await this.$api.technology.getModelFrame()
-        }, 30)
+        }, 50)
     },
     stopCarousel() {
       clearInterval(this.carouselInterval)
