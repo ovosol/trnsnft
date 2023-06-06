@@ -32,16 +32,17 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.loadData()
   },
   methods: {
     async loadData() {
-      while (true) {
-        this.data = await getCurrentData("backstage", this.$api)
-        this.loaded = true
-        await new Promise(resolve => setTimeout(resolve, 300))
-      }
+      await new Promise(resolve => setTimeout(resolve, 300))
+      this.data = await getCurrentData("backstage", this.$api)
+      this.loaded = true
+      setTimeout(() => {
+        this.loadData()
+      }, 300)
     },
   }
 }

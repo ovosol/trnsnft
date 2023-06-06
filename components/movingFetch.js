@@ -18,6 +18,6 @@ export const getCurrentData = async (screen, $api) => {
   } else {
     video = await $api.technology.getVideo(screen, stage)
   }
-
+  console.log(`=== loadData: ${screen}, stage: ${stage}, idleState: ${idleState}, idleVideo: ${idleVideo}, video: ${video}`)
   return {video, stage, idleState, idleVideo}
 }

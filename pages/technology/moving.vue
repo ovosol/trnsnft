@@ -134,22 +134,25 @@ export default {
   },
   methods: {
     async loadData() {
-      while (true) {
-        const data = await getCurrentData("moving", this.$api)
-        if (data.stage === this.data.stage
-          && data.idleState === this.data.idleState
-          && data.idleVideo === this.data.idleVideo
-          && data.video === this.data.video
-          && data.stage === this.data.stage) {
-          // data is the same
-        } else {
-          console.log("=== data is different")
-          console.log(this.data, data)
-          this.data = data
-        }
-        this.dataLoaded = true
-        await new Promise(resolve => setTimeout(resolve, 300))
+      const data = await getCurrentData("moving", this.$api)
+      if (data.stage === this.data.stage
+        && data.idleState === this.data.idleState
+        && data.idleVideo === this.data.idleVideo
+        && data.video === this.data.video
+        && data.stage === this.data.stage) {
+        // data is the same
+      } else {
+        console.log("=== data is different")
+        console.log(this.data, data)
+        this.data = data
       }
+      this.dataLoaded = true
+      setTimeout(() => {
+        this.loadData()
+      }, 300)
+
+      //await new Promise(resolve => setTimeout(resolve, 300))
+
     },
     async startSequence() {
       console.log('=== startSequence', this.data.stage)
@@ -209,9 +212,10 @@ export default {
       this.$api.idle.postState('technology', true)
     }
   },
-  mounted() {
+  async created() {
+    await new Promise(resolve => setTimeout(resolve, 300))
     this.startCarousel()
-    this.loadData()
+    await this.loadData()
   },
   destroyed() {
     this.stopCarousel()
