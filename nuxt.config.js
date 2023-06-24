@@ -67,6 +67,13 @@ export default {
     '/api': {
       target: BASE_URL,
       changeOrigin: true
+    },
+    '/unity':{
+      target: "http://localhost:3090",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/unity': ''
+      }
     }
   },
 

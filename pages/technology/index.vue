@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     async changeStage(stage) {
-      await this.$api.technology.postStage(stage)
+      await this.$api.technology.postStage(stage, true)
     }
   },
 }

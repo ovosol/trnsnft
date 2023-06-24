@@ -218,12 +218,25 @@ export default {
             //const idleState = await this.$api.idle.getState('technology')
             if (btnName === 'idle') {
               await this.$api.idle.postState('technology', true)
-              await this.$api.technology.postLaurentPoint('past')
+              //await this.$api.technology.postLaurentPoint('past')
             } else {
+              await this.$api.technology.postStage(btnName, true)
               await this.$api.idle.postState('technology', false)
-              await this.$api.technology.postStage(btnName)
             }
-
+            break
+          case startsWith(btn.link, 'demo_tech_stage-'):
+            const stageName = btn.link.split('-')[1]
+            if (stageName === 'idle')
+              await this.$api.idle.postState('technology', true)
+            else {
+              await this.$api.idle.postState('technology', false)
+              await this.$api.technology.postStage(stageName, false)
+            }
+            break
+          case startsWith(btn.link, 'demo_tech_point-'):
+            const pointName = btn.link.split('-')[1]
+            await this.$api.technology.postLaurentPoint(pointName)
+            //await setMotor(pointName)
             break
           case 'colba-all':
             const current = await this.$api.flows.getFlows()

@@ -8,6 +8,9 @@ export const state = () => ({
       {
         link: 'technology',
         name: 'Технологии',
+      }, {
+        link: 'demo_technology',
+        name: 'Технологии ДЕМО',
       },
       {
         link: 'stream7',
@@ -184,6 +187,45 @@ export const state = () => ({
       },
       {
         link: 'light-technology-off',
+      },
+    ],
+    demo_technology: [
+      {
+        link: 'demo_tech_stage-past',
+        name: '🎥 Прошлое',
+      },
+      {
+        link: 'demo_tech_stage-diaskan',
+        name: '🎥 Диаскан',
+      },
+      {
+        link: 'demo_tech_stage-volzhanka',
+        name: '🎥 Волжанка',
+      },
+      {
+        status: 'future',
+        link: 'demo_tech_stage-future',
+        name: '🎥 Будущее',
+      },
+      {
+        link: 'demo_tech_stage-idle',
+        name: '🎥 Режим ожидания',
+      },
+      {
+        link: 'demo_tech_point-past',
+        name: '⭕ Прошлое',
+      }, {
+        link: 'demo_tech_point-present_1',
+        name: '⭕ Настоящее 1',
+      }, {
+        link: 'demo_tech_point-present_2',
+        name: '⭕ Настоящее 2',
+      }, {
+        link: 'demo_tech_point-present_3',
+        name: '⭕ Настоящее 3',
+      }, {
+        link: 'demo_tech_point-future',
+        name: '⭕ Будущее',
       },
     ],
     timeline: [

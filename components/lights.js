@@ -19,49 +19,51 @@ export const lights = {
     name: "История",
     relays: [1, 4],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "technology": {
     name: "Технологии",
     relays: [3, 5],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "stream7": {
     name: "7 потоков нефти",
     relays: [3, 6],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "human_capital": {
     name: "Люди",
     relays: [2, 8],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "samara": {
     name: "Самара",
     relays: [3, 7],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "samara_table": {
     name: "Самара стол",
     outs: [5],
     app: Laurent.appName.Samara,
-    exclusive: false
   },
   "backlight": {
     name: "Общий свет",
     relays: [12],
     app: Laurent.appName.Light,
-    exclusive: false
   },
   "full": {
     name: "Весь свет",
     relays: [1, 2, 3, 4, 5, 6, 7, 8, 12],
     app: Laurent.appName.Light,
-    exclusive: true
+  },
+  "power": {
+    name : "Питание компьютеров",
+    relays: [10],
+    app: Laurent.appName.Light,
+  },
+  "screens": {
+    name: "Телевизоры и проекторы",
+    relays: [9],
+    app: Laurent.appName.Light,
   }
 }
 

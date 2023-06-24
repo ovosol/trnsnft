@@ -12,6 +12,23 @@
 
 const requestCache = {}
 
+export class Method {
+  constructor(methodName, parameters) {
+    this.methodName = methodName;
+    this.parameters = parameters;
+  }
+}
+
+export class Message {
+  constructor(id, method) {
+    this.id = id;
+    this.method = method;
+  }
+}
+
+/**
+ * @type {NuxtAxiosInstance}
+ */
 let a;
 
 /**
@@ -21,6 +38,15 @@ let a;
  */
 const getCached = async (url) => {
   return requestCached('get', url)
+}
+
+const postCachedUnity = async (methodName, paramsString = "", callback = null)=> {
+  const method = new Method(methodName, paramsString)
+  const id = callback === null ? "" : Math.random().toString(36).substring(7)
+  const message = new Message(id, method)
+
+  //TODO add callback
+  return postCached('/unity/', message)
 }
 
 const postCached = async (url, data) => {
@@ -197,10 +223,11 @@ export default ({app, store}, inject) => {
       /**
        *
        * @param {TechnologyStage} stage
+       * @param {boolean} move
        * @return {Promise<*>}
        */
-      postStage: async (stage) => {
-        return await postCached(`/api/technologies/stage/`, {stage})
+      postStage: async (stage, move) => {
+        return await postCached(`/api/technologies/stage/`, {stage, move})
       },
       /**
        *
