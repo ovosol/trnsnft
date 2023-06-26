@@ -335,7 +335,7 @@ export const state = () => ({
       {
         link: 'humankind',
         name: 'Почётные <br> сотрудники',
-        hidden: true,
+        hidden: false,
       },
       {
         link: 'social-root',
