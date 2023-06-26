@@ -21,7 +21,7 @@ export default {
     const res = await this.$api.humanCapital.getEmployeeList(this.peopleType)
     const employees = res.employees
     employees.forEach((e) => {
-      e.photo = process.env.BASE_URL + '/media/' + e.photo
+      e.photo = process.env.BASE_URL + e.photo
     })
 
     this.employees = employees

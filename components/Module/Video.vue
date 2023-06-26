@@ -7,6 +7,7 @@
       :autoPlay="true"
       :muted="mute"
       :loop="loop"
+      :class="stretch ? 'video-stretch' : ''"
     >
 
     </video>
@@ -47,7 +48,8 @@ export default {
   props: {
     videoSrc: String,
     loop: Boolean,
-    mute: {type: Boolean, default: false, required: false}
+    mute: {type: Boolean, default: false, required: false},
+    stretch: {type: Boolean, default: false, required: false},
   },
   mounted() {
     //console.log(this.$refs.videoPlay.$el, 'this.$refs');
@@ -109,6 +111,11 @@ export default {
 </script>
 
 <style>
+.video-stretch{
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+}
 .mx-video-player__controls.mx-video-player__controls_hide {
   height: 50px;
 }

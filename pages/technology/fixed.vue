@@ -5,12 +5,14 @@
       :videoSrc="data.idleVideo"
       :loop="true"
       mute
+      stretch
     ></ModuleVideo>
     <ModuleVideo
       v-else
       class="all-size"
       :videoSrc="data.video"
       :loop="true"
+      stretch
     ></ModuleVideo>
   </div>
 </template>
