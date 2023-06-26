@@ -227,6 +227,10 @@ export const state = () => ({
         link: 'demo_tech_point-future',
         name: '⭕ Будущее',
       },
+      {
+        link: 'demo_tech_point-stop',
+        name: '⭕ Стоп',
+      },
     ],
     timeline: [
       {
