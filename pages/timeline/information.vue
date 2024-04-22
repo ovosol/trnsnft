@@ -65,15 +65,18 @@ export default {
       let counter = index + 1
       counter %= this.allYears.length;
 
-      if (index < 0 || counter === 0) {
-        await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
+      //const stopPlayback = index < 0 || counter === 0;
+      const stopPlayback = true // always stop
+
+      if (stopPlayback) {
+        await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0, [11, 12])
         await this.$api.idle.postState('timeline', true)
         return
       }
 
       let newYear = this.allYears[counter]
 
-      await Laurent.setOneRelayOn(Laurent.appName.Timeline, counter + 1).then()
+      await Laurent.setOneRelayOn(Laurent.appName.Timeline, counter + 1, [11, 12]).then()
       await this.$api.timeline.postYear(newYear)
     },
   },

@@ -59,19 +59,27 @@ const setAllOuts = async (app, state) => {
  *
  * @param {appName} app
  * @param {number} relay number of relay from 1 to 8 or 12. 0 to disable all
+ * @param {Array<number> || null} skip relays to skip, from 1 to 8 or 12
  * @return {Promise<void>}
  */
-const setOneRelayOn = async (app, relay) => {
-  let mask;
-  if (relay < 1 || relay > 12) {
-    // disable all
-    mask = '0'.repeat(12)
-  } else {
-    // create relay mask from relay number with length 12
-    mask = '0'.repeat(relay - 1) + '1' + '0'.repeat(12 - relay);
+const setOneRelayOn = async (app, relay, skip = null) => {
+  let mask = Array(12).fill(0)
+  if (relay >= 1 && relay <= 12) {
+    mask[relay - 1] = 1
   }
+  
+  if (skip) {
+    for (const s of skip) {
+      if (s < 1 || s > 12) {
+        throw new Error(`Wrong relay number: ${s}, should be from 1 to 12`)
+      }
+      mask[s - 1] = 'x'
+    }
+  }
+
+  const maskStr = mask.join('')
   const ip = getAddressForApp(app)
-  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,ALL,${mask}`
+  const url = `http://${ip}/cmd.cgi?psw=${laurentPwd}&cmd=REL,ALL,${maskStr}`
   await getUrl(url)
 }
 

@@ -200,13 +200,14 @@ export default {
             break
           case 'changeTimelineIdle':
             await this.$api.idle.postState('timeline', true)
-            await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0)
+            await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0,  [11, 12])
             break
           case 'changeYear':
             if (btn.index < 0) {
-              await Laurent.setAllRelays(Laurent.appName.Timeline, '1'.repeat(12)) //TODO
+              await Laurent.setOneRelayOn(Laurent.appName.Timeline, 0, [11, 12])
+              //await Laurent.setAllRelays(Laurent.appName.Timeline, '1'.repeat(12)) //TODO
             } else {
-              await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1)
+              await Laurent.setOneRelayOn(Laurent.appName.Timeline, btn.index + 1, [11, 12])
             }
             //await this.$laurent.setOneRelayOn(this.$laurent.appName.Timeline, btn.index + 1)
             console.log({year: btn.name})
